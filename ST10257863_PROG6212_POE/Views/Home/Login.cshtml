@@ -1,0 +1,25 @@
+﻿@{
+	ViewData["Title"] = "Login";
+}
+<link rel="stylesheet" href="~/css/styles.css" />
+
+<div class="login-page">
+	<div class="background">
+		<div class="fields">
+			<form method="post" action="/Home/Login">
+				<div class="fields">
+					<div class="input-field">
+						<label for="username" class="label-text">Username</label>
+						<input type="text" id="username" name="username" class="input-box" placeholder="Enter your username" aria-label="Username" />
+					</div>
+
+					<div class="input-field">
+						<label for="password" class="label-text">Password</label>
+						<input type="password" id="password" name="password" class="input-box" placeholder="Enter your password" aria-label="Password" />
+					</div>
+					<button type="submit" class="submit-button">Login</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

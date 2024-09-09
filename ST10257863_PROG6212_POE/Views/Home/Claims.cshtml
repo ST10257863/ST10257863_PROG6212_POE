@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, width=device-width">
+	<link rel="stylesheet" href="./index.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+	<title>Claims</title>
+</head>
+<body>
+	<div class="claims">
+		<div class="background">
+			<div class="frame">
+				<div class="frame-parent">
+					<form id="claims-form" method="post" action="/Claims/Submit" enctype="multipart/form-data">
+						<div class="form-container">
+							<!-- Input Fields Frame -->
+							<div class="input-fields-frame">
+								<!-- Hours Worked Input -->
+								<div class="input-field">
+									<label for="hoursWorked" class="label-text">Hours Worked</label>
+									<input type="text" id="hoursWorked" name="hoursWorked" class="input-box" placeholder="Enter hours worked" aria-label="Hours Worked">
+								</div>
+
+								<!-- Overtime Worked Input -->
+								<div class="input-field">
+									<label for="overtimeWorked" class="label-text">Overtime Worked</label>
+									<input type="text" id="overtimeWorked" name="overtimeWorked" class="input-box" placeholder="Enter overtime worked" aria-label="Overtime Worked">
+								</div>
+
+								<!-- Document Upload -->
+								<div class="input-field">
+									<label for="document" class="label-text">Upload Document</label>
+									<input type="file" id="document" name="document" class="input-box" aria-label="Upload Document">
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<!-- Calculation Results -->
+					<div class="frame-container">
+						<div class="regular-pay-parent">
+							<label for="regularPay" class="regular-pay-label">Regular Pay:</label>
+							<label for="overtimePay" class="regular-pay-label">Overtime Pay:</label>
+							<label for="totalPay" class="regular-pay-label">Total Pay:</label>
+						</div>
+						<div class="number-parent">
+							<div id="regularPay" class="regular-pay-number">NUMBER</div>
+							<div id="overtimePay" class="regular-pay-number">NUMBER</div>
+							<div id="totalPay" class="regular-pay-number">NUMBER</div>
+						</div>
+					</div>
+
+					<!-- Action Buttons -->
+					<div class="button-parent">
+						<button type="button" id="calculate-btn" class="submit-button">Calculate Pay</button>
+						<button type="submit" form="claims-form" class="submit-button">Submit Claim</button>
+					</div>
+				</div>
+				<!-- Lecturer Details Frame -->
+			</div>
+			<!-- Lecturer Details Frame -->
+			<div class="lecturer-details-frame">
+				<div class="details">
+					<p class="detail-title">Lecture ID:</p>
+					<p class="detail-title">User Name:</p>
+					<p class="detail-title">Full Name:</p>
+					<p class="detail-title">Hourly Rate:</p>
+					<p class="detail-title">Department:</p>
+					<p class="detail-title">Campus:</p>
+				</div>
+				<div class="text-details">
+					<p class="text-detail">12345</p>
+					<p class="text-detail">jdoe</p>
+					<p class="text-detail">John Doe</p>
+					<p class="text-detail">$50/hr</p>
+					<p class="text-detail">Computer Science</p>
+					<p class="text-detail">Main Campus</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
