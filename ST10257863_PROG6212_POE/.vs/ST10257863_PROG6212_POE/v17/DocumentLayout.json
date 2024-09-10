@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\views\\home\\verification.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:views\\home\\verification.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\views\\home\\approval.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:views\\home\\approval.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\views\\home\\verification.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:views\\home\\verification.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\views\\home\\claims.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,26 +42,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Approval.cshtml",
               "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Views\\Home\\Approval.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Approval.cshtml",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Views\\Home\\Approval.cshtml",
               "RelativeToolTip": "Views\\Home\\Approval.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEIAAABBAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-09-10T10:26:45.691Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Login.cshtml",
               "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Views\\Home\\Login.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Login.cshtml",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Views\\Home\\Login.cshtml",
               "RelativeToolTip": "Views\\Home\\Login.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-09-09T13:07:42.647Z",
               "EditorCaption": ""
@@ -74,20 +74,20 @@
               "RelativeDocumentMoniker": "Views\\Home\\Claims.cshtml",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Views\\Home\\Claims.cshtml",
               "RelativeToolTip": "Views\\Home\\Claims.cshtml",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAADEAAAAYAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-09-09T13:42:45.329Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Verification.cshtml",
               "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Views\\Home\\Verification.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Verification.cshtml",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Views\\Home\\Verification.cshtml",
               "RelativeToolTip": "Views\\Home\\Verification.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFgAAAAYAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-09-09T15:05:50.837Z",
               "EditorCaption": ""
@@ -114,7 +114,7 @@
               "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\wwwroot\\css\\site.css",
               "RelativeToolTip": "wwwroot\\css\\site.css",
-              "ViewState": "AQIAAH8AAAAAAAAAAAAAAFgAAAAEAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2024-09-09T13:14:55.395Z",
               "EditorCaption": ""
