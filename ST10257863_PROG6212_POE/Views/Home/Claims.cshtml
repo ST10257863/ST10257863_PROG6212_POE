@@ -52,23 +52,26 @@
 		</form>
 
 		<!-- Lecturer Details Frame -->
-		<div class="center-content-start gap-32">
+		<div class="center-content-start gap-32 padding-top-16">
 			<div class="flex-row center-content-start">
-				<div class="flex-column gap-16">
-					<p class="text-bold">Lecture ID:</p>
-					<p class="text-bold">User Name:</p>
-					<p class="text-bold">Full Name:</p>
-					<p class="text-bold">Hourly Rate:</p>
-					<p class="text-bold">Department:</p>
-					<p class="text-bold">Campus:</p>
+				<!-- Labels -->
+				<div class="flex-column gap-32">
+					<label for="lectureId" class="text-bold">Lecture ID:</label>
+					<label for="userName" class="text-bold">User Name:</label>
+					<label for="fullName" class="text-bold">Full Name:</label>
+					<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
+					<label for="department" class="text-bold">Department:</label>
+					<label for="campus" class="text-bold">Campus:</label>
 				</div>
-				<div class="flex-column gap-16">
-					<p class="text-regular">12345</p>
-					<p class="text-regular">jdoe</p>
-					<p class="text-regular">John Doe</p>
-					<p class="text-regular">$50/hr</p>
-					<p class="text-regular">Computer Science</p>
-					<p class="text-regular">Main Campus</p>
+
+				<!-- Content -->
+				<div class="flex-column gap-32">
+					<div id="lectureId" class="text-regular">12345</div>
+					<div id="userName" class="text-regular">jdoe</div>
+					<div id="fullName" class="text-regular">John Doe</div>
+					<div id="hourlyRate" class="text-regular">$50/hr</div>
+					<div id="department" class="text-regular">Computer Science</div>
+					<div id="campus" class="text-regular">Main Campus</div>
 				</div>
 			</div>
 		</div>

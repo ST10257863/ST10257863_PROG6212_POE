@@ -1,94 +1,141 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1, width=device-width">
-	<link rel="stylesheet" href="./index.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
-	<title>Verification</title>
-</head>
-<body>
-	<div class="background">
-		<div class="frame">
-			<div class="content-container">
-				<!-- Pending Section -->
-				<div class="section-container pending">
-					<h1 class="section-title">Pending</h1>
-					<div class="scrollable-table-container">
-						<table>
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Full Name</th>
-									<th>Date & Time</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>1</td>
-									<td>John Doe</td>
-									<td>14:30 09/09/2024</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>Jane Smith</td>
-									<td>15:45 10/09/2024</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+﻿@{
+	ViewData["Title"] = "Verification";
+}
+<link rel="stylesheet" href="~/css/styles.css" />
+
+<div class="container">
+	<div class="background center-content gap-32">
+		<!-- Pending Section -->
+		<div class="content-container center-content-start">
+			<p class="text-bold">Pending</p>
+			<div class="table-container">
+				<table class="table table-bordered table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th>ID</th>
+							<th>Full Name</th>
+							<th>Date & Time</th>
+						</tr>
+					</thead>
+					<tbody id="table-body">
+						<!-- Rows will be inserted here by JavaScript -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Details Section -->
+		<div class="flex-column center-content-start gap-16 padding-top-16">
+			<div class="flex-row center-content-start gap-32">
+				<!-- Labels -->
+				<div class="flex-column gap-16">
+					<label for="lectureId" class="text-bold">Lecture ID:</label>
+					<label for="userName" class="text-bold">User Name:</label>
+					<label for="fullName" class="text-bold">Full Name:</label>
+					<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
+					<label for="department" class="text-bold">Department:</label>
+					<label for="campus" class="text-bold">Campus:</label>
 				</div>
 
-				<!-- Details Section -->
-				<div class="section-container details-section">
-					<div class="details-frame">
-						<!-- Lecturer Details -->
-						<div class="details">
-							<p class="detail-title">Lecture ID:</p>
-							<p class="detail-title">User Name:</p>
-							<p class="detail-title">Full Name:</p>
-							<p class="detail-title">Hourly Rate:</p>
-							<p class="detail-title">Department:</p>
-							<p class="detail-title">Campus:</p>
-						</div>
-						<div class="text-details">
-							<p class="text-detail">12345</p>
-							<p class="text-detail">jdoe</p>
-							<p class="text-detail">John Doe</p>
-							<p class="text-detail">$50/hr</p>
-							<p class="text-detail">Computer Science</p>
-							<p class="text-detail">Main Campus</p>
-						</div>
-					</div>
-
+				<!-- Content -->
+				<div class="flex-column gap-16">
+					<div id="lectureId" class="text-regular">TEXT</div>
+					<div id="userName" class="text-regular">TEXT</div>
+					<div id="fullName" class="text-regular">TEXT</div>
+					<div id="hourlyRate" class="text-regular">TEXT</div>
+					<div id="department" class="text-regular">TEXT</div>
+					<div id="campus" class="text-regular">TEXT</div>
 				</div>
-				<div class="section-container details-section">
+			</div>
 
-					<div class="section-container hours-worked-frame">
-						<ul>
-							<li><strong>Regular Hours:</strong> NUMBER</li>
-							<li><strong>Overtime Hours:</strong> NUMBER</li>
-							<li><strong>Total Hours:</strong> NUMBER</li>
-						</ul>
-					</div>
+			<!-- Separator Line -->
+			<div class="separator-line"></div>
 
-					<!-- Pay Details -->
-					<div class="section-container pay-details-frame">
-						<ul>
-							<li><strong>Regular Pay:</strong> NUMBER</li>
-							<li><strong>Overtime Pay:</strong> NUMBER</li>
-							<li><strong>Total Pay:</strong> NUMBER</li>
-						</ul>
-					</div>
-					<!-- Hours Worked -->
-					<!-- Action Buttons -->
-					<div class="section-container button-parent">
-						<button type="button" class="submit-button accept-button">ACCEPT</button>
-						<button type="button" class="submit-button reject-button">REJECT</button>
-					</div>
+			<!-- Hours Worked -->
+			<div class="flex-row center-content-start gap-32">
+				<div class="flex-column gap-16">
+					<label for="regularHours" class="text-bold">Regular Hours:</label>
+					<label for="overtimeHours" class="text-bold">Overtime Hours:</label>
+					<label for="totalHours" class="text-bold">Total Hours:</label>
 				</div>
+				<div class="flex-column gap-16">
+					<div id="regularHours" class="text-regular regular-hours-number">NUMBER</div>
+					<div id="overtimeHours" class="text-regular overtime-hours-number">NUMBER</div>
+					<div id="totalHours" class="text-regular total-hours-number">NUMBER</div>
+				</div>
+			</div>
+
+			<!-- Separator Line -->
+			<div class="separator-line"></div>
+
+			<!-- Pay Details -->
+			<div class="flex-row center-content-start gap-32">
+				<div class="flex-column gap-16">
+					<label for="regularPay" class="text-bold">Regular Pay:</label>
+					<label for="overtimePay" class="text-bold">Overtime Pay:</label>
+					<label for="totalPay" class="text-bold">Total Pay:</label>
+				</div>
+				<div class="flex-column gap-16">
+					<div id="regularPay" class="text-regular regular-pay-number">NUMBER</div>
+					<div id="overtimePay" class="text-regular overtime-pay-number">NUMBER</div>
+					<div id="totalPay" class="text-regular total-pay-number">NUMBER</div>
+				</div>
+			</div>
+
+
+			<!-- Action Buttons -->
+			<div class="flex-row gap-32 center-content">
+				<button type="submit" class="submit-button accept-button">ACCEPT</button>
+				<button type="submit" class="submit-button reject-button">REJECT</button>
 			</div>
 		</div>
 	</div>
-</body>
-</html>
+</div>
+
+<script>
+	// Sample data with added submittedDate
+	const data = {
+		1: { lectureId: '12345', userName: 'jdoe', fullName: 'John Doe', hourlyRate: 'R50/hr', department: 'Computer Science', campus: 'Main Campus', regularHours: '40', overtimeHours: '5', totalHours: '45', regularPay: 'R2000', overtimePay: 'R250', totalPay: 'R2250', submittedDate: '2024-09-01 10:30:00' },
+		2: { lectureId: '67890', userName: 'assmith', fullName: 'Jane Smith', hourlyRate: 'R55/hr', department: 'Mathematics', campus: 'East Campus', regularHours: '35', overtimeHours: '10', totalHours: '45', regularPay: 'R1925', overtimePay: 'R550', totalPay: 'R2475', submittedDate: '2024-09-02 11:15:00' },
+		3: { lectureId: '11223', userName: 'mbrown', fullName: 'Mark Brown', hourlyRate: 'R60/hr', department: 'Engineering', campus: 'North Campus', regularHours: '30', overtimeHours: '8', totalHours: '38', regularPay: 'R1800', overtimePay: 'R480', totalPay: 'R2280', submittedDate: '2024-09-03 12:00:00' },
+		// Add other data entries similarly
+	};
+
+	function populateTable() {
+		const tableBody = document.getElementById('table-body');
+		tableBody.innerHTML = ''; // Clear existing rows
+
+		for (const id in data) {
+			const details = data[id];
+			const row = document.createElement('tr');
+			row.setAttribute('data-id', id);
+			row.setAttribute('onclick', 'updateDetails(this)');
+
+			row.innerHTML = `<td>${id}</td><td>${details.fullName}</td><td>${details.submittedDate}</td>`;
+
+			tableBody.appendChild(row);
+		}
+	}
+
+	function updateDetails(row) {
+		const id = row.getAttribute('data-id');
+		const details = data[id];
+
+		document.getElementById('lectureId').textContent = details.lectureId;
+		document.getElementById('userName').textContent = details.userName;
+		document.getElementById('fullName').textContent = details.fullName;
+		document.getElementById('hourlyRate').textContent = details.hourlyRate;
+		document.getElementById('department').textContent = details.department;
+		document.getElementById('campus').textContent = details.campus;
+		document.getElementById('regularHours').textContent = details.regularHours;
+		document.getElementById('overtimeHours').textContent = details.overtimeHours;
+		document.getElementById('totalHours').textContent = details.totalHours;
+		document.getElementById('regularPay').textContent = details.regularPay;
+		document.getElementById('overtimePay').textContent = details.overtimePay;
+		document.getElementById('totalPay').textContent = details.totalPay;
+		document.getElementById('submittedDate').textContent = details.submittedDate;
+	}
+
+	// Populate the table on page load
+	document.addEventListener('DOMContentLoaded', populateTable);
+</script>

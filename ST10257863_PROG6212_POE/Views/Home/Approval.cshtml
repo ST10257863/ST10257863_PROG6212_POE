@@ -1,5 +1,186 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+	ViewData["Title"] = "Approval";
 }
+<link rel="stylesheet" href="~/css/styles.css" />
+
+<div class="container">
+	<div class="background center-content gap-32">
+		<!-- Pending Section -->
+		<div class="flex-column center-content-start width-80">
+			<p class="text-bold">Verified</p>
+			<div class="table-container">
+				<table class="table table-bordered table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th>ID</th>
+							<th>Full Name</th>
+							<th>Date & Time</th>
+						</tr>
+					</thead>
+					<tbody id="table-body">
+						<!-- Rows will be inserted here by JavaScript -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Details Section -->
+		<div class="flex-column center-content-start gap-16 padding-top-16">
+			<div class="flex-row center-content-start space-between width-100">
+				<div class="flex-row center-content-start gap-32">
+					<!-- Labels -->
+					<div class="flex-column gap-16">
+						<label for="lectureId" class="text-bold">Lecture ID:</label>
+						<label for="userName" class="text-bold">User Name:</label>
+						<label for="fullName" class="text-bold">Full Name:</label>
+						<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
+						<label for="department" class="text-bold">Department:</label>
+						<label for="campus" class="text-bold">Campus:</label>
+					</div>
+
+					<!-- Content -->
+					<div class="flex-column gap-16">
+						<div id="lectureId" class="text-regular">TEXT</div>
+						<div id="userName" class="text-regular">TEXT</div>
+						<div id="fullName" class="text-regular">TEXT</div>
+						<div id="hourlyRate" class="text-regular">TEXT</div>
+						<div id="department" class="text-regular">TEXT</div>
+						<div id="campus" class="text-regular">TEXT</div>
+					</div>
+				</div>
+				<!-- Manager details section -->
+				<div class="flex-row center-content-start gap-32">
+					<!-- Labels -->
+					<div class="flex-column gap-16">
+						<label for="managerId" class="text-bold">Manager ID:</label>
+						<label for="managerUserName" class="text-bold">User Name:</label>
+						<label for="managerFullName" class="text-bold">Full Name:</label>
+						<label for="managerDepartment" class="text-bold">Department:</label>
+						<label for="managerCampus" class="text-bold">Campus:</label>
+					</div>
+
+					<!-- Content -->
+					<div class="flex-column gap-16">
+						<div id="managerId" class="text-regular">TEXT</div>
+						<div id="managerUserName" class="text-regular">TEXT</div>
+						<div id="managerFullName" class="text-regular">TEXT</div>
+						<div id="managerDepartment" class="text-regular">TEXT</div>
+						<div id="managerCampus" class="text-regular">TEXT</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Separator Line -->
+			<div class="separator-line"></div>
+
+			<!-- Hours Worked -->
+			<div class="flex-row center-content-start gap-32">
+				<div class="flex-column gap-16">
+					<label for="regularHours" class="text-bold">Regular Hours:</label>
+					<label for="overtimeHours" class="text-bold">Overtime Hours:</label>
+					<label for="totalHours" class="text-bold">Total Hours:</label>
+				</div>
+				<div class="flex-column gap-16">
+					<div id="regularHours" class="text-regular regular-hours-number">NUMBER</div>
+					<div id="overtimeHours" class="text-regular overtime-hours-number">NUMBER</div>
+					<div id="totalHours" class="text-regular total-hours-number">NUMBER</div>
+				</div>
+			</div>
+
+			<!-- Separator Line -->
+			<div class="separator-line"></div>
+
+			<!-- Pay Details -->
+			<div class="flex-row center-content-start gap-32">
+				<div class="flex-column gap-16">
+					<label for="regularPay" class="text-bold">Regular Pay:</label>
+					<label for="overtimePay" class="text-bold">Overtime Pay:</label>
+					<label for="totalPay" class="text-bold">Total Pay:</label>
+				</div>
+				<div class="flex-column gap-16">
+					<div id="regularPay" class="text-regular regular-pay-number">NUMBER</div>
+					<div id="overtimePay" class="text-regular overtime-pay-number">NUMBER</div>
+					<div id="totalPay" class="text-regular total-pay-number">NUMBER</div>
+				</div>
+			</div>
+
+
+			<!-- Action Buttons -->
+			<div class="flex-row gap-32 center-content">
+				<button type="button" class="submit-button accept-button">ACCEPT</button>
+				<button type="button" class="submit-button reject-button">REJECT</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	// Updated sample data with added manager details
+	const data = {
+		1: {
+			lectureId: '12345', userName: 'jdoe', fullName: 'John Doe', hourlyRate: 'R50/hr', department: 'Computer Science', campus: 'Main Campus',
+			regularHours: '40', overtimeHours: '5', totalHours: '45', regularPay: 'R2000', overtimePay: 'R250', totalPay: 'R2250', submittedDate: '2024-09-01 10:30:00',
+			managerId: '54321', managerUserName: 'mwhite', managerFullName: 'Mary White', managerDepartment: 'Management', managerCampus: 'Main Campus'
+		},
+		2: {
+			lectureId: '67890', userName: 'assmith', fullName: 'Jane Smith', hourlyRate: 'R55/hr', department: 'Mathematics', campus: 'East Campus',
+			regularHours: '35', overtimeHours: '10', totalHours: '45', regularPay: 'R1925', overtimePay: 'R550', totalPay: 'R2475', submittedDate: '2024-09-02 11:15:00',
+			managerId: '98765', managerUserName: 'rjohnson', managerFullName: 'Robert Johnson', managerDepartment: 'Mathematics', managerCampus: 'East Campus'
+		},
+		3: {
+			lectureId: '11223', userName: 'mbrown', fullName: 'Mark Brown', hourlyRate: 'R60/hr', department: 'Engineering', campus: 'North Campus',
+			regularHours: '30', overtimeHours: '8', totalHours: '38', regularPay: 'R1800', overtimePay: 'R480', totalPay: 'R2280', submittedDate: '2024-09-03 12:00:00',
+			managerId: '11221', managerUserName: 'tsmith', managerFullName: 'Tom Smith', managerDepartment: 'Engineering', managerCampus: 'North Campus'
+		}
+		// Add more data entries similarly if needed
+	};
+
+	function populateTable() {
+		const tableBody = document.getElementById('table-body');
+		tableBody.innerHTML = ''; // Clear existing rows
+
+		for (const id in data) {
+			const details = data[id];
+			const row = document.createElement('tr');
+			row.setAttribute('data-id', id);
+			row.setAttribute('onclick', 'updateDetails(this)');
+
+			row.innerHTML = `<td>${id}</td><td>${details.fullName}</td><td>${details.submittedDate}</td>`;
+
+			tableBody.appendChild(row);
+		}
+	}
+	function updateDetails(row) {
+		const id = row.getAttribute('data-id');
+		const details = data[id];
+
+		// Lecturer details
+		document.getElementById('lectureId').textContent = details.lectureId || 'N/A';
+		document.getElementById('userName').textContent = details.userName || 'N/A';
+		document.getElementById('fullName').textContent = details.fullName || 'N/A';
+		document.getElementById('hourlyRate').textContent = details.hourlyRate || 'N/A';
+		document.getElementById('department').textContent = details.department || 'N/A';
+		document.getElementById('campus').textContent = details.campus || 'N/A';
+		document.getElementById('regularHours').textContent = details.regularHours || '0';
+		document.getElementById('overtimeHours').textContent = details.overtimeHours || '0';
+		document.getElementById('totalHours').textContent = details.totalHours || '0';
+		document.getElementById('regularPay').textContent = details.regularPay || '0';
+		document.getElementById('overtimePay').textContent = details.overtimePay || '0';
+		document.getElementById('totalPay').textContent = details.totalPay || '0';
+
+		// Manager details
+		if (details.managerId) {
+			document.getElementById('managerId').textContent = details.managerId || 'N/A';
+			document.getElementById('managerUserName').textContent = details.managerUserName || 'N/A';
+			document.getElementById('managerFullName').textContent = details.managerFullName || 'N/A';
+			document.getElementById('managerDepartment').textContent = details.managerDepartment || 'N/A';
+			document.getElementById('managerCampus').textContent = details.managerCampus || 'N/A';
+		} else {
+			console.log(`No manager info for ID: ${id}`);
+		}
+	}
+
+
+	// Populate the table on page load
+	document.addEventListener('DOMContentLoaded', populateTable);
+</script>
