@@ -1,3 +1,4 @@
+/* Base HTML and Body Styles */
 html {
     font-size: 14px;
     position: relative;
@@ -14,6 +15,7 @@ body {
     margin-bottom: 60px;
 }
 
+/* Button Focus Styles */
 .btn:focus,
 .btn:active:focus,
 .btn-link.nav-link:focus,
@@ -22,50 +24,83 @@ body {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-/* Login Page Styles */
-.login-page {
-    position: relative;
-    width: auto;
-    height: auto;
-    background: #FFFFFF;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Universal Text Styles */
+.text-regular {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #787878;
 }
 
-.background {
-    background: #D9D9D9;
+.text-bold {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+}
+
+/* Flex Layouts */
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    gap: 32px; /* Maintain uniform spacing */
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+/* Center Content Helper Class */
+.center-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
+}
+
+.center-content-start {
+    display: flex;
+    justify-content: flex-start; /* Aligns content to the left */
+    width: 100%;
+    height: 100%;
+}
+/* Background: Consistent height and width across all pages */
+.background {
+    background: #D9D9D9;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    border-radius: 0px;
+    width: 80vw; /* Consistent width */
+    max-width: 1200px; /* Ensure it doesn't grow too large */
+    min-width: 600px; /* Prevent it from getting too small */
+    height: auto; /* Allows it to expand based on content */
+    max-height: 90vh; /* Limits height to viewport height */
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Consistent box shadow */
 }
 
-/* Fields */
+/* Fields Container */
 .fields {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 32px; /* Maintain spacing between fields */
+    gap: 32px;
     width: 600px;
 }
 
 /* Input Field Styles */
 .input-field {
-    display: flex;
-    flex-direction: column;
     width: 100%;
     margin-bottom: 20px;
-}
-
-.label-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: #787878;
-    margin-bottom: 8px;
+    max-width: 600px;
 }
 
 .input-box {
@@ -75,114 +110,20 @@ body {
     line-height: 24px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-sizing: border-box;
 }
 
-/* Lecturer Details and Hours Worked Styles */
-.lecturer-details, .hours {
-    flex: 1; /* Allows both sections to grow equally */
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box; /* Ensure padding and borders do not affect the width */
-}
-
-    /* Lecturer Details and Hours Worked Styles */
-    .lecturer-details ul, .hours ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .lecturer-details li, .hours li {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-    }
-
-    .lecturer-details .label, .hours .label {
-        font-weight: bold;
-    }
-
-    .lecturer-details .value, .hours .value {
-        margin-left: 10px; /* Space between label and value */
-    }
-
-/* Frame Container */
-.frame-container {
+/* Universal Container */
+.container {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 20px;
+    justify-content: space-between;
     padding: 20px;
+    gap: 32px;
     width: 100%;
-}
-
-/* Lecturer Details Frame */
-.lecturer-details-frame {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 8px;
-    width: auto; /* Adjust width to fit content */
-    height: auto; /* Adjust height to fit content */
-    padding: 20px;
-}
-
-/* Details */
-.details {
-    display: flex;
-    flex-direction: column;
-    gap: 32px; /* Maintain spacing between details */
-}
-
-.detail-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: #000000;
-}
-
-/* Text Details */
-.text-details {
-    display: flex;
-    flex-direction: column;
-    gap: 32px; /* Maintain spacing between text details */
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: visible; /* Ensure no clipping */
-}
-
-.text-detail {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: #787878;
-}
-
-/* Regular Pay Parent */
-.regular-pay-parent,
-.number-parent {
-    display: flex;
-    flex-direction: column;
-    gap: 32px; /* Maintain spacing between sections */
-    width: auto; /* Adjust width to fit content */
-}
-
-/* Regular Pay */
-.regular-pay {
-    font-family: 'Inter';
-    font-size: 20px;
-    line-height: 24px;
-    color: #000000;
 }
 
 /* Submit Button */
 .submit-button {
     width: 200px;
-    height: auto; /* Adjust height to fit content */
     padding: 15px;
     background: #787878;
     border: none;
@@ -194,7 +135,6 @@ body {
     text-align: center;
     letter-spacing: 0.1em;
     cursor: pointer;
-    margin-top: 20px;
 }
 
     .submit-button:hover {
@@ -202,13 +142,6 @@ body {
     }
 
 /* Verification Page Styles */
-.verification {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
 .frame {
     width: 100%;
     max-width: 1200px;
@@ -225,63 +158,13 @@ body {
     flex: 1;
     margin: 10px;
     min-width: 250px;
-    background: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Ensure spacing within sections */
-.section-title {
-    margin-top: 0;
+.gap-32 {
+    gap: 32px; /* Space between items */
 }
 
-/* Scrollable Table Container */
-.scrollable-table-container {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    background-color: #f4f4f4;
-}
-
-/* Flex Layout Adjustments */
-.details-frame {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.details, .text-details {
-    flex: 1;
-    margin-right: 10px;
-}
-
-.text-details {
-    margin-left: 10px;
-    white-space: nowrap; /* Ensure text stays on one line */
-}
-
-.hours-worked-frame,
-.pay-details-frame,
-.button-parent {
-    display: flex;
-    flex-direction: column;
-    gap: 32px; /* Maintain spacing between elements */
-}
-
-.button-parent {
-    display: flex;
-    justify-content: flex-start;
+.gap-16 {
+    gap: 16px; /* Space between items */
 }
