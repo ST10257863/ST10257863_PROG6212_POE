@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ST10257863_PROG6212_POE.Models.Tables
 {
@@ -10,28 +11,32 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 			get; set;
 		}
 
-		[Required]
+		[ForeignKey("User")]
+		public int UserID
+		{
+			get; set;
+		}
+		public User User { get; set; } = null!;
+
 		public decimal HourlyRate
 		{
 			get; set;
 		}
 
-		[Required]
 		public string Department
 		{
 			get; set;
 		}
 
-		[Required]
 		public string Campus
 		{
 			get; set;
 		}
 
-		// Method for submitting a claim (implementation later)
+		// Method to submit a claim (specific to Lecturer)
 		public void SubmitClaim(Claim claim)
 		{
-			// Claim submission logic
+			// Logic to submit a claim
 		}
 	}
 }

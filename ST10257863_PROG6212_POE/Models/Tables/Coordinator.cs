@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ST10257863_PROG6212_POE.Models.Tables
 {
@@ -10,19 +11,23 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 			get; set;
 		}
 
-		[Required]
+		[ForeignKey("User")]
+		public int UserID
+		{
+			get; set;
+		}
+		public User User { get; set; } = null!;
+
 		public string Department
 		{
 			get; set;
 		}
-
-		[Required]
 		public string Campus
 		{
 			get; set;
 		}
 
-		// Methods for verifying and rejecting claims
+		// Methods to verify and reject claims (specific to Coordinator)
 		public void VerifyClaim(ClaimVerification verification)
 		{
 			verification.VerificationStatus = "Verified";
