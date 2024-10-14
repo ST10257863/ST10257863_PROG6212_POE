@@ -6,8 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-// Configure the database context with SQL Server
 builder.Services.AddDbContext<AppDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -23,6 +21,19 @@ var app = builder.Build();
 
 // Use session in the middleware
 app.UseSession();
+
+// Apply the custom AuthFilter globally
+app.Use(async (context, next) =>
+{
+	var userId = context.Session.GetInt32("UserID");
+	if (!userId.HasValue && !context.Request.Path.Value.Contains("Login")) // If user is not logged in
+	{
+		context.Response.Redirect("/Login/Login"); // Redirect to login page
+		return; // Stop further processing
+	}
+
+	await next(); // Call the next middleware
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

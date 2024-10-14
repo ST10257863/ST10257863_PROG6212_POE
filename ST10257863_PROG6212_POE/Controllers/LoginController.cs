@@ -34,15 +34,13 @@ namespace ST10257863_PROG6212_POE.Controllers
 			}
 
 			ViewData["LoginError"] = "Invalid login attempt."; // Set error message
-			return View(); // Return the same view without specifying a view name
+			return View(); // Return the same view with the error
 		}
-
-
 
 		public IActionResult Logout()
 		{
 			HttpContext.Session.Remove("UserID"); // Clear the session
-			return RedirectToAction("Login", "Login"); // Redirect to home page
+			return RedirectToAction("Login", "Login"); // Redirect to login page
 		}
 	}
 }
