@@ -81,12 +81,12 @@
 
 				<!-- Content -->
 				<div class="flex-column gap-32">
-					<div id="lectureId" class="text-regular">12345</div>
-					<div id="userName" class="text-regular">jdoe</div>
-					<div id="fullName" class="text-regular">John Doe</div>
-					<div id="hourlyRate" class="text-regular">$50/hr</div>
-					<div id="department" class="text-regular">Computer Science</div>
-					<div id="campus" class="text-regular">Main Campus</div>
+					<div id="lectureId" class="text-regular">N/A</div>
+					<div id="userName" class="text-regular">N/A</div>
+					<div id="fullName" class="text-regular">N/A</div>
+					<div id="hourlyRate" class="text-regular">N/A</div>
+					<div id="department" class="text-regular">N/A</div>
+					<div id="campus" class="text-regular">N/A</div>
 				</div>
 			</div>
 		</div>
@@ -106,16 +106,31 @@
 				success: function (data) {
 					if (data) {
 						// Update the fields with lecturer information
-						$('#lectureId').text(data.lecturerId);
-						$('#userName').text(data.user.userName);
-						$('#fullName').text(data.user.firstName + ' ' + data.user.lastName);
-						$('#hourlyRate').text('$' + data.hourlyRate + '/hr');
-						$('#department').text(data.department);
-						$('#campus').text(data.campus);
+						$('#lectureId').text(data.lecturerId || 'N/A');
+						$('#userName').text(data.user.userName || 'N/A');
+						$('#fullName').text((data.user.firstName || 'N/A') + ' ' + (data.user.lastName || 'N/A'));
+						$('#hourlyRate').text('$' + (data.hourlyRate || 0) + '/hr');
+						$('#department').text(data.department || 'N/A');
+						$('#campus').text(data.campus || 'N/A');
+					} else {
+						// Handle case when no data is returned
+						$('#lectureId').text('N/A');
+						$('#userName').text('N/A');
+						$('#fullName').text('N/A');
+						$('#hourlyRate').text('N/A');
+						$('#department').text('N/A');
+						$('#campus').text('N/A');
 					}
 				},
 				error: function (err) {
 					console.error('Error fetching lecturer details:', err);
+					// Handle error case
+					$('#lectureId').text('Error');
+					$('#userName').text('Error');
+					$('#fullName').text('Error');
+					$('#hourlyRate').text('Error');
+					$('#department').text('Error');
+					$('#campus').text('Error');
 				}
 			});
 		});
