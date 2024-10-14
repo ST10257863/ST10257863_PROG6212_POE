@@ -5,24 +5,34 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 	public class AcademicManager
 	{
 		[Key]
-		public int Id
+		public int ManagerID
 		{
 			get; set;
 		}
 
-		public string department
+		[Required]
+		public string Department
 		{
 			get; set;
-		} = string.Empty;
+		}
 
-		public string campus
+		[Required]
+		public string Campus
 		{
 			get; set;
-		} = string.Empty;
+		}
 
-		public ICollection<ClaimApproval> ClaimApprovals
+		// Methods for approving and rejecting claims
+		public void ApproveClaim(ClaimApproval approval)
 		{
-			get; set;
-		} = null!;
+			approval.ApprovalStatus = "Approved";
+			approval.IsApproved = true;
+		}
+
+		public void RejectClaim(ClaimApproval approval)
+		{
+			approval.ApprovalStatus = "Rejected";
+			approval.IsApproved = false;
+		}
 	}
 }

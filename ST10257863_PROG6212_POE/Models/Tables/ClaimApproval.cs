@@ -1,47 +1,46 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ST10257863_PROG6212_POE.Models.Tables
 {
 	public class ClaimApproval
 	{
 		[Key]
-		public int ApprovalId
+		public int ApprovalID
 		{
 			get; set;
 		}
 
-		public int ManagerId
+		[ForeignKey("Claim")]
+		public int ClaimID
 		{
 			get; set;
 		}
+		public Claim Claim { get; set; } = null!;
 
-		public int ClaimId
+		[ForeignKey("AcademicManager")]
+		public int ManagerID
 		{
 			get; set;
 		}
-
-		public AcademicManager academicManager { get; set; } = null!;
+		public AcademicManager Manager { get; set; } = null!;
 
 		public DateTime ApprovalDate
 		{
 			get; set;
 		}
-
-		public string ApprovalStatus
-		{
-			get; set;
-		} = string.Empty;
-
-		public Boolean IsApproved
+		public bool IsApproved
 		{
 			get; set;
 		}
-
+		public string ApprovalStatus
+		{
+			get; set;
+		} // Approved, Rejected
 		public string ApprovalComments
 		{
 			get; set;
-		} = string.Empty;
-
-		public ICollection<Claim> Claims { get; set; } = null!;
+		}
 	}
 }

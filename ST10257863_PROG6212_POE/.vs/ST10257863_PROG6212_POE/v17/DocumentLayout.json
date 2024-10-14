@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\models\\tables\\claim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:models\\tables\\claim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Migrations\\20241014154140_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20241014154140_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\models\\tables\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:models\\tables\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\models\\tables\\claimapproval.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,14 +23,6 @@
       "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:models\\tables\\claimverification.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\models\\tables\\lecturer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:models\\tables\\lecturer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\models\\tables\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:models\\tables\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\models\\tables\\academicmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:models\\tables\\academicmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -31,8 +31,12 @@
       "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:models\\tables\\coordinator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\models\\tables\\claim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:models\\tables\\claim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\models\\tables\\lecturer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:models\\tables\\lecturer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -71,38 +75,55 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "20241014154140_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Migrations\\20241014154140_InitialCreate.cs",
+              "RelativeDocumentMoniker": "Migrations\\20241014154140_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Migrations\\20241014154140_InitialCreate.cs",
+              "RelativeToolTip": "Migrations\\20241014154140_InitialCreate.cs",
+              "ViewState": "AQIAAMkAAAAAAAAAAAAowAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-14T15:41:40.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Claim.cs",
               "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\Claim.cs",
               "RelativeDocumentMoniker": "Models\\Tables\\Claim.cs",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\Claim.cs",
               "RelativeToolTip": "Models\\Tables\\Claim.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACgAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-14T15:26:29.236Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ClaimApproval.cs",
               "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\ClaimApproval.cs",
               "RelativeDocumentMoniker": "Models\\Tables\\ClaimApproval.cs",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\ClaimApproval.cs",
               "RelativeToolTip": "Models\\Tables\\ClaimApproval.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAACAAAAATAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAC4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-14T15:20:01.072Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "ClaimVerification.cs",
               "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\ClaimVerification.cs",
               "RelativeDocumentMoniker": "Models\\Tables\\ClaimVerification.cs",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\ClaimVerification.cs",
               "RelativeToolTip": "Models\\Tables\\ClaimVerification.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAC4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-14T15:14:34.292Z",
               "EditorCaption": ""
@@ -115,20 +136,20 @@
               "RelativeDocumentMoniker": "Models\\Tables\\Coordinator.cs",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\Coordinator.cs",
               "RelativeToolTip": "Models\\Tables\\Coordinator.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAATAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-14T15:06:39.844Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "Lecturer.cs",
               "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\Lecturer.cs",
               "RelativeDocumentMoniker": "Models\\Tables\\Lecturer.cs",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\Lecturer.cs",
               "RelativeToolTip": "Models\\Tables\\Lecturer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAATAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-14T15:04:27.794Z",
               "EditorCaption": ""
@@ -141,27 +162,27 @@
               "RelativeDocumentMoniker": "Models\\Tables\\AcademicManager.cs",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\AcademicManager.cs",
               "RelativeToolTip": "Models\\Tables\\AcademicManager.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAATAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-14T15:01:08.52Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\User.cs",
               "RelativeDocumentMoniker": "Models\\Tables\\User.cs",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\User.cs",
               "RelativeToolTip": "Models\\Tables\\User.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAPAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-14T13:52:42.766Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -169,12 +190,11 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T13:57:03.128Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-14T13:57:03.128Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -182,18 +202,17 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-10-14T13:54:03.835Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-14T13:54:03.835Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
               "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Data\\AppDbContext.cs",
               "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAABRAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-14T13:48:49.594Z",
               "EditorCaption": ""

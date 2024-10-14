@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ST10257863_PROG6212_POE.Models.Tables
@@ -17,16 +16,14 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 		{
 			get; set;
 		}
-
 		public Lecturer Lecturer { get; set; } = null!;
 
-		[Range(0, 1000, ErrorMessage = "Hours worked must be a positive number.")]
 		public decimal HoursWorked
 		{
 			get; set;
 		}
 
-		[NotMapped] // Calculated field, not stored in DB
+		[NotMapped] // Calculated field
 		public decimal ClaimAmount
 		{
 			get
@@ -35,23 +32,23 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 			}
 			set
 			{
-			} // To satisfy EF requirements, even though it's calculated.
+			} // EF requires this
 		}
 
-		[DataType(DataType.DateTime)]
 		public DateTime SubmissionDate
 		{
 			get; set;
 		}
 
 		[Required]
-		[StringLength(50)]
 		public string Status
 		{
 			get; set;
-		}
+		} // Pending, Approved, Rejected
 
-		// Method to calculate the claim amount dynamically
+		public List<string> SupportingDocuments { get; set; } = new List<string>();
+
+		// Method to calculate claim amount
 		public decimal CalculateClaimAmount()
 		{
 			return HoursWorked * Lecturer.HourlyRate;

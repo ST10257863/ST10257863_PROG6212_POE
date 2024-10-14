@@ -1,29 +1,37 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-
 namespace ST10257863_PROG6212_POE.Models.Tables
 {
 	public class Lecturer
 	{
 		[Key]
-		public int Id
+		public int LecturerID
 		{
 			get; set;
 		}
 
+		[Required]
 		public decimal HourlyRate
 		{
 			get; set;
 		}
 
-		public string department
+		[Required]
+		public string Department
 		{
 			get; set;
-		} = string.Empty;
+		}
 
-		public string campus
+		[Required]
+		public string Campus
 		{
 			get; set;
-		} = string.Empty;
+		}
+
+		// Method for submitting a claim (implementation later)
+		public void SubmitClaim(Claim claim)
+		{
+			// Claim submission logic
+		}
 	}
 }

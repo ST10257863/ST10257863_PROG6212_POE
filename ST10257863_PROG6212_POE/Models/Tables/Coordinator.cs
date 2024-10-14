@@ -5,21 +5,34 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 	public class Coordinator
 	{
 		[Key]
-		public int CoordinatorId
+		public int CoordinatorID
 		{
 			get; set;
 		}
 
-		public string department
+		[Required]
+		public string Department
 		{
 			get; set;
-		} = string.Empty;
+		}
 
-		public string campus
+		[Required]
+		public string Campus
 		{
 			get; set;
-		} = string.Empty;
+		}
 
-		public ICollection<ClaimVerification> claimVerifications { get; set; } = null!;
+		// Methods for verifying and rejecting claims
+		public void VerifyClaim(ClaimVerification verification)
+		{
+			verification.VerificationStatus = "Verified";
+			verification.IsVerified = true;
+		}
+
+		public void RejectClaim(ClaimVerification verification)
+		{
+			verification.VerificationStatus = "Rejected";
+			verification.IsVerified = false;
+		}
 	}
 }
