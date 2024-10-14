@@ -13,15 +13,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 			_logger = logger;
 		}
 
-		public IActionResult Login()
-		{
-			return View();
-		}
-
-		public IActionResult Claims()
-		{
-			return View();
-		}
 		public IActionResult Verification()
 		{
 			return View();

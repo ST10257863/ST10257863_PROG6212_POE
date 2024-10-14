@@ -16,20 +16,31 @@
 <div class="container">
 	<div class="background center-content">
 		<!-- Center content within the background -->
-		<form method="post" action="/Home/Login" class="flex-column center-content">
+		<form method="post" action="/Login/Login" class="flex-column center-content">
 			<div class="flex-column gap-32 center-content">
 				<div class="input-field">
 					<label for="username" class="text-bold">Username</label>
-					<input type="text" id="username" name="username" class="input-box" placeholder="Enter your username" aria-label="Username" />
+					<input type="text" id="username" name="username" class="input-box" placeholder="Enter your username" aria-label="Username" required />
 				</div>
 
 				<div class="input-field">
 					<label for="password" class="text-bold">Password</label>
-					<input type="password" id="password" name="password" class="input-box" placeholder="Enter your password" aria-label="Password" />
+					<input type="password" id="password" name="password" class="input-box" placeholder="Enter your password" aria-label="Password" required />
 				</div>
+				<dive>
+					<!-- Display error message if login fails -->
+					@if (!string.IsNullOrEmpty(ViewData["LoginError"] as string))
+					{
+						<div class="error-message" style="color: red;">
+							@ViewData["LoginError"]
+						</div>
+					}
+				</dive>
 
 				<button type="submit" class="submit-button">Login</button>
 			</div>
 		</form>
+
+
 	</div>
 </div>

@@ -18,16 +18,12 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\jamie\Documents\GitHub\ST10257863_PROG6212_POE\ST10257863_PROG6212_POE
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Claims/Claims.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xhaW1zXENsYWltcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Home/Approval.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBcHByb3ZhbC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Home/Claims.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDbGFpbXMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Home/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Home/Privacy.cshtml]
@@ -36,6 +32,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Home/Verification.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxWZXJpZmljYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Login/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Shared/Error.cshtml]

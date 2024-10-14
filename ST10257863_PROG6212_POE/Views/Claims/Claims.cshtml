@@ -16,9 +16,14 @@
 <div class="container">
 	<div class="background center-content gap-32">
 		<!-- Form Section -->
-		<form id="claims-form" method="post" action="/Claims/Submit" enctype="multipart/form-data" class="flex-column center-content gap-32">
+		<form id="claims-form" method="post" action="/Claims/Claims" enctype="multipart/form-data" class="flex-column center-content gap-32">
 			<!-- Input Fields Frame -->
 			<div class="flex-column gap-32 center-content">
+				<!-- User ID Input -->
+				<div class="input-field">
+					<label for="userId" class="text-bold">User ID</label>
+					<input type="text" id="userId" name="userId" class="input-box" placeholder="Enter your User ID" aria-label="User ID" />
+				</div>
 				<!-- Hours Worked Input -->
 				<div class="input-field">
 					<label for="hoursWorked" class="text-bold">Hours Worked</label>
@@ -87,3 +92,47 @@
 		</div>
 	</div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function () {
+		// Load lecturer details based on user ID
+		$('#userId').change(function () {
+			var userId = $(this).val();
+			$.ajax({
+				url: '/api/users/lecturers',  // Endpoint to fetch lecturer details
+				method: 'GET',
+				data: { userId: userId },  // Send user ID as a query parameter
+				success: function (data) {
+					if (data) {
+						// Update the fields with lecturer information
+						$('#lectureId').text(data.lecturerId);
+						$('#userName').text(data.user.userName);
+						$('#fullName').text(data.user.firstName + ' ' + data.user.lastName);
+						$('#hourlyRate').text('$' + data.hourlyRate + '/hr');
+						$('#department').text(data.department);
+						$('#campus').text(data.campus);
+					}
+				},
+				error: function (err) {
+					console.error('Error fetching lecturer details:', err);
+				}
+			});
+		});
+
+		// Calculate pay logic here
+		$('#calculate-btn').click(function () {
+			var hoursWorked = parseFloat($('#hoursWorked').val()) || 0;
+			var overtimeWorked = parseFloat($('#overtimeWorked').val()) || 0;
+			var hourlyRate = parseFloat($('#hourlyRate').text().replace('$', '')) || 0;
+
+			var regularPay = hoursWorked * hourlyRate;
+			var overtimePay = overtimeWorked * (hourlyRate * 1.5); // Assuming 1.5x for overtime
+			var totalPay = regularPay + overtimePay;
+
+			$('#regularPay').text('$' + regularPay.toFixed(2));
+			$('#overtimePay').text('$' + overtimePay.toFixed(2));
+			$('#totalPay').text('$' + totalPay.toFixed(2));
+		});
+	});
+</script>
