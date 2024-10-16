@@ -16,7 +16,10 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 		{
 			get; set;
 		}
-		public Lecturer Lecturer { get; set; } = null!;
+		public Lecturer Lecturer
+		{
+			get; set;
+		}
 
 		public decimal HoursWorked
 		{

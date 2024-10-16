@@ -1,42 +1,41 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ST10257863_PROG6212_POE.Models.Tables;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
-namespace ST10257863_PROG6212_POE.Models.Tables
+public class Lecturer
 {
-	public class Lecturer
+	[Key]
+	public int LecturerID
 	{
-		[Key]
-		public int LecturerID
-		{
-			get; set;
-		}
+		get; set;
+	}  // Unique Lecturer ID
 
-		[ForeignKey("User")]
-		public int UserID
-		{
-			get; set;
-		}
-		public User User { get; set; } = null!;
+	[ForeignKey("User")]
+	public int UserID
+	{
+		get; set;
+	}  // Foreign key from User
 
-		public decimal HourlyRate
-		{
-			get; set;
-		}
+	public User User
+	{
+		get; set;
+	}  // Navigation property to User
 
-		public string Department
-		{
-			get; set;
-		}
+	public decimal HourlyRate
+	{
+		get; set;
+	}
+	public string Department
+	{
+		get; set;
+	}
+	public string Campus
+	{
+		get; set;
+	}
 
-		public string Campus
-		{
-			get; set;
-		}
-
-		// Method to submit a claim (specific to Lecturer)
-		public void SubmitClaim(Claim claim)
-		{
-			// Logic to submit a claim
-		}
+	public void SubmitClaim(Claim claim)
+	{
+		// Logic for submitting a claim
 	}
 }

@@ -37,21 +37,34 @@ namespace ST10257863_PROG6212_POE.Controllers
 		[HttpGet] // Ensure this method can respond to GET requests
 		public async Task<JsonResult> GetLecturerDetails()
 		{
-			// Retrieve the User ID from the session
-			var userIdString = HttpContext.Session.GetString("UserID");
+			// Retrieve the User ID from the session as an int
+			var userId = HttpContext.Session.GetInt32("UserID");
 
 			// Validate if User ID exists in session
-			if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+			if (!userId.HasValue)
 			{
 				return Json(null); // Return null if User ID is not valid
 			}
 
-			// Fetch the lecturer details from the database
+			// Fetch the lecturer details from the database using the userId
 			var lecturer = await _context.Lecturers
-				.Include(l => l.User)
+				.Include(l => l.User) // Ensure to include User details
 				.FirstOrDefaultAsync(l => l.UserID == userId);
 
-			return Json(lecturer); // Return the lecturer details as JSON
+			// Create a new object to return only the necessary fields
+			var lecturerDetails = new
+			{
+				LecturerId = lecturer?.LecturerID,
+				UserName = lecturer?.User.UserName,
+				FirstName = lecturer?.User.FirstName,
+				LastName = lecturer?.User.LastName,
+				HourlyRate = lecturer?.HourlyRate,
+				Department = lecturer?.Department,
+				Campus = lecturer?.Campus
+			};
+
+			return Json(lecturerDetails); // Return the lecturer details as JSON
 		}
+
 	}
 }

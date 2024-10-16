@@ -1,43 +1,44 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ST10257863_PROG6212_POE.Models.Tables;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
-namespace ST10257863_PROG6212_POE.Models.Tables
+public class AcademicManager
 {
-	public class AcademicManager
+	[Key]
+	public int ManagerID
 	{
-		[Key]
-		public int ManagerID
-		{
-			get; set;
-		}
+		get; set;
+	}  // Unique AcademicManager ID
 
-		[ForeignKey("User")]
-		public int UserID
-		{
-			get; set;
-		}
-		public User User { get; set; } = null!;
+	[ForeignKey("User")]
+	public int UserID
+	{
+		get; set;
+	}  // Foreign key from User
 
-		public string Department
-		{
-			get; set;
-		}
-		public string Campus
-		{
-			get; set;
-		}
+	public User User
+	{
+		get; set;
+	}  // Navigation property to User
 
-		// Methods to approve and reject claims (specific to AcademicManager)
-		public void ApproveClaim(ClaimApproval approval)
-		{
-			approval.ApprovalStatus = "Approved";
-			approval.IsApproved = true;
-		}
+	public string Department
+	{
+		get; set;
+	}
+	public string Campus
+	{
+		get; set;
+	}
 
-		public void RejectClaim(ClaimApproval approval)
-		{
-			approval.ApprovalStatus = "Rejected";
-			approval.IsApproved = false;
-		}
+	public void ApproveClaim(ClaimApproval approval)
+	{
+		approval.ApprovalStatus = "Approved";
+		approval.IsApproved = true;
+	}
+
+	public void RejectClaim(ClaimApproval approval)
+	{
+		approval.ApprovalStatus = "Rejected";
+		approval.IsApproved = false;
 	}
 }

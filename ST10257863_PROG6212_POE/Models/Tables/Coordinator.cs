@@ -5,7 +5,7 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 {
 	public class Coordinator
 	{
-		[Key]
+		//[Key]
 		public int CoordinatorID
 		{
 			get; set;
@@ -15,8 +15,12 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 		public int UserID
 		{
 			get; set;
-		}
-		public User User { get; set; } = null!;
+		}  // Foreign key from User
+
+		public User User
+		{
+			get; set;
+		}  // Navigation property to User
 
 		public string Department
 		{

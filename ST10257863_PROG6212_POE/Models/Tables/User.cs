@@ -8,7 +8,7 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 		public int UserID
 		{
 			get; set;
-		}
+		}  // Unique User ID
 
 		[Required]
 		public string FirstName
@@ -34,7 +34,7 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 			get; set;
 		}
 
-		public string ContactInfo
+		public string? ContactInfo
 		{
 			get; set;
 		}

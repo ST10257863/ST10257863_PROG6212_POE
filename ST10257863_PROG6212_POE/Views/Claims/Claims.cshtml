@@ -48,9 +48,9 @@
 						<label for="totalPay" class="text-bold">Total Pay:</label>
 					</div>
 					<div class="flex-column gap-32">
-						<div id="regularPay" class="text-regular regular-pay-number">NUMBER</div>
-						<div id="overtimePay" class="text-regular regular-pay-number">NUMBER</div>
-						<div id="totalPay" class="text-regular regular-pay-number">NUMBER</div>
+						<div id="regularPay" class="text-regular regular-pay-number"> </div>
+						<div id="overtimePay" class="text-regular regular-pay-number"> </div>
+						<div id="totalPay" class="text-regular regular-pay-number"> </div>
 					</div>
 				</div>
 			</div>
@@ -90,16 +90,16 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-	// Inside your $(document).ready function
 	$(document).ready(function () {
 		// Fetch User ID from session and load lecturer details
 		$.ajax({
 			url: '/Claims/GetLecturerDetails',  // Ensure this URL is correct
 			method: 'GET',
 			success: function (data) {
-				if (userId) {
-					// Load lecturer details based on user ID
+				console.log('User ID data:', data);
+				if (data) {  // Check if data was received
 					loadLecturerDetails();
 				} else {
 					console.error('User ID not found in session');
@@ -115,11 +115,11 @@
 				url: '/Claims/GetLecturerDetails',  // Adjusted to the new endpoint
 				method: 'GET',
 				success: function (data) {
+					console.log('Lecturer Details:', data); // Debugging to see the data structure
 					if (data) {
-						// Update the fields with lecturer information
 						$('#lectureId').text(data.lecturerId || 'N/A');
-						$('#userName').text(data.user.userName || 'N/A');
-						$('#fullName').text((data.user.firstName || 'N/A') + ' ' + (data.user.lastName || 'N/A'));
+						$('#userName').text(data.userName || 'N/A'); // Updated to match the property
+						$('#fullName').text((data.firstName || 'N/A') + ' ' + (data.lastName || 'N/A')); // Updated to match the property
 						$('#hourlyRate').text('$' + (data.hourlyRate || 0) + '/hr');
 						$('#department').text(data.department || 'N/A');
 						$('#campus').text(data.campus || 'N/A');
@@ -147,3 +147,4 @@
 		}
 	});
 </script>
+
