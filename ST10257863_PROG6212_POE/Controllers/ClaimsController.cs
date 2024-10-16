@@ -53,6 +53,16 @@ namespace ST10257863_PROG6212_POE.Controllers
 				ModelState.AddModelError("HoursWorked", "Hours worked must be greater than zero.");
 			}
 
+			// Get and validate OvertimeHoursWorked from form data
+			if (decimal.TryParse(Request.Form["overtimeWorked"], out var overtimeHoursWorked) && overtimeHoursWorked >= 0)
+			{
+				claim.OvertimeHoursWorked = overtimeHoursWorked;
+			}
+			else
+			{
+				ModelState.AddModelError("OvertimeHoursWorked", "Overtime hours must be zero or greater.");
+			}
+
 			// Check if the model is valid
 			if (ModelState.IsValid)
 			{
@@ -64,9 +74,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 			return RedirectToAction("Claims"); // Redirect back if validation fails
 		}
-
-
-
 
 		[HttpGet] // Ensure this method can respond to GET requests
 		public async Task<JsonResult> GetLecturerDetails()
@@ -99,6 +106,5 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 			return Json(lecturerDetails); // Return the lecturer details as JSON
 		}
-
 	}
 }

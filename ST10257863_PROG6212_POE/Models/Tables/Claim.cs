@@ -26,6 +26,11 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 			get; set;
 		}
 
+		public decimal OvertimeHoursWorked
+		{
+			get; set;
+		}
+
 		//[NotMapped] // Calculated field
 		//public decimal ClaimAmount
 		//{

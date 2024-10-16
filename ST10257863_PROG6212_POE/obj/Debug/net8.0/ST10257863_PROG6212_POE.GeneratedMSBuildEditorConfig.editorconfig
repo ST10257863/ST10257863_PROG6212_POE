@@ -30,10 +30,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Home/Verification.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxWZXJpZmljYXRpb24uY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Login/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -44,6 +40,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/Verification/Verification.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVyaWZpY2F0aW9uXFZlcmlmaWNhdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/jamie/Documents/GitHub/ST10257863_PROG6212_POE/ST10257863_PROG6212_POE/Views/_ViewImports.cshtml]

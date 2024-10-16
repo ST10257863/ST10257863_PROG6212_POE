@@ -23,8 +23,8 @@
 					<thead class="thead-light">
 						<tr>
 							<th>ID</th>
-							<th>Full Name</th>
 							<th>Date & Time</th>
+							<th>Status</th>
 						</tr>
 					</thead>
 					<tbody id="table-body">
@@ -92,7 +92,6 @@
 				</div>
 			</div>
 
-
 			<!-- Action Buttons -->
 			<div class="flex-row gap-32 center-content">
 				<button type="submit" class="submit-button accept-button">ACCEPT</button>
@@ -103,48 +102,52 @@
 </div>
 
 <script>
-	// Sample data with added submittedDate
-	const data = {
-		1: { lectureId: '12345', userName: 'jdoe', fullName: 'John Doe', hourlyRate: 'R50/hr', department: 'Computer Science', campus: 'Main Campus', regularHours: '40', overtimeHours: '5', totalHours: '45', regularPay: 'R2000', overtimePay: 'R250', totalPay: 'R2250', submittedDate: '2024-09-01 10:30:00' },
-		2: { lectureId: '67890', userName: 'assmith', fullName: 'Jane Smith', hourlyRate: 'R55/hr', department: 'Mathematics', campus: 'East Campus', regularHours: '35', overtimeHours: '10', totalHours: '45', regularPay: 'R1925', overtimePay: 'R550', totalPay: 'R2475', submittedDate: '2024-09-02 11:15:00' },
-		3: { lectureId: '11223', userName: 'mbrown', fullName: 'Mark Brown', hourlyRate: 'R60/hr', department: 'Engineering', campus: 'North Campus', regularHours: '30', overtimeHours: '8', totalHours: '38', regularPay: 'R1800', overtimePay: 'R480', totalPay: 'R2280', submittedDate: '2024-09-03 12:00:00' },
-		// Add other data entries similarly
-	};
-
 	function populateTable() {
-		const tableBody = document.getElementById('table-body');
-		tableBody.innerHTML = ''; // Clear existing rows
+		fetch('/Verification/GetAllClaims')
+			.then(response => response.json())
+			.then(data => {
+				const tableBody = document.getElementById('table-body');
+				tableBody.innerHTML = ''; // Clear existing rows
 
-		for (const id in data) {
-			const details = data[id];
-			const row = document.createElement('tr');
-			row.setAttribute('data-id', id);
-			row.setAttribute('onclick', 'updateDetails(this)');
+				data.forEach(claim => {
+					const row = document.createElement('tr');
+					row.setAttribute('data-id', claim.claimId);  // Update to use 'claimId' in camelCase
+					row.setAttribute('onclick', 'updateDetails(this)');
 
-			row.innerHTML = `<td>${id}</td><td>${details.fullName}</td><td>${details.submittedDate}</td>`;
+					// Use 'claimId', 'submissionDate', and format the date as required
+					row.innerHTML = `<td>${claim.claimId}</td><td>${new Date(claim.submissionDate).toLocaleString()}</td><td>${claim.status}</td>`;
 
-			tableBody.appendChild(row);
-		}
+					tableBody.appendChild(row);
+				});
+			})
+			.catch(error => console.error('Error fetching claims:', error));
 	}
+
 
 	function updateDetails(row) {
-		const id = row.getAttribute('data-id');
-		const details = data[id];
+		const claimId = row.getAttribute('data-id');
+		fetch(`/Verification/GetClaimDetails/${claimId}`)
+			.then(response => response.json())
+			.then(data => {
+				console.log(data); // Log the response to see its structure
 
-		document.getElementById('lectureId').textContent = details.lectureId;
-		document.getElementById('userName').textContent = details.userName;
-		document.getElementById('fullName').textContent = details.fullName;
-		document.getElementById('hourlyRate').textContent = details.hourlyRate;
-		document.getElementById('department').textContent = details.department;
-		document.getElementById('campus').textContent = details.campus;
-		document.getElementById('regularHours').textContent = details.regularHours;
-		document.getElementById('overtimeHours').textContent = details.overtimeHours;
-		document.getElementById('totalHours').textContent = details.totalHours;
-		document.getElementById('regularPay').textContent = details.regularPay;
-		document.getElementById('overtimePay').textContent = details.overtimePay;
-		document.getElementById('totalPay').textContent = details.totalPay;
-		document.getElementById('submittedDate').textContent = details.submittedDate;
+				// Update the detail section with the selected claim's information using camelCase
+				document.getElementById('lectureId').innerText = data.lecturerId; // Update to camelCase
+				document.getElementById('userName').innerText = data.userName;    // Update to camelCase
+				document.getElementById('fullName').innerText = data.fullName;    // Update to camelCase
+				document.getElementById('hourlyRate').innerText = data.hourlyRate;// Update to camelCase
+				document.getElementById('department').innerText = data.department;// Update to camelCase
+				document.getElementById('campus').innerText = data.campus;        // Update to camelCase
+				document.getElementById('regularHours').innerText = data.regularHours;// Update to camelCase
+				document.getElementById('overtimeHours').innerText = data.overtimeHours;// Update to camelCase
+				document.getElementById('totalHours').innerText = data.totalHours;// Update to camelCase
+				document.getElementById('regularPay').innerText = data.regularPay;// Update to camelCase
+				document.getElementById('overtimePay').innerText = data.overtimePay;// Update to camelCase
+				document.getElementById('totalPay').innerText = data.totalPay;    // Update to camelCase
+			})
+			.catch(error => console.error('Error fetching claim details:', error));
 	}
+
 
 	// Populate the table on page load
 	document.addEventListener('DOMContentLoaded', populateTable);
