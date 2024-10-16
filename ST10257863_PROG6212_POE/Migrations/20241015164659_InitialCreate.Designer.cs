@@ -12,7 +12,7 @@ using ST10257863_PROG6212_POE.Data;
 namespace ST10257863_PROG6212_POE.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241014154140_InitialCreate")]
+    [Migration("20241015164659_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -41,7 +41,12 @@ namespace ST10257863_PROG6212_POE.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
                     b.HasKey("ManagerID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("AcademicManagers");
                 });
@@ -168,7 +173,12 @@ namespace ST10257863_PROG6212_POE.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
                     b.HasKey("CoordinatorID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Coordinators");
                 });
@@ -192,7 +202,12 @@ namespace ST10257863_PROG6212_POE.Migrations
                     b.Property<decimal>("HourlyRate")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
                     b.HasKey("LecturerID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Lecturers");
                 });
@@ -228,6 +243,17 @@ namespace ST10257863_PROG6212_POE.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ST10257863_PROG6212_POE.Models.Tables.AcademicManager", b =>
+                {
+                    b.HasOne("ST10257863_PROG6212_POE.Models.Tables.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ST10257863_PROG6212_POE.Models.Tables.Claim", b =>
@@ -277,6 +303,28 @@ namespace ST10257863_PROG6212_POE.Migrations
                     b.Navigation("Claim");
 
                     b.Navigation("Coordinator");
+                });
+
+            modelBuilder.Entity("ST10257863_PROG6212_POE.Models.Tables.Coordinator", b =>
+                {
+                    b.HasOne("ST10257863_PROG6212_POE.Models.Tables.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ST10257863_PROG6212_POE.Models.Tables.Lecturer", b =>
+                {
+                    b.HasOne("ST10257863_PROG6212_POE.Models.Tables.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
