@@ -23,16 +23,50 @@ namespace ST10257863_PROG6212_POE.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> SubmitClaim(Claim claim)
+		public async Task<IActionResult> SubmitClaim()
 		{
+			// Fetch the Lecturer ID from the session
+			var lecturerId = HttpContext.Session.GetInt32("LecturerID");
+
+			// Check if Lecturer ID is present
+			if (!lecturerId.HasValue)
+			{
+				ModelState.AddModelError("", "Lecturer ID is missing from the session.");
+				return RedirectToAction("Claims"); // Redirect to Claims view
+			}
+
+			// Create a new Claim object with default values
+			var claim = new Claim
+			{
+				LecturerId = lecturerId.Value,
+				SubmissionDate = DateTime.Now,
+				Status = "Pending"
+			};
+
+			// Get and validate HoursWorked from form data
+			if (decimal.TryParse(Request.Form["HoursWorked"], out var hoursWorked) && hoursWorked > 0)
+			{
+				claim.HoursWorked = hoursWorked; // Assign valid HoursWorked
+			}
+			else
+			{
+				ModelState.AddModelError("HoursWorked", "Hours worked must be greater than zero.");
+			}
+
+			// Check if the model is valid
 			if (ModelState.IsValid)
 			{
+				// Save the new claim to the database
 				_context.Claims.Add(claim);
 				await _context.SaveChangesAsync();
-				return RedirectToAction("Claims"); // Redirect back to the Claims view
+				return RedirectToAction("Claims"); // Redirect after successful submission
 			}
-			return View(claim); // Return the same view with validation errors
+
+			return RedirectToAction("Claims"); // Redirect back if validation fails
 		}
+
+
+
 
 		[HttpGet] // Ensure this method can respond to GET requests
 		public async Task<JsonResult> GetLecturerDetails()

@@ -26,17 +26,17 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 			get; set;
 		}
 
-		[NotMapped] // Calculated field
-		public decimal ClaimAmount
-		{
-			get
-			{
-				return CalculateClaimAmount();
-			}
-			set
-			{
-			} // EF requires this
-		}
+		//[NotMapped] // Calculated field
+		//public decimal ClaimAmount
+		//{
+		//	get
+		//	{
+		//		return CalculateClaimAmount();
+		//	}
+		//	set
+		//	{
+		//	} // EF requires this
+		//}
 
 		public DateTime SubmissionDate
 		{
@@ -51,10 +51,10 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 
 		public List<string> SupportingDocuments { get; set; } = new List<string>();
 
-		// Method to calculate claim amount
-		public decimal CalculateClaimAmount()
-		{
-			return HoursWorked * Lecturer.HourlyRate;
-		}
+		//// Method to calculate claim amount
+		//public decimal CalculateClaimAmount()
+		//{
+		//	return HoursWorked * Lecturer.HourlyRate;
+		//}
 	}
 }
