@@ -90,7 +90,6 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function () {
 		// Fetch User ID from session and load lecturer details
@@ -98,9 +97,9 @@
 			url: '/Claims/GetLecturerDetails',  // Ensure this URL is correct
 			method: 'GET',
 			success: function (data) {
-				console.log('User ID data:', data);
+				console.log('User ID data:', data); // Log data for debugging
 				if (data) {  // Check if data was received
-					loadLecturerDetails();
+					loadLecturerDetails(data);
 				} else {
 					console.error('User ID not found in session');
 				}
@@ -110,39 +109,54 @@
 			}
 		});
 
-		function loadLecturerDetails() {
-			$.ajax({
-				url: '/Claims/GetLecturerDetails',  // Adjusted to the new endpoint
-				method: 'GET',
-				success: function (data) {
-					console.log('Lecturer Details:', data); // Debugging to see the data structure
-					if (data) {
-						$('#lectureId').text(data.lecturerId || 'N/A');
-						$('#userName').text(data.userName || 'N/A'); // Updated to match the property
-						$('#fullName').text((data.firstName || 'N/A') + ' ' + (data.lastName || 'N/A')); // Updated to match the property
-						$('#hourlyRate').text('$' + (data.hourlyRate || 0) + '/hr');
-						$('#department').text(data.department || 'N/A');
-						$('#campus').text(data.campus || 'N/A');
-					} else {
-						// Handle case when no data is returned
-						$('#lectureId').text('N/A');
-						$('#userName').text('N/A');
-						$('#fullName').text('N/A');
-						$('#hourlyRate').text('N/A');
-						$('#department').text('N/A');
-						$('#campus').text('N/A');
-					}
-				},
-				error: function (err) {
-					console.error('Error fetching lecturer details:', err);
-					// Handle error case
-					$('#lectureId').text('Error');
-					$('#userName').text('Error');
-					$('#fullName').text('Error');
-					$('#hourlyRate').text('Error');
-					$('#department').text('Error');
-					$('#campus').text('Error');
-				}
+		function loadLecturerDetails(data) {
+			// Use the data received from the first AJAX call
+			console.log('Lecturer Details:', data); // Debugging to see the data structure
+			if (data) {
+				$('#lectureId').text(data.lecturerId || 'N/A');
+				$('#userName').text(data.userName || 'N/A');
+				$('#fullName').text((data.firstName || 'N/A') + ' ' + (data.lastName || 'N/A'));
+				$('#hourlyRate').text('R' + (data.hourlyRate || 0) + '/hr'); // Make sure the currency symbol is consistent
+				$('#department').text(data.department || 'N/A');
+				$('#campus').text(data.campus || 'N/A');
+			} else {
+				// Handle case when no data is returned
+				$('#lectureId').text('N/A');
+				$('#userName').text('N/A');
+				$('#fullName').text('N/A');
+				$('#hourlyRate').text('N/A');
+				$('#department').text('N/A');
+				$('#campus').text('N/A');
+			}
+
+			// Calculate Pay button click handler should be outside of this function
+			handleCalculatePay();
+		}
+
+		function handleCalculatePay() {
+			// Handle Calculate Pay button click
+			$('#calculate-btn').on('click', function () {
+				// Get input values
+				var hoursWorked = parseFloat($('#hoursWorked').val()) || 0; // Default to 0 if NaN or empty
+				var overtimeWorked = parseFloat($('#overtimeWorked').val()) || 0; // Default to 0 if NaN or empty
+
+				// Parse hourlyRate and handle empty or invalid cases
+				var hourlyRateText = $('#hourlyRate').text().replace('R', '').replace('/hr', '').trim();
+				var hourlyRate = parseFloat(hourlyRateText) || 0; // Default to 0 if NaN or empty
+
+				console.log('Hours Worked:', hoursWorked); // Debugging output
+				console.log('Overtime Worked:', overtimeWorked); // Debugging output
+				console.log('Hourly Rate:', hourlyRate); // Debugging output
+
+				// Calculate pay based on the values
+				var regularPay = hoursWorked * hourlyRate;
+				var overtimePay = overtimeWorked * (hourlyRate * 1.5); // Assuming 1.5x for overtime
+				var totalPay = regularPay + overtimePay;
+
+				// Update the results in the respective divs
+				$('#regularPay').text('R' + regularPay.toFixed(2));
+				$('#overtimePay').text('R' + overtimePay.toFixed(2));
+				$('#totalPay').text('R' + totalPay.toFixed(2));
 			});
 		}
 	});
