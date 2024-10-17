@@ -25,6 +25,7 @@
 							<th>ID</th>
 							<th>Full Name</th>
 							<th>Date & Time</th>
+							<th>Status</th>
 						</tr>
 					</thead>
 					<tbody id="table-body">
@@ -117,8 +118,8 @@
 
 			<!-- Action Buttons -->
 			<div class="flex-row gap-32 center-content">
-				<button type="button" class="submit-button accept-button">ACCEPT</button>
-				<button type="button" class="submit-button reject-button">REJECT</button>
+				<button type="button" class="submit-button accept-button" id="acceptButton">ACCEPT</button>
+				<button type="button" class="submit-button reject-button" id="rejectButton">REJECT</button>
 			</div>
 
 			<input type="hidden" id="hiddenVerificationId" value="" />
@@ -146,7 +147,7 @@
 					const formattedDate = !isNaN(verificationDate) ? verificationDate.toLocaleString() : "Invalid Date";
 
 					// Set the row's inner HTML with the correct fields
-					row.innerHTML = `<td>${claim.verificationId}</td><td>${claim.fullName}</td><td>${formattedDate}</td>`;
+					row.innerHTML = `<td>${claim.verificationId}</td><td>${claim.fullName}</td><td>${formattedDate}</td><td>${claim.claimStatus}</td>`;
 
 					tableBody.appendChild(row);
 				});
@@ -203,6 +204,43 @@
 			});
 	}
 
+	document.getElementById('acceptButton').addEventListener('click', function () {
+		const verificationId = document.getElementById('hiddenVerificationId').value;
+
+		if (!verificationId) {
+			console.error('No verification ID found.');
+			return;
+		}
+
+		fetch(`/Approval/ApproveClaim/${verificationId}`, { method: 'POST' })
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`Error accepting claim: ${response.statusText}`);
+				}
+				alert('Claim accepted successfully.');
+				populateTable(); // Refresh the table
+			})
+			.catch(error => console.error('Error accepting claim:', error));
+	});
+
+	document.getElementById('rejectButton').addEventListener('click', function () {
+		const verificationId = document.getElementById('hiddenVerificationId').value;
+
+		if (!verificationId) {
+			console.error('No verification ID found.');
+			return;
+		}
+
+		fetch(`/Approval/RejectVerifiedClaim/${verificationId}`, { method: 'POST' })
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`Error rejecting claim: ${response.statusText}`);
+				}
+				alert('Claim rejected successfully.');
+				populateTable(); // Refresh the table
+			})
+			.catch(error => console.error('Error rejecting claim:', error));
+	});
 
 	// Populate the table on page load
 	document.addEventListener('DOMContentLoaded', populateTable);
