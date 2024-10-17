@@ -28,13 +28,15 @@ namespace ST10257863_PROG6212_POE.Controllers
 			var claims = _context.Claims
 				.Include(c => c.Lecturer)
 				.ThenInclude(l => l.User) // Include User information related to the Lecturer
-				.ToList()
+				.Where(c => c.Status == "Pending") // Move the Where clause before Select
 				.Select(c => new
 				{
 					c.ClaimId,
 					c.SubmissionDate,
 					c.Status
-				});
+				})
+				.ToList(); // Ensure ToList() is after Select
+
 
 			return Json(claims);
 		}
