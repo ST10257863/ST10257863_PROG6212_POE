@@ -1,0 +1,210 @@
+﻿@*
+ * Author: Jamie Parker - ST10257863
+ * Date: 10 September 2024
+ * Project: Contract Monthly Claim System (CMCS)
+ *
+ * Reference(s):
+ * - Microsoft. (2023). Introduction to ASP.NET Core.
+ *   Retrieved from https://learn.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-8.0
+ *   [Accessed: 10 September 2024].
+ *@
+@{
+	ViewData["Title"] = "Approval";
+}
+<link rel="stylesheet" href="~/css/styles.css" />
+
+<div class="container">
+	<div class="background center-content gap-32">
+		<!-- Pending Section -->
+		<div class="flex-column center-content-start width-80">
+			<p class="text-bold">Verified</p>
+			<div class="table-container">
+				<table class="table table-bordered table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th>ID</th>
+							<th>Full Name</th>
+							<th>Date & Time</th>
+						</tr>
+					</thead>
+					<tbody id="table-body">
+						<!-- Rows will be inserted here by JavaScript -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Details Section -->
+		<div class="flex-column center-content-start gap-16 padding-top-16">
+			<div class="flex-row center-content-start space-between width-100">
+				<div class="flex-row center-content-start gap-32">
+					<!-- Labels -->
+					<div class="flex-column gap-16">
+						<label for="lectureId" class="text-bold">Lecture ID:</label>
+						<label for="userName" class="text-bold">User Name:</label>
+						<label for="fullName" class="text-bold">Full Name:</label>
+						<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
+						<label for="department" class="text-bold">Department:</label>
+						<label for="campus" class="text-bold">Campus:</label>
+					</div>
+
+					<!-- Content -->
+					<div class="flex-column gap-16">
+						<div id="lectureId" class="text-regular">TEXT</div>
+						<div id="userName" class="text-regular">TEXT</div>
+						<div id="fullName" class="text-regular">TEXT</div>
+						<div id="hourlyRate" class="text-regular">TEXT</div>
+						<div id="department" class="text-regular">TEXT</div>
+						<div id="campus" class="text-regular">TEXT</div>
+					</div>
+				</div>
+				<!-- Manager details section (changed to Coordinator) -->
+				<div class="flex-row center-content-start gap-32">
+					<!-- Labels -->
+					<div class="flex-column gap-16">
+						<label for="coordinatorId" class="text-bold">Coordinator ID:</label>
+						<label for="coordinatorUserName" class="text-bold">User Name:</label>
+						<label for="coordinatorFullName" class="text-bold">Full Name:</label>
+						<label for="coordinatorDepartment" class="text-bold">Department:</label>
+						<label for="coordinatorCampus" class="text-bold">Campus:</label>
+					</div>
+
+					<!-- Content -->
+					<div class="flex-column gap-16">
+						<div id="coordinatorId" class="text-regular">TEXT</div>
+						<div id="coordinatorUserName" class="text-regular">TEXT</div>
+						<div id="coordinatorFullName" class="text-regular">TEXT</div>
+						<div id="coordinatorDepartment" class="text-regular">TEXT</div>
+						<div id="coordinatorCampus" class="text-regular">TEXT</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Separator Line -->
+			<div class="separator-line"></div>
+
+			<!-- Hours Worked -->
+			<div class="flex-row center-content-start gap-32">
+				<div class="flex-column gap-16">
+					<label for="regularHours" class="text-bold">Regular Hours:</label>
+					<label for="overtimeHours" class="text-bold">Overtime Hours:</label>
+					<label for="totalHours" class="text-bold">Total Hours:</label>
+				</div>
+				<div class="flex-column gap-16">
+					<div id="regularHours" class="text-regular regular-hours-number">NUMBER</div>
+					<div id="overtimeHours" class="text-regular overtime-hours-number">NUMBER</div>
+					<div id="totalHours" class="text-regular total-hours-number">NUMBER</div>
+				</div>
+			</div>
+
+			<!-- Separator Line -->
+			<div class="separator-line"></div>
+
+			<!-- Pay Details -->
+			<div class="flex-row center-content-start gap-32">
+				<div class="flex-column gap-16">
+					<label for="regularPay" class="text-bold">Regular Pay:</label>
+					<label for="overtimePay" class="text-bold">Overtime Pay:</label>
+					<label for="totalPay" class="text-bold">Total Pay:</label>
+				</div>
+				<div class="flex-column gap-16">
+					<div id="regularPay" class="text-regular regular-pay-number">NUMBER</div>
+					<div id="overtimePay" class="text-regular overtime-pay-number">NUMBER</div>
+					<div id="totalPay" class="text-regular total-pay-number">NUMBER</div>
+				</div>
+			</div>
+
+
+			<!-- Action Buttons -->
+			<div class="flex-row gap-32 center-content">
+				<button type="button" class="submit-button accept-button">ACCEPT</button>
+				<button type="button" class="submit-button reject-button">REJECT</button>
+			</div>
+
+			<input type="hidden" id="hiddenVerificationId" value="" />
+
+		</div>
+	</div>
+</div>
+
+<script>
+	function populateTable() {
+		fetch('/Approval/GetAllVerifiedClaims')
+			.then(response => response.json())
+			.then(data => {
+				const tableBody = document.getElementById('table-body');
+				tableBody.innerHTML = ''; // Clear existing rows
+
+				data.forEach(claim => {
+					const row = document.createElement('tr');
+					// Set the correct attribute for 'verificationId'
+					row.setAttribute('data-id', claim.verificationId); // Ensure matching ID
+					row.setAttribute('onclick', 'updateDetails(this)');
+
+					// Correctly format the verification date
+					const verificationDate = new Date(claim.verificationDate);
+					const formattedDate = !isNaN(verificationDate) ? verificationDate.toLocaleString() : "Invalid Date";
+
+					// Set the row's inner HTML with the correct fields
+					row.innerHTML = `<td>${claim.verificationId}</td><td>${claim.fullName}</td><td>${formattedDate}</td>`;
+
+					tableBody.appendChild(row);
+				});
+			})
+			.catch(error => console.error('Error fetching claims:', error));
+	}
+
+	function updateDetails(row) {
+		const verificationId = row.getAttribute('data-id');
+
+		// Debugging - log the verificationId before fetching details
+		console.log('Selected verificationId:', verificationId);
+
+		if (!verificationId) {
+			console.error('Verification ID is undefined!');
+			return;
+		}
+
+		// Fetch claim details using the verificationId
+		fetch(`/Approval/GetVerifiedClaimDetails/${verificationId}`)
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`Error fetching claim details: ${response.statusText}`);
+				}
+				return response.json();
+			})
+			.then(data => {
+				// Populate lecturer details
+				document.getElementById('lectureId').innerText = data.lecturerId;
+				document.getElementById('userName').innerText = data.userName;
+				document.getElementById('fullName').innerText = data.fullName;
+				document.getElementById('hourlyRate').innerText = data.hourlyRate;
+				document.getElementById('department').innerText = data.department;
+				document.getElementById('campus').innerText = data.campus;
+				document.getElementById('regularHours').innerText = data.regularHours;
+				document.getElementById('overtimeHours').innerText = data.overtimeHours;
+				document.getElementById('totalHours').innerText = data.totalHours;
+				document.getElementById('regularPay').innerText = data.regularPay;
+				document.getElementById('overtimePay').innerText = data.overtimePay;
+				document.getElementById('totalPay').innerText = data.totalPay;
+
+				// Populate coordinator details
+				document.getElementById('coordinatorId').innerText = data.coordinatorId;
+				document.getElementById('coordinatorUserName').innerText = data.coordinatorUserName;
+				document.getElementById('coordinatorFullName').innerText = data.coordinatorFullName;
+				document.getElementById('coordinatorDepartment').innerText = data.coordinatorDepartment;
+				document.getElementById('coordinatorCampus').innerText = data.coordinatorCampus;
+
+				// Store verificationId in hidden input field
+				document.getElementById('hiddenVerificationId').value = verificationId;
+			})
+			.catch(error => {
+				console.error('Error fetching verified claim details:', error);
+			});
+	}
+
+
+	// Populate the table on page load
+	document.addEventListener('DOMContentLoaded', populateTable);
+</script>
+

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ST10257863_PROG6212_POE.Data;
 using ST10257863_PROG6212_POE.Models.Tables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -86,10 +87,31 @@ namespace ST10257863_PROG6212_POE.Controllers
 				return NotFound();
 			}
 
-			claim.Status = "Accepted";
-			_context.SaveChanges();  // Ensure changes are saved
+			var coordinatorId = HttpContext.Session.GetInt32("CoordinatorID");
 
-			ViewData["Success"] = "Claim Accepted Successfully.";
+			if (coordinatorId == null)
+			{
+				return NotFound();
+			}
+
+			claim.Status = "Accepted";
+
+			// Create a new ClaimVerification entry
+			var claimVerification = new ClaimVerification
+			{
+				ClaimID = claim.ClaimId, // Assign the claim ID
+				CoordinatorID = (int)coordinatorId, // Assume this method retrieves the current coordinator ID from the session or context
+				VerificationDate = DateTime.UtcNow, // Set the current date and time
+				VerificationStatus = "Verified", // Status indicating the claim was accepted
+				IsVerified = true, // Since we are accepting the claim
+				VerificationComments = "Claim accepted successfully." // Optional comments about the verification
+			};
+
+			// Add the new verification entry to the context
+			_context.ClaimVerifications.Add(claimVerification);
+
+			// Save changes to the database
+			_context.SaveChanges();
 			return RedirectToAction("Verification");
 		}
 
@@ -107,7 +129,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 			claim.Status = "Rejected";  // Update status for rejected claims
 			_context.SaveChanges();  // Ensure changes are saved
 
-			ViewData["Success"] = "Claim Rejected Successfully.";
 			return RedirectToAction("Verification");
 		}
 

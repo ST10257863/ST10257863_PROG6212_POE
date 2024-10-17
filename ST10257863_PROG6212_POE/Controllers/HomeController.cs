@@ -13,11 +13,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 			_logger = logger;
 		}
 
-		public IActionResult Approval()
-		{
-			return View();
-		}
-
 		public IActionResult Privacy()
 		{
 			return View();
