@@ -77,6 +77,15 @@
 
 			<!-- Separator Line -->
 			<div class="separator-line"></div>
+			<dive>
+				<!-- Display Success message -->
+				@if (!string.IsNullOrEmpty(ViewData["Success"] as string))
+				{
+					<div class="error-message" style="color: green;">
+						@ViewData["Success"]
+					</div>
+				}
+			</dive>
 
 			<!-- Pay Details -->
 			<div class="flex-row center-content-start gap-32">
@@ -94,9 +103,13 @@
 
 			<!-- Action Buttons -->
 			<div class="flex-row gap-32 center-content">
-				<button type="submit" class="submit-button accept-button">ACCEPT</button>
-				<button type="submit" class="submit-button reject-button">REJECT</button>
+				<button onclick="acceptClaim()" class="submit-button accept-button">ACCEPT</button>
+				<button onclick="rejectClaim()" class="submit-button reject-button">REJECT</button>
 			</div>
+
+
+			<input type="hidden" id="hiddenClaimId" value="" />
+
 		</div>
 	</div>
 </div>
@@ -129,8 +142,6 @@
 		fetch(`/Verification/GetClaimDetails/${claimId}`)
 			.then(response => response.json())
 			.then(data => {
-				console.log(data); // Log the response to see its structure
-
 				// Update the detail section with the selected claim's information using camelCase
 				document.getElementById('lectureId').innerText = data.lecturerId; // Update to camelCase
 				document.getElementById('userName').innerText = data.userName;    // Update to camelCase
@@ -144,11 +155,63 @@
 				document.getElementById('regularPay').innerText = data.regularPay;// Update to camelCase
 				document.getElementById('overtimePay').innerText = data.overtimePay;// Update to camelCase
 				document.getElementById('totalPay').innerText = data.totalPay;    // Update to camelCase
+
+				// Store claimId in a hidden input field
+				document.getElementById('hiddenClaimId').value = claimId;
+
 			})
 			.catch(error => console.error('Error fetching claim details:', error));
 	}
 
+	function acceptClaim() {
+		const claimId = document.getElementById('hiddenClaimId').value;
 
+		if (!claimId) {
+			alert('Please select a claim first.');
+			return;
+		}
+
+		// Make the AJAX POST request to accept the claim
+		$.ajax({
+			url: '/Verification/AcceptClaim',
+			type: 'POST',
+			data: { claimId: claimId },  // Send the claimId in the request body
+			success: function (response) {
+				// Handle success (e.g., refresh the table or show a message)
+				alert('Claim accepted successfully!');
+				populateTable();  // Refresh the table
+			},
+			error: function (xhr, status, error) {
+				// Handle error response
+				alert(`Error accepting claim: ${xhr.responseText}`);
+			}
+		});
+	}
+
+	function rejectClaim() {
+		const claimId = document.getElementById('hiddenClaimId').value;
+
+		if (!claimId) {
+			alert('Please select a claim first.');
+			return;
+		}
+
+		// Make the AJAX POST request to reject the claim
+		$.ajax({
+			url: '/Verification/RejectClaim',
+			type: 'POST',
+			data: { claimId: claimId },  // Send the claimId in the request body
+			success: function (response) {
+				// Handle success (e.g., refresh the table or show a message)
+				alert('Claim rejected successfully!');
+				populateTable();  // Refresh the table
+			},
+			error: function (xhr, status, error) {
+				// Handle error response
+				alert(`Error rejecting claim: ${xhr.responseText}`);
+			}
+		});
+	}
 	// Populate the table on page load
 	document.addEventListener('DOMContentLoaded', populateTable);
 </script>

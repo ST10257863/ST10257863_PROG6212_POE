@@ -72,5 +72,42 @@ namespace ST10257863_PROG6212_POE.Controllers
 			};
 			return Json(claimDetails); // Return the claim details as JSON
 		}
+
+		[HttpPost]
+		public IActionResult AcceptClaim(int claimId)
+		{
+			var claim = _context.Claims
+				.FirstOrDefault(c => c.ClaimId == claimId);
+
+			if (claim == null)
+			{
+				return NotFound();
+			}
+
+			claim.Status = "Accepted";
+			_context.SaveChanges();  // Ensure changes are saved
+
+			ViewData["Success"] = "Claim Accepted Successfully.";
+			return RedirectToAction("Verification");
+		}
+
+		[HttpPost]
+		public IActionResult RejectClaim(int claimId)
+		{
+			var claim = _context.Claims
+				.FirstOrDefault(c => c.ClaimId == claimId);
+
+			if (claim == null)
+			{
+				return NotFound();
+			}
+
+			claim.Status = "Rejected";  // Update status for rejected claims
+			_context.SaveChanges();  // Ensure changes are saved
+
+			ViewData["Success"] = "Claim Rejected Successfully.";
+			return RedirectToAction("Verification");
+		}
+
 	}
 }
