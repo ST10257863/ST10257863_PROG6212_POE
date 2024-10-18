@@ -21,7 +21,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 		//Allows lecturers to submit their claims by checking session information, validating input, and saving it to the database.
 		[HttpPost]
-		public async Task<IActionResult> SubmitClaim()
+		public async Task<IActionResult> SubmitClaim(List<IFormFile> documents) // Accept multiple files
 		{
 			var lecturerId = HttpContext.Session.GetInt32("LecturerID");
 
@@ -35,7 +35,8 @@ namespace ST10257863_PROG6212_POE.Controllers
 			{
 				LecturerId = lecturerId.Value,
 				SubmissionDate = DateTime.Now,
-				Status = "Pending"
+				Status = "Pending",
+				SupportingDocuments = new List<string>() // Initialize the list for supporting documents
 			};
 
 			if (decimal.TryParse(Request.Form["HoursWorked"], out var hoursWorked) && hoursWorked > 0)
@@ -47,7 +48,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 				ModelState.AddModelError("HoursWorked", "Hours worked must be greater than zero.");
 			}
 
-			if (decimal.TryParse(Request.Form["overtimeWorked"], out var overtimeHoursWorked) && overtimeHoursWorked >= 0)
+			if (decimal.TryParse(Request.Form["OvertimeWorked"], out var overtimeHoursWorked) && overtimeHoursWorked >= 0)
 			{
 				claim.OvertimeHoursWorked = overtimeHoursWorked;
 			}
@@ -58,6 +59,27 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 			if (ModelState.IsValid)
 			{
+				// Save uploaded documents
+				if (documents != null && documents.Count > 0)
+				{
+					foreach (var document in documents)
+					{
+						if (document.Length > 0)
+						{
+							var fileName = Path.GetFileName(document.FileName); // Get the file name
+							var filePath = Path.Combine("wwwroot/uploads", fileName); // Define file path
+
+							using (var stream = new FileStream(filePath, FileMode.Create))
+							{
+								await document.CopyToAsync(stream); // Save the file
+							}
+
+							claim.SupportingDocuments.Add(filePath); // Store file path in the database
+						}
+					}
+				}
+
+				// Save the claim to the database
 				_context.Claims.Add(claim);
 				await _context.SaveChangesAsync();
 				return RedirectToAction("Claims");
