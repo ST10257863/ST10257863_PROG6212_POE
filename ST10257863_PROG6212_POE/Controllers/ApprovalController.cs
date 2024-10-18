@@ -19,20 +19,20 @@ namespace ST10257863_PROG6212_POE.Controllers
 			return View();
 		}
 
+		//Fetches and returns all verified claims as a JSON object. Includes related lecturer and coordinator data.
 		[HttpGet]
 		public IActionResult GetAllVerifiedClaims()
 		{
-			// Retrieve all verified claims along with associated lecturer and coordinator information
 			var claimVerifications = _context.ClaimVerifications
 				.Include(c => c.Claim)
-					.ThenInclude(cl => cl.Lecturer) // Include Lecturer information
-						.ThenInclude(l => l.User) // Include User information related to the Lecturer
-				.Include(c => c.Coordinator) // Include Coordinator details
-					.ThenInclude(co => co.User) // Include User information related to the Coordinator
-				.Where(c => c.VerificationStatus == "Verified") // Changed to Verified
+					.ThenInclude(cl => cl.Lecturer)
+						.ThenInclude(l => l.User)
+				.Include(c => c.Coordinator)
+					.ThenInclude(co => co.User)
+				.Where(c => c.VerificationStatus == "Verified")
 				.Select(c => new
 				{
-					verificationId = c.VerificationID, // Use correct casing for frontend
+					verificationId = c.VerificationID,
 					ClaimId = c.Claim.ClaimId,
 					FullName = $"{c.Claim.Lecturer.User.FirstName} {c.Claim.Lecturer.User.LastName}",
 					VerificationDate = c.VerificationDate,
@@ -40,23 +40,24 @@ namespace ST10257863_PROG6212_POE.Controllers
 				})
 				.ToList();
 
-			return Json(claimVerifications); // Return the verified claims as JSON
+			return Json(claimVerifications);
 		}
 
+		//Retrieves specific claim details using the verification ID, including lecturer and coordinator information, and returns them as JSON.
 		[HttpGet("Approval/GetVerifiedClaimDetails/{verificationId}")]
 		public IActionResult GetVerifiedClaimDetails(int verificationId)
 		{
 			var claimVerification = _context.ClaimVerifications
 				.Include(cv => cv.Claim)
 				.ThenInclude(c => c.Lecturer)
-				.ThenInclude(l => l.User) // Include User information related to the Lecturer
+				.ThenInclude(l => l.User)
 				.Include(cv => cv.Coordinator)
-				.ThenInclude(co => co.User) // Include User information related to the Coordinator
-				.FirstOrDefault(cv => cv.VerificationID == verificationId); // Find claim by VerificationID
+				.ThenInclude(co => co.User)
+				.FirstOrDefault(cv => cv.VerificationID == verificationId);
 
 			if (claimVerification == null)
 			{
-				return NotFound(); // Return 404 if the claim does not exist
+				return RedirectToAction("Approval");
 			}
 
 			var claimDetails = new
@@ -81,98 +82,89 @@ namespace ST10257863_PROG6212_POE.Controllers
 				VerificationID = verificationId
 			};
 
-			return Json(claimDetails); // Return the claim details as JSON
+			return Json(claimDetails);
 
 		}
 
+		//Approves a verified claim, updates the claim status, and creates an entry in the ClaimApproval table
 		[HttpPost("Approval/ApproveClaim/{verificationId}")]
 		public IActionResult ApproveClaim(int verificationId)
 		{
-			// Retrieve the verified claim using the verificationId
 			var claimVerification = _context.ClaimVerifications
-				.Include(cv => cv.Claim) // Include the Claim to get necessary details
-				.FirstOrDefault(cv => cv.VerificationID == verificationId); // Find claim verification by VerificationID
+				.Include(cv => cv.Claim)
+				.FirstOrDefault(cv => cv.VerificationID == verificationId);
 
 			if (claimVerification == null)
 			{
-				return NotFound(); // Return 404 if the claim verification does not exist
+				return RedirectToAction("Approval");
 			}
 
 			var academicManagerID = HttpContext.Session.GetInt32("AcademicManagerID");
 			if (academicManagerID == null)
 			{
-				return NotFound(); // Return 404 if the coordinator ID is not found in the session
+				return RedirectToAction("Approval");
 			}
 
-			// Create a new ClaimApproval entry
 			var claimApproval = new ClaimApproval
 			{
-				ClaimID = claimVerification.Claim.ClaimId, // Use the ClaimID from the verified claim
-				ManagerID = (int)academicManagerID, // Assuming the coordinator is also the manager for this claim
-				ApprovalDate = DateTime.UtcNow, // Set the current date and time
-				IsApproved = true, // Indicate that the claim is approved
-				ApprovalStatus = "Approved", // Set the approval status
-				ApprovalComments = "Claim approved successfully." // Optional comments about the approval
+				ClaimID = claimVerification.Claim.ClaimId,
+				ManagerID = (int)academicManagerID,
+				ApprovalDate = DateTime.UtcNow,
+				IsApproved = true,
+				ApprovalStatus = "Approved",
+				ApprovalComments = "Claim approved successfully."
 			};
 
-			// Add the new approval entry to the context
 			_context.ClaimApprovals.Add(claimApproval);
 
-			// Update the original claim status to accepted
-			claimVerification.VerificationStatus = "Approved"; // Get the original claim from the verified claim
+			claimVerification.VerificationStatus = "Approved";
 
-			var claim = claimVerification.Claim; // Get the original claim from the verified claim
-			claim.Status = "Approved"; // Update status for rejected claims
+			var claim = claimVerification.Claim;
+			claim.Status = "Approved";
 
-			// Save changes to the database
 			_context.SaveChanges();
-			return RedirectToAction("Approval"); // Redirect to the Verification page
+			return RedirectToAction("Approval");
 		}
 
-
+		//Rejects a verified claim, updates the claim status, and creates an entry in the ClaimApproval table for the rejection.
 		[HttpPost("Approval/RejectVerifiedClaim/{verificationId}")]
 		public IActionResult RejectVerifiedClaim(int verificationId)
 		{
-			// Retrieve the verified claim using the verificationId
 			var claimVerification = _context.ClaimVerifications
-				.Include(cv => cv.Claim) // Include the Claim to get necessary details
-				.FirstOrDefault(cv => cv.VerificationID == verificationId); // Find claim verification by VerificationID
+				.Include(cv => cv.Claim)
+				.FirstOrDefault(cv => cv.VerificationID == verificationId);
 
 			if (claimVerification == null)
 			{
-				return NotFound(); // Return 404 if the claim verification does not exist
+				return RedirectToAction("Approval");
 			}
 
 			var academicManagerID = HttpContext.Session.GetInt32("AcademicManagerID");
 			if (academicManagerID == null)
 			{
-				return NotFound(); // Return 404 if the academic manager ID is not found in the session
+				return RedirectToAction("Approval");
 			}
 
 			claimVerification.VerificationStatus = "Approved";
 
-			// Update the original claim status to rejected
-			var claim = claimVerification.Claim; // Get the original claim from the verified claim
-			claim.Status = "Rejected"; // Update status for rejected claims
+			var claim = claimVerification.Claim;
+			claim.Status = "Rejected";
 
-			// Create a new ClaimApproval entry for the rejection
 			var claimApproval = new ClaimApproval
 			{
-				ClaimID = claim.ClaimId, // Use the ClaimID from the verified claim
-				ManagerID = (int)academicManagerID, // Use the academic manager ID from the session
-				ApprovalDate = DateTime.UtcNow, // Set the current date and time
-				IsApproved = false, // Indicate that the claim is rejected
-				ApprovalStatus = "Rejected", // Set the approval status
-				ApprovalComments = "Claim rejected due to [reason]." // Optional comments about the rejection
+				ClaimID = claim.ClaimId,
+				ManagerID = (int)academicManagerID,
+				ApprovalDate = DateTime.UtcNow,
+				IsApproved = false,
+				ApprovalStatus = "Rejected",
+				ApprovalComments = "Claim rejected due to [reason]."
 			};
 
-			// Add the new approval entry to the context
 			_context.ClaimApprovals.Add(claimApproval);
 
-			// Save changes to the database
-			_context.SaveChanges(); // Ensure changes are saved
+			_context.SaveChanges();
 
-			return RedirectToAction("Approval"); // Redirect to the Approval page
+			return RedirectToAction("Approval");
 		}
 	}
 }
