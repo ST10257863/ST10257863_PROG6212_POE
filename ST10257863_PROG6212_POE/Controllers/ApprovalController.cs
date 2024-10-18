@@ -72,8 +72,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 				TotalHours = claimVerification.Claim.HoursWorked + claimVerification.Claim.OvertimeHoursWorked,
 				RegularPay = claimVerification.Claim.HoursWorked * claimVerification.Claim.Lecturer.HourlyRate,
 				OvertimePay = claimVerification.Claim.OvertimeHoursWorked * (claimVerification.Claim.Lecturer.HourlyRate * 1.5M),
-				TotalPay = (claimVerification.Claim.HoursWorked * claimVerification.Claim.Lecturer.HourlyRate) +
-						   (claimVerification.Claim.OvertimeHoursWorked * claimVerification.Claim.Lecturer.HourlyRate * 1.5M),
+				TotalPay = (claimVerification.Claim.HoursWorked * claimVerification.Claim.Lecturer.HourlyRate) + (claimVerification.Claim.OvertimeHoursWorked * claimVerification.Claim.Lecturer.HourlyRate * 1.5M),
 				CoordinatorId = claimVerification.Coordinator.CoordinatorID,
 				CoordinatorUserName = claimVerification.Coordinator.User.UserName,
 				CoordinatorFullName = $"{claimVerification.Coordinator.User.FirstName} {claimVerification.Coordinator.User.LastName}",
@@ -150,7 +149,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 				return NotFound(); // Return 404 if the academic manager ID is not found in the session
 			}
 
-			claimVerification.VerificationStatus = "Approved"; 
+			claimVerification.VerificationStatus = "Approved";
 
 			// Update the original claim status to rejected
 			var claim = claimVerification.Claim; // Get the original claim from the verified claim

@@ -56,35 +56,22 @@ namespace ST10257863_PROG6212_POE.Controllers
 			if (lecturer != null)
 			{
 				HttpContext.Session.SetInt32("LecturerID", lecturer.LecturerID);
-				Console.WriteLine($"Lecturer ID assigned: {lecturer.LecturerID}"); // Debugging statement
 			}
-			else
-			{
-				Console.WriteLine("No Lecturer found for the given UserID."); // Debugging statement
-			}
+
 
 			// Check if the user is an Academic Manager
 			var academicManager = await _context.AcademicManagers.FirstOrDefaultAsync(am => am.UserID == userId);
 			if (academicManager != null)
 			{
 				HttpContext.Session.SetInt32("AcademicManagerID", academicManager.ManagerID);
-				Console.WriteLine($"Academic Manager ID assigned: {academicManager.ManagerID}"); // Debugging statement
 			}
-			else
-			{
-				Console.WriteLine("No Academic Manager found for the given UserID."); // Debugging statement
-			}
+
 
 			// Check if the user is a Coordinator
 			var coordinator = await _context.Coordinators.FirstOrDefaultAsync(c => c.UserID == userId);
 			if (coordinator != null)
 			{
 				HttpContext.Session.SetInt32("CoordinatorID", coordinator.CoordinatorID);
-				Console.WriteLine($"Coordinator ID assigned: {coordinator.CoordinatorID}"); // Debugging statement
-			}
-			else
-			{
-				Console.WriteLine("No Coordinator found for the given UserID."); // Debugging statement
 			}
 		}
 

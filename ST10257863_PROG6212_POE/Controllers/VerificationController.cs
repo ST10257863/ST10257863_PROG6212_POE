@@ -94,7 +94,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 				return NotFound();
 			}
 
-			claim.Status = "Accepted";
+			claim.Status = "Verified";
 
 			// Create a new ClaimVerification entry
 			var claimVerification = new ClaimVerification

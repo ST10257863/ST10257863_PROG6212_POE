@@ -106,5 +106,57 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 			return Json(lecturerDetails); // Return the lecturer details as JSON
 		}
+
+		[HttpGet]
+		public IActionResult LoadLecturerClaims()
+		{
+			var lecturerID = HttpContext.Session.GetInt32("LecturerID");
+
+			var lecturerClaims = _context.Claims
+				.Where(c => c.LecturerId == lecturerID) // Move the Where clause before Select
+				.Select(c => new
+				{
+					c.ClaimId,
+					c.SubmissionDate,
+					c.Status
+				})
+				.ToList(); // Ensure ToList() is after Select
+
+			return Json(lecturerClaims);
+		}
+
+		[HttpPost]
+		[Route("Claims/CalculatePay/{hoursWorked}/{overtimeWorked}")]
+		public JsonResult CalculatePay(double hoursWorked, double overtimeWorked)
+		{
+			var lecturerID = HttpContext.Session.GetInt32("LecturerID");
+
+			// Validate input
+			if (hoursWorked < 0 || overtimeWorked < 0)
+			{
+				return Json(new
+				{
+					error = "Invalid input values. Please enter valid hours."
+				});
+			}
+
+			// Assuming you get hourlyRate from the database or session
+			var hourlyRate = _context.Lecturers
+				.Where(l => l.LecturerID == lecturerID) // filter by LecturerID
+				.Select(l => l.HourlyRate) // select the hourly rate
+				.FirstOrDefault(); // get the first or default value
+								   // Calculate pay
+			var regularPay = hoursWorked * (int)hourlyRate;
+			var overtimePay = overtimeWorked * (int)hourlyRate * 1.5;
+			var totalPay = regularPay + overtimePay;
+
+			// Return the calculated values as JSON
+			return Json(new
+			{
+				regularPay = regularPay,
+				overtimePay = overtimePay,
+				totalPay = totalPay
+			});
+		}
 	}
 }

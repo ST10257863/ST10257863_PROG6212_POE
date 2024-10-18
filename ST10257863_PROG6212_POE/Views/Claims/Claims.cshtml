@@ -86,19 +86,40 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Claim History -->
+		<div class="content-container center-content-start gap-16">
+			<p class="text-bold">Previous Claims</p>
+			<div class="table-container">
+				<table class="table table-bordered table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th>ID</th>
+							<th>Date & Time</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody id="table-body">
+						<!-- Rows will be inserted here by JavaScript -->
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function () {
 		// Fetch User ID from session and load lecturer details
 		$.ajax({
-			url: '/Claims/GetLecturerDetails',  // Ensure this URL is correct
+			url: '/Claims/GetLecturerDetails',
 			method: 'GET',
+			cache: false, // Prevent caching
 			success: function (data) {
-				console.log('User ID data:', data); // Log data for debugging
-				if (data) {  // Check if data was received
+				if (data) {
 					loadLecturerDetails(data);
 				} else {
 					console.error('User ID not found in session');
@@ -110,17 +131,14 @@
 		});
 
 		function loadLecturerDetails(data) {
-			// Use the data received from the first AJAX call
-			console.log('Lecturer Details:', data); // Debugging to see the data structure
 			if (data) {
 				$('#lectureId').text(data.lecturerId || 'N/A');
 				$('#userName').text(data.userName || 'N/A');
 				$('#fullName').text((data.firstName || 'N/A') + ' ' + (data.lastName || 'N/A'));
-				$('#hourlyRate').text('R' + (data.hourlyRate || 0) + '/hr'); // Make sure the currency symbol is consistent
+				$('#hourlyRate').text('R' + (data.hourlyRate || 0) + '/hr');
 				$('#department').text(data.department || 'N/A');
 				$('#campus').text(data.campus || 'N/A');
 			} else {
-				// Handle case when no data is returned
 				$('#lectureId').text('N/A');
 				$('#userName').text('N/A');
 				$('#fullName').text('N/A');
@@ -128,37 +146,75 @@
 				$('#department').text('N/A');
 				$('#campus').text('N/A');
 			}
-
-			// Calculate Pay button click handler should be outside of this function
-			handleCalculatePay();
 		}
 
-		function handleCalculatePay() {
-			// Handle Calculate Pay button click
-			$('#calculate-btn').on('click', function () {
-				// Get input values
-				var hoursWorked = parseFloat($('#hoursWorked').val()) || 0; // Default to 0 if NaN or empty
-				var overtimeWorked = parseFloat($('#overtimeWorked').val()) || 0; // Default to 0 if NaN or empty
+		populateTable();
 
-				// Parse hourlyRate and handle empty or invalid cases
-				var hourlyRateText = $('#hourlyRate').text().replace('R', '').replace('/hr', '').trim();
-				var hourlyRate = parseFloat(hourlyRateText) || 0; // Default to 0 if NaN or empty
+		function populateTable() {
+			$.ajax({
+				url: '/Claims/LoadLecturerClaims',
+				method: 'GET',
+				cache: false, // Prevent caching
+				success: function (data) {
+					if (data && Array.isArray(data) && data.length > 0) {
+						data.sort((a, b) => a.claimId - b.claimId);
 
-				console.log('Hours Worked:', hoursWorked); // Debugging output
-				console.log('Overtime Worked:', overtimeWorked); // Debugging output
-				console.log('Hourly Rate:', hourlyRate); // Debugging output
+						const tableBody = $('#table-body');
+						tableBody.empty();
 
-				// Calculate pay based on the values
-				var regularPay = hoursWorked * hourlyRate;
-				var overtimePay = overtimeWorked * (hourlyRate * 1.5); // Assuming 1.5x for overtime
-				var totalPay = regularPay + overtimePay;
+						data.forEach(claim => {
+							const row = document.createElement('tr');
+							row.setAttribute('data-id', claim.claimId);
 
-				// Update the results in the respective divs
-				$('#regularPay').text('R' + regularPay.toFixed(2));
-				$('#overtimePay').text('R' + overtimePay.toFixed(2));
-				$('#totalPay').text('R' + totalPay.toFixed(2));
+							row.innerHTML = `<td>${claim.claimId}</td><td>${new Date(claim.submissionDate).toLocaleString()}</td><td>${claim.status}</td>`;
+							tableBody.append(row);
+						});
+					} else {
+						console.error('No claims data found');
+					}
+				},
+				error: function (err) {
+					console.error('Error fetching claims:', err);
+				}
 			});
 		}
+
+		// Trigger AJAX call to calculate pay
+		function calculatePay() {
+			var hoursWorked = parseFloat($('#hoursWorked').val());
+			var overtimeWorked = parseFloat($('#overtimeWorked').val());
+
+			// Check if the inputs are valid before sending
+			if (isNaN(hoursWorked) || isNaN(overtimeWorked)) {
+				console.error('Invalid input values');
+				return;
+			}
+
+			$.ajax({
+				url: `/Claims/CalculatePay/${hoursWorked}/${overtimeWorked}`, // Pass data via URL
+				method: 'POST', // or 'GET' depending on what you're using
+				success: function (data) {
+					if (data.error) {
+						console.error('Error calculating pay:', data.error);
+						return;
+					}
+
+					// Display the calculated pay
+					$('#regularPay').text('R' + data.regularPay.toFixed(2));
+					$('#overtimePay').text('R' + data.overtimePay.toFixed(2));
+					$('#totalPay').text('R' + data.totalPay.toFixed(2));
+				},
+				error: function (err) {
+					console.error('Error calculating pay:', err);
+				}
+			});
+		}
+
+		// Bind the calculate button to the function
+		$('#calculate-btn').on('click', function () {
+			calculatePay();
+		});
+
 	});
 </script>
 

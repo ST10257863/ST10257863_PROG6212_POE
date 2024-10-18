@@ -3,23 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\controllers\\approvalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:controllers\\approvalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\controllers\\verificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:controllers\\verificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\views\\approval\\approval.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:views\\approval\\approval.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\controllers\\claimscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:controllers\\claimscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\models\\tables\\claimapproval.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:models\\tables\\claimapproval.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/EmployeeDB/True/SqlTable/dbo.ClaimVerifications.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|c:\\users\\jamie\\documents\\github\\st10257863_prog6212_poe\\st10257863_prog6212_poe\\views\\claims\\claims.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BA5E4DA6-D8A6-4889-84A7-5C47BD052BC9}|ST10257863_PROG6212_POE.csproj|solutionrelative:views\\claims\\claims.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -29,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -49,64 +42,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "dbo.ClaimVerifications [Data]",
-              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/EmployeeDB/True/SqlTable/dbo.ClaimVerifications.sql",
-              "ToolTip": "dbo.ClaimVerifications [Data]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2024-10-17T14:29:35.858Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "LoginController.cs",
-              "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Controllers\\LoginController.cs",
-              "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
-              "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Controllers\\LoginController.cs",
-              "RelativeToolTip": "Controllers\\LoginController.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAgwC4AAAAwAAAA",
+              "DocumentIndex": 0,
+              "Title": "VerificationController.cs",
+              "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Controllers\\VerificationController.cs",
+              "RelativeDocumentMoniker": "Controllers\\VerificationController.cs",
+              "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Controllers\\VerificationController.cs",
+              "RelativeToolTip": "Controllers\\VerificationController.cs",
+              "ViewState": "AQIAAEcAAAAAAAAAAAAIwB8AAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T14:18:04.636Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ClaimApproval.cs",
-              "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\ClaimApproval.cs",
-              "RelativeDocumentMoniker": "Models\\Tables\\ClaimApproval.cs",
-              "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Models\\Tables\\ClaimApproval.cs",
-              "RelativeToolTip": "Models\\Tables\\ClaimApproval.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAADwvxQAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T14:13:14.02Z",
+              "WhenOpened": "2024-10-18T09:16:35.218Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Approval.cshtml",
-              "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Views\\Approval\\Approval.cshtml",
-              "RelativeDocumentMoniker": "Views\\Approval\\Approval.cshtml",
-              "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Views\\Approval\\Approval.cshtml",
-              "RelativeToolTip": "Views\\Approval\\Approval.cshtml",
-              "ViewState": "AQIAAHwAAAAAAAAAAAAkwJAAAAAsAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-17T11:06:28.832Z",
+              "Title": "ClaimsController.cs",
+              "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Controllers\\ClaimsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ClaimsController.cs",
+              "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Controllers\\ClaimsController.cs",
+              "RelativeToolTip": "Controllers\\ClaimsController.cs",
+              "ViewState": "AQIAAHAAAAAAAAAAAAAawJQAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-18T09:11:59.406Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ApprovalController.cs",
-              "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Controllers\\ApprovalController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ApprovalController.cs",
-              "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Controllers\\ApprovalController.cs",
-              "RelativeToolTip": "Controllers\\ApprovalController.cs",
-              "ViewState": "AQIAAFkAAAAAAAAAAAAQwHsAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T13:48:17.229Z",
+              "DocumentIndex": 2,
+              "Title": "Claims.cshtml",
+              "DocumentMoniker": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Views\\Claims\\Claims.cshtml",
+              "RelativeDocumentMoniker": "Views\\Claims\\Claims.cshtml",
+              "ToolTip": "C:\\Users\\jamie\\Documents\\GitHub\\ST10257863_PROG6212_POE\\ST10257863_PROG6212_POE\\Views\\Claims\\Claims.cshtml",
+              "RelativeToolTip": "Views\\Claims\\Claims.cshtml",
+              "ViewState": "AQIAALIAAAAAAAAAAAAAwNgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-18T08:11:39.877Z",
               "EditorCaption": ""
             }
           ]
