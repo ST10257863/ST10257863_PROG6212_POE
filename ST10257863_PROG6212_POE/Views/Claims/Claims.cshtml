@@ -95,11 +95,14 @@
 					</div>
 				</div>
 				<!--Bottom Row-->
-				<div class="flex-row center-content-start">
-					<div class="input-box-textarea">
-						<textarea id="userNotes" name="userNotes" class="input-box" placeholder="Enter any additional notes." aria-label="Additional Notes" /></textarea>
+				<form id="claims-form" method="post" action="/Claims/SubmitClaim" enctype="multipart/form-data" class="flex-column center-content gap-32">
+					<div class="flex-column center-content-start gap-16">
+						<label for="additionalNotes" class="text-bold">Additional Notes</label>
+						<div class="input-box-textarea">
+							<textarea id="additionalNotes" name="additionalNotes" class="input-box" placeholder="Enter any additional notes." aria-label="Additional Notes" /></textarea>
+						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 
