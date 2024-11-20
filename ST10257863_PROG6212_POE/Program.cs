@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using ST10257863_PROG6212_POE.Data;
-using ST10257863_PROG6212_POE.Models.Tables;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,36 +56,3 @@ app.MapControllerRoute(
 	pattern: "{controller=Login}/{action=Login}/{id?}");
 
 app.Run();
-
-//// Method to seed the database with a default user
-//async Task SeedDatabase(IServiceProvider services)
-//{
-//	using (var scope = services.CreateScope())
-//	{
-//		var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-//		// Check if the user exists
-//		var userExists = await context.Users.AnyAsync(u => u.UserName == "ADMIN");
-
-//		if (!userExists)
-//		{
-//			// Create a new user with plain text password
-//			var adminUser = new User
-//			{
-//				UserName = "ADMIN",
-//				Password = "password123", // Use plain text for demonstration
-//				FirstName = "Admin",
-//				LastName = "User",
-//				ContactInfo = "admin@example.com"
-//			};
-
-//			context.Users.Add(adminUser);
-//			await context.SaveChangesAsync();
-//			Console.WriteLine("Default user 'ADMIN' created successfully.");
-//		}
-//		else
-//		{
-//			Console.WriteLine("Default user 'ADMIN' already exists.");
-//		}
-//	}
-//}
