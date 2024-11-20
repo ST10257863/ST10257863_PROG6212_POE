@@ -16,14 +16,13 @@
 <div class="container">
 	<div class="background center-content gap-32">
 		<!-- Pending Section -->
-		<div class="flex-column center-content-start width-80">
+		<div class="content-container center-content-start">
 			<p class="text-bold">Verified</p>
 			<div class="table-container">
 				<table class="table table-bordered table-hover">
 					<thead class="thead-light">
 						<tr>
 							<th>ID</th>
-							<th>Full Name</th>
 							<th>Date & Time</th>
 							<th>Status</th>
 						</tr>
@@ -42,7 +41,6 @@
 					<!-- Labels -->
 					<div class="flex-column gap-16">
 						<label for="lectureId" class="text-bold">Lecture ID:</label>
-						<label for="userName" class="text-bold">User Name:</label>
 						<label for="fullName" class="text-bold">Full Name:</label>
 						<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
 						<label for="department" class="text-bold">Department:</label>
@@ -52,19 +50,18 @@
 					<!-- Content -->
 					<div class="flex-column gap-16">
 						<div id="lectureId" class="text-regular">TEXT</div>
-						<div id="userName" class="text-regular">TEXT</div>
 						<div id="fullName" class="text-regular">TEXT</div>
 						<div id="hourlyRate" class="text-regular">TEXT</div>
 						<div id="department" class="text-regular">TEXT</div>
 						<div id="campus" class="text-regular">TEXT</div>
 					</div>
 				</div>
+
 				<!-- Manager details section (changed to Coordinator) -->
 				<div class="flex-row center-content-start gap-32">
 					<!-- Labels -->
 					<div class="flex-column gap-16">
 						<label for="coordinatorId" class="text-bold">Coordinator ID:</label>
-						<label for="coordinatorUserName" class="text-bold">User Name:</label>
 						<label for="coordinatorFullName" class="text-bold">Full Name:</label>
 						<label for="coordinatorDepartment" class="text-bold">Department:</label>
 						<label for="coordinatorCampus" class="text-bold">Campus:</label>
@@ -73,7 +70,6 @@
 					<!-- Content -->
 					<div class="flex-column gap-16">
 						<div id="coordinatorId" class="text-regular">TEXT</div>
-						<div id="coordinatorUserName" class="text-regular">TEXT</div>
 						<div id="coordinatorFullName" class="text-regular">TEXT</div>
 						<div id="coordinatorDepartment" class="text-regular">TEXT</div>
 						<div id="coordinatorCampus" class="text-regular">TEXT</div>
@@ -118,11 +114,11 @@
 
 			<!-- Action Buttons -->
 			<div class="flex-row gap-32 center-content">
-				<button type="button" class="submit-button accept-button" id="acceptButton">ACCEPT</button>
-				<button type="button" class="submit-button reject-button" id="rejectButton">REJECT</button>
+				<button onclick="approveClaim()" class="submit-button accept-button">APPROVE</button>
+				<button onclick="rejectClaim()" class="submit-button reject-button">REJECT</button>
 			</div>
 
-			<input type="hidden" id="hiddenVerificationId" value="" />
+			<input type="hidden" id="hiddenClaimId" value="" />
 
 		</div>
 	</div>
@@ -130,24 +126,23 @@
 
 <script>
 	function populateTable() {
-		fetch('/Approval/GetAllVerifiedClaims')
+		fetch('/Claims/GetAllVerifiedClaims')
 			.then(response => response.json())
 			.then(data => {
+				// Sort the claims by claimId in ascending order
+				data.sort((a, b) => a.claimId - b.claimId);
+
 				const tableBody = document.getElementById('table-body');
 				tableBody.innerHTML = ''; // Clear existing rows
 
 				data.forEach(claim => {
 					const row = document.createElement('tr');
-					// Set the correct attribute for 'verificationId'
-					row.setAttribute('data-id', claim.verificationId); // Ensure matching ID
+					// Set the correct attribute for 'claimId'
+					row.setAttribute('data-id', claim.claimId);  // Update to use 'claimId' in camelCase
 					row.setAttribute('onclick', 'updateDetails(this)');
 
-					// Correctly format the verification date
-					const verificationDate = new Date(claim.verificationDate);
-					const formattedDate = !isNaN(verificationDate) ? verificationDate.toLocaleString() : "Invalid Date";
-
-					// Set the row's inner HTML with the correct fields
-					row.innerHTML = `<td>${claim.verificationId}</td><td>${claim.fullName}</td><td>${formattedDate}</td><td>${claim.claimStatus}</td>`;
+					// Use 'claimId', 'submissionDate', and format the date as required
+					row.innerHTML = `<td>${claim.claimId}</td><td>${new Date(claim.submissionDate).toLocaleString()}</td><td>${claim.status}</td>`;
 
 					tableBody.appendChild(row);
 				});
@@ -156,18 +151,8 @@
 	}
 
 	function updateDetails(row) {
-		const verificationId = row.getAttribute('data-id');
-
-		// Debugging - log the verificationId before fetching details
-		console.log('Selected verificationId:', verificationId);
-
-		if (!verificationId) {
-			console.error('Verification ID is undefined!');
-			return;
-		}
-
-		// Fetch claim details using the verificationId
-		fetch(`/Approval/GetVerifiedClaimDetails/${verificationId}`)
+		const claimId = row.getAttribute('data-id');
+		fetch(`/Claims/GetClaimDetails/${claimId}`)
 			.then(response => {
 				if (!response.ok) {
 					throw new Error(`Error fetching claim details: ${response.statusText}`);
@@ -177,9 +162,8 @@
 			.then(data => {
 				// Populate lecturer details
 				document.getElementById('lectureId').innerText = data.lecturerId;
-				document.getElementById('userName').innerText = data.userName;
 				document.getElementById('fullName').innerText = data.fullName;
-				document.getElementById('hourlyRate').innerText = data.hourlyRate;
+				document.getElementById('hourlyRate').innerText = "R" + data.hourlyRate;
 				document.getElementById('department').innerText = data.department;
 				document.getElementById('campus').innerText = data.campus;
 				document.getElementById('regularHours').innerText = data.regularHours;
@@ -191,56 +175,66 @@
 
 				// Populate coordinator details
 				document.getElementById('coordinatorId').innerText = data.coordinatorId;
-				document.getElementById('coordinatorUserName').innerText = data.coordinatorUserName;
 				document.getElementById('coordinatorFullName').innerText = data.coordinatorFullName;
 				document.getElementById('coordinatorDepartment').innerText = data.coordinatorDepartment;
 				document.getElementById('coordinatorCampus').innerText = data.coordinatorCampus;
 
 				// Store verificationId in hidden input field
-				document.getElementById('hiddenVerificationId').value = verificationId;
+				document.getElementById('hiddenClaimId').value = claimId;
 			})
 			.catch(error => {
 				console.error('Error fetching verified claim details:', error);
 			});
 	}
 
-	document.getElementById('acceptButton').addEventListener('click', function () {
-		const verificationId = document.getElementById('hiddenVerificationId').value;
+	function approveClaim() {
+		const claimId = document.getElementById('hiddenClaimId').value;
 
-		if (!verificationId) {
-			console.error('No verification ID found.');
+		if (!claimId) {
+			alert('Please select a claim first.');
+			return;
+		}
+		// Make the AJAX POST request to accept the claim
+		$.ajax({
+			url: '/Approval/ApproveClaim',
+			type: 'POST',
+			data: { claimId: claimId },  // Send the claimId in the request body
+			success: function (response) {
+				// Handle success (e.g., refresh the table or show a message)
+				alert('Claim Approved successfully!');
+				populateTable();  // Refresh the table
+			},
+			error: function (xhr, status, error) {
+				// Handle error response
+				alert(`Error rejecting claim: ${xhr.responseText}`);
+			}
+		});
+	}
+
+	function rejectClaim() {
+		const claimId = document.getElementById('hiddenClaimId').value;
+
+		if (!claimId) {
+			alert('Please select a claim first.');
 			return;
 		}
 
-		fetch(`/Approval/ApproveClaim/${verificationId}`, { method: 'POST' })
-			.then(response => {
-				if (!response.ok) {
-					throw new Error(`Error accepting claim: ${response.statusText}`);
-				}
-				alert('Claim accepted successfully.');
-				populateTable(); // Refresh the table
-			})
-			.catch(error => console.error('Error accepting claim:', error));
-	});
-
-	document.getElementById('rejectButton').addEventListener('click', function () {
-		const verificationId = document.getElementById('hiddenVerificationId').value;
-
-		if (!verificationId) {
-			console.error('No verification ID found.');
-			return;
-		}
-
-		fetch(`/Approval/RejectVerifiedClaim/${verificationId}`, { method: 'POST' })
-			.then(response => {
-				if (!response.ok) {
-					throw new Error(`Error rejecting claim: ${response.statusText}`);
-				}
-				alert('Claim rejected successfully.');
-				populateTable(); // Refresh the table
-			})
-			.catch(error => console.error('Error rejecting claim:', error));
-	});
+		// Make the AJAX POST request to reject the claim
+		$.ajax({
+			url: '/Approval/RejectClaim',
+			type: 'POST',
+			data: { claimId: claimId },  // Send the claimId in the request body
+			success: function (response) {
+				// Handle success (e.g., refresh the table or show a message)
+				alert('Claim rejected successfully!');
+				populateTable();  // Refresh the table
+			},
+			error: function (xhr, status, error) {
+				// Handle error response
+				alert(`Error rejecting claim: ${xhr.responseText}`);
+			}
+		});
+	}
 
 	// Populate the table on page load
 	document.addEventListener('DOMContentLoaded', populateTable);

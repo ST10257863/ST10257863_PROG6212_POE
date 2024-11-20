@@ -212,7 +212,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 			return Json(claims);
 		}
 
-		// Fetches and returns all verified claims as a JSON object. Includes related lecturer and coordinator data.
+		// Retrieves all claims with a "Verified" status and associated lecturer information.
 		[HttpGet]
 		public IActionResult GetAllVerifiedClaims()
 		{
@@ -231,6 +231,25 @@ namespace ST10257863_PROG6212_POE.Controllers
 			return Json(claims);
 		}
 
+		// Retrieves all claims with a "Approved" status and associated lecturer information.
+		[HttpGet]
+		public IActionResult GetAllApprovedClaims()
+		{
+			var claims = _context.Claims
+				.Include(c => c.Lecturer)
+				.ThenInclude(l => l.User)
+				.Where(c => c.Status == "Approved")
+				.Select(c => new
+				{
+					c.ClaimId,
+					c.SubmissionDate,
+					c.Status
+				})
+				.ToList();
+
+			return Json(claims);
+		}
+
 		// Retrieves detailed information about a specific claim, including lecturer and user data.
 		[HttpGet]
 		[Route("Claims/GetClaimDetails/{claimId}")]
@@ -238,7 +257,9 @@ namespace ST10257863_PROG6212_POE.Controllers
 		{
 			var claim = _context.Claims
 				.Include(c => c.Lecturer)
-				.ThenInclude(l => l.User)
+					.ThenInclude(l => l.User)  // Include associated User for the Lecturer
+				.Include(c => c.Manager)  // Include AcademicManager for approval
+				.Include(c => c.Coordinator)  // Include Coordinator for verification
 				.FirstOrDefault(c => c.ClaimId == claimId);
 
 			if (claim == null)
@@ -248,18 +269,43 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 			var claimDetails = new
 			{
+				// Lecturer and User details
 				LecturerId = claim.Lecturer.LecturerID,
-				UserName = claim.Lecturer.User.UserName,
 				FullName = $"{claim.Lecturer.User.FirstName} {claim.Lecturer.User.LastName}",
 				HourlyRate = claim.Lecturer.HourlyRate,
 				Department = claim.Lecturer.Department,
 				Campus = claim.Lecturer.Campus,
+
+				// Claim details
 				RegularHours = claim.HoursWorked,
 				OvertimeHours = claim.OvertimeHoursWorked,
 				TotalHours = claim.HoursWorked + claim.OvertimeHoursWorked,
 				RegularPay = claim.HoursWorked * claim.Lecturer.HourlyRate,
 				OvertimePay = claim.OvertimeHoursWorked * (claim.Lecturer.HourlyRate * 1.5M),
-				TotalPay = (claim.HoursWorked + claim.OvertimeHoursWorked) * claim.Lecturer.HourlyRate
+				TotalPay = (claim.HoursWorked + claim.OvertimeHoursWorked) * claim.Lecturer.HourlyRate,
+
+				// Approval details
+				ManagerId = claim.Manager?.ManagerID,
+				ManagerFullName = $"{claim.Manager?.User.FirstName} {claim.Manager?.User.LastName}",
+				ManagerDepartment = claim.Manager?.Department,
+				ManagerCampus = claim.Manager?.Campus,
+				ApprovalDate = claim.ApprovalDate,
+				IsApproved = claim.IsApproved,
+				ApprovalComments = claim.ApprovalComments,
+
+
+				// Verification details
+				CoordinatorId = claim.Coordinator?.CoordinatorID,
+				CoordinatorFullName = $"{claim.Coordinator?.User.FirstName} {claim.Coordinator?.User.LastName}",
+				CoordinatorDepartment = claim.Coordinator?.Department,
+				CoordinatorCampus = claim.Coordinator?.Campus,
+				VerificationDate = claim.VerificationDate,
+				IsVerified = claim.IsVerified,
+				VerificationComments = claim.VerificationComments,
+
+
+				// Claim supporting documents
+				SupportingDocuments = claim.SupportingDocuments
 			};
 
 			return Json(claimDetails);

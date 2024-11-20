@@ -21,7 +21,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 		}
 
 		//Approves a verified claim, updates the claim status, and creates an entry in the ClaimApproval table
-		[HttpPost("Approval/ApproveClaim/{verificationId}")]
+		[HttpPost]
 		public IActionResult ApproveClaim(int claimId)
 		{
 			var claim = _context.Claims
@@ -33,12 +33,13 @@ namespace ST10257863_PROG6212_POE.Controllers
 			}
 
 			var academicManagerID = HttpContext.Session.GetInt32("AcademicManagerID");
+
 			if (academicManagerID == null)
 			{
 				return RedirectToAction("Approval");
 			}
 
-			claim.ManagerId = (int)academicManagerID;
+			claim.ManagerId = academicManagerID;
 			claim.ApprovalDate = DateTime.UtcNow;
 			claim.IsApproved = true;
 			claim.ApprovalComments = "";
@@ -49,7 +50,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 		}
 
 		//Rejects a verified claim, updates the claim status, and creates an entry in the ClaimApproval table for the rejection.
-		[HttpPost("Approval/RejectVerifiedClaim/{verificationId}")]
+		[HttpPost]
 		public IActionResult RejectClaim(int claimId)
 		{
 

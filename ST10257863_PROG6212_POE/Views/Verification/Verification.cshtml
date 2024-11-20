@@ -40,7 +40,6 @@
 				<!-- Labels -->
 				<div class="flex-column gap-16">
 					<label for="lectureId" class="text-bold">Lecture ID:</label>
-					<label for="userName" class="text-bold">User Name:</label>
 					<label for="fullName" class="text-bold">Full Name:</label>
 					<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
 					<label for="department" class="text-bold">Department:</label>
@@ -50,7 +49,6 @@
 				<!-- Content -->
 				<div class="flex-column gap-16">
 					<div id="lectureId" class="text-regular">TEXT</div>
-					<div id="userName" class="text-regular">TEXT</div>
 					<div id="fullName" class="text-regular">TEXT</div>
 					<div id="hourlyRate" class="text-regular">TEXT</div>
 					<div id="department" class="text-regular">TEXT</div>
@@ -77,15 +75,6 @@
 
 			<!-- Separator Line -->
 			<div class="separator-line"></div>
-			<dive>
-				<!-- Display Success message -->
-				@if (!string.IsNullOrEmpty(ViewData["Success"] as string))
-				{
-					<div class="error-message" style="color: green;">
-						@ViewData["Success"]
-					</div>
-				}
-			</dive>
 
 			<!-- Pay Details -->
 			<div class="flex-row center-content-start gap-32">
@@ -103,10 +92,9 @@
 
 			<!-- Action Buttons -->
 			<div class="flex-row gap-32 center-content">
-				<button onclick="acceptClaim()" class="submit-button accept-button">ACCEPT</button>
+				<button onclick="verifyClaim()" class="submit-button accept-button">VERIFY</button>
 				<button onclick="rejectClaim()" class="submit-button reject-button">REJECT</button>
 			</div>
-
 
 			<input type="hidden" id="hiddenClaimId" value="" />
 
@@ -116,7 +104,7 @@
 
 <script>
 	function populateTable() {
-		fetch('/Verification/GetAllClaims')
+		fetch('/Claims/GetAllPendingClaims')
 			.then(response => response.json())
 			.then(data => {
 				// Sort the claims by claimId in ascending order
@@ -127,6 +115,7 @@
 
 				data.forEach(claim => {
 					const row = document.createElement('tr');
+					// Set the correct attribute for 'claimId'
 					row.setAttribute('data-id', claim.claimId);  // Update to use 'claimId' in camelCase
 					row.setAttribute('onclick', 'updateDetails(this)');
 
@@ -139,17 +128,20 @@
 			.catch(error => console.error('Error fetching claims:', error));
 	}
 
-
 	function updateDetails(row) {
 		const claimId = row.getAttribute('data-id');
-		fetch(`/Verification/GetClaimDetails/${claimId}`)
-			.then(response => response.json())
+		fetch(`/Claims/GetClaimDetails/${claimId}`)
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`Error fetching claim details: ${response.statusText}`);
+				}
+				return response.json();
+			})
 			.then(data => {
 				// Update the detail section with the selected claim's information using camelCase
 				document.getElementById('lectureId').innerText = data.lecturerId; // Update to camelCase
-				document.getElementById('userName').innerText = data.userName;    // Update to camelCase
 				document.getElementById('fullName').innerText = data.fullName;    // Update to camelCase
-				document.getElementById('hourlyRate').innerText = data.hourlyRate;// Update to camelCase
+				document.getElementById('hourlyRate').innerText = "R" + data.hourlyRate;// Update to camelCase
 				document.getElementById('department').innerText = data.department;// Update to camelCase
 				document.getElementById('campus').innerText = data.campus;        // Update to camelCase
 				document.getElementById('regularHours').innerText = data.regularHours;// Update to camelCase
@@ -166,7 +158,7 @@
 			.catch(error => console.error('Error fetching claim details:', error));
 	}
 
-	function acceptClaim() {
+	function verifyClaim() {
 		const claimId = document.getElementById('hiddenClaimId').value;
 
 		if (!claimId) {
@@ -176,17 +168,17 @@
 
 		// Make the AJAX POST request to accept the claim
 		$.ajax({
-			url: '/Verification/AcceptClaim',
+			url: '/Verification/VerifyClaim',
 			type: 'POST',
 			data: { claimId: claimId },  // Send the claimId in the request body
 			success: function (response) {
 				// Handle success (e.g., refresh the table or show a message)
-				alert('Claim accepted successfully!');
+				alert('Claim Verified successfully!');
 				populateTable();  // Refresh the table
 			},
 			error: function (xhr, status, error) {
 				// Handle error response
-				alert(`Error accepting claim: ${xhr.responseText}`);
+				alert(`Error rejecting claim: ${xhr.responseText}`);
 			}
 		});
 	}
@@ -215,6 +207,7 @@
 			}
 		});
 	}
+
 	// Populate the table on page load
 	document.addEventListener('DOMContentLoaded', populateTable);
 </script>
