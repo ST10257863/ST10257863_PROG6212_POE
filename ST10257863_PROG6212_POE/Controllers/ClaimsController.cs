@@ -138,17 +138,22 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 		//Calculates pay based on hours worked and overtime.
 		[HttpPost]
-		[Route("Claims/CalculatePay/{hoursWorked}/{overtimeWorked}")]
-		public JsonResult CalculatePay(double hoursWorked, double overtimeWorked)
+		[Route("Claims/CalculatePay/{hoursWorked}/{overtimeWorked?}")]
+		public JsonResult CalculatePay(double hoursWorked, double? overtimeWorked = null)
 		{
 			var lecturerID = HttpContext.Session.GetInt32("LecturerID");
 
-			if (hoursWorked < 0 || overtimeWorked < 0)
+			if (hoursWorked < 0 || (overtimeWorked.HasValue && overtimeWorked < 0))
 			{
 				return Json(new
 				{
 					error = "Invalid input values. Please enter valid hours."
 				});
+			}
+
+			if (!overtimeWorked.HasValue)
+			{
+				overtimeWorked = 0;
 			}
 
 			var hourlyRate = _context.Lecturers
@@ -157,7 +162,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 				.FirstOrDefault();
 
 			var regularPay = hoursWorked * (int)hourlyRate;
-			var overtimePay = overtimeWorked * (int)hourlyRate * 1.5;
+			var overtimePay = overtimeWorked.Value * (int)hourlyRate * 1.5; // .Value because overTimeWorked can be null
 			var totalPay = regularPay + overtimePay;
 
 			return Json(new

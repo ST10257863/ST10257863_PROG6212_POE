@@ -32,6 +32,12 @@
 					<input type="text" id="overtimeWorked" name="overtimeWorked" class="input-box" placeholder="Enter overtime worked" aria-label="Overtime Worked" />
 				</div>
 
+				<!-- Hourly Rate Input -->
+				<div class="input-field">
+					<label for="hourlyRateInput" class="text-bold">Hourly Rate (R)</label>
+					<input type="text" id="hourlyRateInput" name="hourlyRateInput" class="input-box" placeholder="Enter Hourly Rate" aria-label="Hourly Rate" />
+				</div>
+
 				<!-- Document Upload -->
 				<div class="input-field">
 					<label for="document" class="text-bold">Upload Document</label>
@@ -182,17 +188,27 @@
 		// Trigger AJAX call to calculate pay
 		function calculatePay() {
 			var hoursWorked = parseFloat($('#hoursWorked').val());
-			var overtimeWorked = parseFloat($('#overtimeWorked').val());
+			var overtimeWorked = $('#overtimeWorked').val(); // Get raw value first
 
-			// Check if the inputs are valid before sending
-			if (isNaN(hoursWorked) || isNaN(overtimeWorked)) {
-				console.error('Invalid input values');
+			// Check if inputs are valid and handle missing overtimeWorked
+			if (isNaN(hoursWorked)) {
+				console.error('Invalid input for hours worked.');
 				return;
+			}
+
+			if (overtimeWorked === "" || overtimeWorked === null) {
+				overtimeWorked = 0; // Default to 0 if empty
+			} else {
+				overtimeWorked = parseFloat(overtimeWorked);
+				if (isNaN(overtimeWorked)) {
+					console.error('Invalid input for overtime worked.');
+					return;
+				}
 			}
 
 			$.ajax({
 				url: `/Claims/CalculatePay/${hoursWorked}/${overtimeWorked}`, // Pass data via URL
-				method: 'POST', // or 'GET' depending on what you're using
+				method: 'POST', // Use POST method as defined in the backend
 				success: function (data) {
 					if (data.error) {
 						console.error('Error calculating pay:', data.error);

@@ -396,3 +396,16 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Ignore build artifacts
+/bin/
+/obj/
+
+# Ignore Visual Studio files
+.vs/
+*.suo
+*.vscode/
+
+# Ignore other temporary files
+*.user
+*.cache
