@@ -70,25 +70,35 @@
 
 		<!-- Lecturer Details Frame -->
 		<div class="center-content-start gap-32 padding-top-16">
-			<div class="flex-row center-content-start">
-				<!-- Labels -->
-				<div class="flex-column gap-32">
-					<label for="lectureId" class="text-bold">Lecture ID:</label>
-					<label for="userName" class="text-bold">User Name:</label>
-					<label for="fullName" class="text-bold">Full Name:</label>
-					<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
-					<label for="department" class="text-bold">Department:</label>
-					<label for="campus" class="text-bold">Campus:</label>
-				</div>
+			<!--Centre Column-->
+			<div class="flex-column flex-grow-1">
+				<!--Top Row-->
+				<div class="flex-row center-content-start">
+					<!-- Labels -->
+					<div class="flex-column gap-32">
+						<label for="lectureId" class="text-bold">Lecture ID:</label>
+						<label for="userName" class="text-bold">User Name:</label>
+						<label for="fullName" class="text-bold">Full Name:</label>
+						<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
+						<label for="department" class="text-bold">Department:</label>
+						<label for="campus" class="text-bold">Campus:</label>
+					</div>
 
-				<!-- Content -->
-				<div class="flex-column gap-32">
-					<div id="lectureId" class="text-regular">N/A</div>
-					<div id="userName" class="text-regular">N/A</div>
-					<div id="fullName" class="text-regular">N/A</div>
-					<div id="hourlyRate" class="text-regular">N/A</div>
-					<div id="department" class="text-regular">N/A</div>
-					<div id="campus" class="text-regular">N/A</div>
+					<!-- Content -->
+					<div class="flex-column gap-32">
+						<div id="lectureId" class="text-regular">N/A</div>
+						<div id="userName" class="text-regular">N/A</div>
+						<div id="fullName" class="text-regular">N/A</div>
+						<div id="hourlyRate" class="text-regular">N/A</div>
+						<div id="department" class="text-regular">N/A</div>
+						<div id="campus" class="text-regular">N/A</div>
+					</div>
+				</div>
+				<!--Bottom Row-->
+				<div class="flex-row center-content-start">
+					<div class="input-box-textarea">
+						<textarea id="userNotes" name="userNotes" class="input-box" placeholder="Enter any additional notes." aria-label="Additional Notes" /></textarea>
+					</div>
 				</div>
 			</div>
 		</div>
