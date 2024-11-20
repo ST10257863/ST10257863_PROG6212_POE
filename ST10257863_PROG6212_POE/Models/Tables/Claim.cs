@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ST10257863_PROG6212_POE.Models.Tables
@@ -25,24 +26,10 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 		{
 			get; set;
 		}
-
 		public decimal OvertimeHoursWorked
 		{
 			get; set;
 		}
-
-		//[NotMapped] // Calculated field
-		//public decimal ClaimAmount
-		//{
-		//	get
-		//	{
-		//		return CalculateClaimAmount();
-		//	}
-		//	set
-		//	{
-		//	} // EF requires this
-		//}
-
 		public DateTime SubmissionDate
 		{
 			get; set;
@@ -52,14 +39,60 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 		public string Status
 		{
 			get; set;
-		} // Pending, Approved, Rejected
+		} = "Pending"; // Default: Pending		Verified, Approved, Rejected
 
 		public List<string> SupportingDocuments { get; set; } = new List<string>();
 
-		//// Method to calculate claim amount
-		//public decimal CalculateClaimAmount()
-		//{
-		//	return HoursWorked * Lecturer.HourlyRate;
-		//}
+
+		//----------------------------------------Approval----------------------------------------
+		// Combined fields for approval information
+		[ForeignKey("AcademicManager")]
+		public int? ManagerId
+		{
+			get; set;
+		}  // Nullable in case not yet approved
+		public AcademicManager? Manager
+		{
+			get; set;
+		}
+
+		public DateTime? ApprovalDate
+		{
+			get; set;
+		}  // Nullable in case not yet approved
+		public bool? IsApproved
+		{
+			get; set;
+		}// Nullable to indicate if approval is pending
+		public string ApprovalComments
+		{
+			get; set;
+		} = "";
+
+
+		//----------------------------------------Verification----------------------------------------
+		// Combined fields for verification information
+		[ForeignKey("Coordinator")]
+		public int? CoordinatorId
+		{
+			get; set;
+		}  // Nullable in case not yet verified
+		public Coordinator? Coordinator
+		{
+			get; set;
+		}
+
+		public DateTime? VerificationDate
+		{
+			get; set;
+		}  // Nullable in case not yet verified
+		public bool? IsVerified
+		{
+			get; set;
+		}// Nullable to indicate if verification is pending
+		public string VerificationComments
+		{
+			get; set;
+		} = "";
 	}
 }

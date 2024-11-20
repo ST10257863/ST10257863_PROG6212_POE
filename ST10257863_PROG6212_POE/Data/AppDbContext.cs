@@ -28,14 +28,6 @@ namespace ST10257863_PROG6212_POE.Data
 		{
 			get; set;
 		}
-		public DbSet<ClaimVerification> ClaimVerifications
-		{
-			get; set;
-		}
-		public DbSet<ClaimApproval> ClaimApprovals
-		{
-			get; set;
-		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
