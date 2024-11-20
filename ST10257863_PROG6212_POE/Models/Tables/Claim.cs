@@ -64,10 +64,10 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 		{
 			get; set;
 		}// Nullable to indicate if approval is pending
-		public string ApprovalComments
+		public string? ApprovalComments
 		{
 			get; set;
-		} = "";
+		}
 
 
 		//----------------------------------------Verification----------------------------------------
@@ -90,9 +90,9 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 		{
 			get; set;
 		}// Nullable to indicate if verification is pending
-		public string VerificationComments
+		public string? VerificationComments
 		{
 			get; set;
-		} = "";
+		}
 	}
 }
