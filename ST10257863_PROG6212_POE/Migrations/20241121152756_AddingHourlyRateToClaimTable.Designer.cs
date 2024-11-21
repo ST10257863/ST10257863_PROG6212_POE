@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ST10257863_PROG6212_POE.Data;
 
@@ -11,9 +12,11 @@ using ST10257863_PROG6212_POE.Data;
 namespace ST10257863_PROG6212_POE.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241121152756_AddingHourlyRateToClaimTable")]
+    partial class AddingHourlyRateToClaimTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +68,54 @@ namespace ST10257863_PROG6212_POE.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Claim", b =>
+            modelBuilder.Entity("Lecturer", b =>
+                {
+                    b.Property<int>("LecturerID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LecturerID"));
+
+                    b.Property<string>("Campus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("HourlyRate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("LecturerID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Lecturers");
+
+                    b.HasData(
+                        new
+                        {
+                            LecturerID = 1001,
+                            Campus = "Main Campus",
+                            Department = "Computer Science",
+                            HourlyRate = 500.00m,
+                            UserID = 1
+                        },
+                        new
+                        {
+                            LecturerID = 1002,
+                            Campus = "South Campus",
+                            Department = "Mathematics",
+                            HourlyRate = 450.00m,
+                            UserID = 2
+                        });
+                });
+
+            modelBuilder.Entity("ST10257863_PROG6212_POE.Models.Tables.Claim", b =>
                 {
                     b.Property<int>("ClaimId")
                         .ValueGeneratedOnAdd()
@@ -132,86 +182,6 @@ namespace ST10257863_PROG6212_POE.Migrations
                     b.HasIndex("ManagerId");
 
                     b.ToTable("Claims");
-                });
-
-            modelBuilder.Entity("ClaimFile", b =>
-                {
-                    b.Property<int>("ClaimFileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClaimFileId"));
-
-                    b.Property<int>("ClaimId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UploadDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ClaimFileId");
-
-                    b.HasIndex("ClaimId");
-
-                    b.ToTable("ClaimFiles");
-                });
-
-            modelBuilder.Entity("Lecturer", b =>
-                {
-                    b.Property<int>("LecturerID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LecturerID"));
-
-                    b.Property<string>("Campus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("HourlyRate")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("LecturerID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("Lecturers");
-
-                    b.HasData(
-                        new
-                        {
-                            LecturerID = 1001,
-                            Campus = "Main Campus",
-                            Department = "Computer Science",
-                            HourlyRate = 500.00m,
-                            UserID = 1
-                        },
-                        new
-                        {
-                            LecturerID = 1002,
-                            Campus = "South Campus",
-                            Department = "Mathematics",
-                            HourlyRate = 450.00m,
-                            UserID = 2
-                        });
                 });
 
             modelBuilder.Entity("ST10257863_PROG6212_POE.Models.Tables.Coordinator", b =>
@@ -337,7 +307,18 @@ namespace ST10257863_PROG6212_POE.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Claim", b =>
+            modelBuilder.Entity("Lecturer", b =>
+                {
+                    b.HasOne("ST10257863_PROG6212_POE.Models.Tables.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ST10257863_PROG6212_POE.Models.Tables.Claim", b =>
                 {
                     b.HasOne("ST10257863_PROG6212_POE.Models.Tables.Coordinator", "Coordinator")
                         .WithMany()
@@ -360,26 +341,6 @@ namespace ST10257863_PROG6212_POE.Migrations
                     b.Navigation("Manager");
                 });
 
-            modelBuilder.Entity("ClaimFile", b =>
-                {
-                    b.HasOne("Claim", null)
-                        .WithMany("ClaimFiles")
-                        .HasForeignKey("ClaimId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Lecturer", b =>
-                {
-                    b.HasOne("ST10257863_PROG6212_POE.Models.Tables.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ST10257863_PROG6212_POE.Models.Tables.Coordinator", b =>
                 {
                     b.HasOne("ST10257863_PROG6212_POE.Models.Tables.User", "User")
@@ -389,11 +350,6 @@ namespace ST10257863_PROG6212_POE.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Claim", b =>
-                {
-                    b.Navigation("ClaimFiles");
                 });
 #pragma warning restore 612, 618
         }

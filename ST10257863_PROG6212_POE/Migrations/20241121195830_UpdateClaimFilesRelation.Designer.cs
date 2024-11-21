@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ST10257863_PROG6212_POE.Data;
 
@@ -11,9 +12,11 @@ using ST10257863_PROG6212_POE.Data;
 namespace ST10257863_PROG6212_POE.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241121195830_UpdateClaimFilesRelation")]
+    partial class UpdateClaimFilesRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,20 +139,20 @@ namespace ST10257863_PROG6212_POE.Migrations
 
             modelBuilder.Entity("ClaimFile", b =>
                 {
-                    b.Property<int>("ClaimFileId")
+                    b.Property<int>("FileId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClaimFileId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FileId"));
 
                     b.Property<int>("ClaimId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FileName")
+                    b.Property<byte[]>("FileData")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("FilePath")
+                    b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -160,7 +163,7 @@ namespace ST10257863_PROG6212_POE.Migrations
                     b.Property<DateTime>("UploadDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("ClaimFileId");
+                    b.HasKey("FileId");
 
                     b.HasIndex("ClaimId");
 
@@ -362,11 +365,13 @@ namespace ST10257863_PROG6212_POE.Migrations
 
             modelBuilder.Entity("ClaimFile", b =>
                 {
-                    b.HasOne("Claim", null)
+                    b.HasOne("Claim", "Claim")
                         .WithMany("ClaimFiles")
                         .HasForeignKey("ClaimId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Claim");
                 });
 
             modelBuilder.Entity("Lecturer", b =>

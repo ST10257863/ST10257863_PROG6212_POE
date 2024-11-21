@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using ST10257863_PROG6212_POE.Data;
 using ST10257863_PROG6212_POE.Models.Tables;
 using System.IO;
+using System.Reflection.Metadata;
+using static System.Net.WebRequestMethods;
 
 namespace ST10257863_PROG6212_POE.Controllers
 {
@@ -21,12 +23,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> SubmitClaim(
-						decimal hoursWorked,
-						decimal overtimeWorked,
-						string lecturerNotes,
-						List<IFormFile> documents
-					) // Accept multiple files
+		public async Task<IActionResult> SubmitClaim(decimal hoursWorked, decimal overtimeWorked, string lecturerNotes, decimal hourlyRate)
 		{
 			var lecturerId = HttpContext.Session.GetInt32("LecturerID");
 
@@ -40,12 +37,38 @@ namespace ST10257863_PROG6212_POE.Controllers
 				});
 			}
 
+			// If the hourly rate is not provided or invalid, retrieve it from the lecturer's account
+			if (hourlyRate <= 0)
+			{
+				var lecturer = await _context.Lecturers.FirstOrDefaultAsync(l => l.LecturerID == lecturerId.Value);
+				if (lecturer == null)
+				{
+					return Json(new
+					{
+						success = false,
+						message = "Lecturer not found."
+					});
+				}
+
+				hourlyRate = lecturer.HourlyRate; // Use the hourly rate from the lecturer's account
+
+				if (hourlyRate <= 0)
+				{
+					return Json(new
+					{
+						success = false,
+						message = "Lecturer's hourly rate is not set or invalid."
+					});
+				}
+			}
+
 			var claim = new Claim
 			{
 				LecturerId = lecturerId.Value,
 				SubmissionDate = DateTime.Now,
 				Status = "Pending",
-				SupportingDocuments = new List<string>() // Initialize the list for supporting documents
+				SupportingDocuments = new List<string>(), // We'll manage documents separately now
+				HourlyRate = hourlyRate // Store the hourly rate
 			};
 
 			// Validate Hours Worked
@@ -82,55 +105,18 @@ namespace ST10257863_PROG6212_POE.Controllers
 				claim.LecturerNotes = lecturerNotes;
 			}
 
-			// Process Documents
-			if (documents != null && documents.Count > 0)
-			{
-				var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-
-				if (!Directory.Exists(uploadPath))
-				{
-					Directory.CreateDirectory(uploadPath);
-				}
-
-				foreach (var document in documents)
-				{
-					if (document.Length > 0)
-					{
-						var fileName = Path.GetFileName(document.FileName);
-						var filePath = Path.Combine(uploadPath, fileName);
-
-						try
-						{
-							using (var stream = new FileStream(filePath, FileMode.Create))
-							{
-								await document.CopyToAsync(stream);
-							}
-
-							claim.SupportingDocuments.Add(filePath); // Store file path in the database
-						}
-						catch (Exception ex)
-						{
-							return Json(new
-							{
-								success = false,
-								message = $"Error uploading file: {ex.Message}"
-							});
-						}
-					}
-				}
-			}
-
 			// Save the claim to the database
 			_context.Claims.Add(claim);
 			await _context.SaveChangesAsync();
 
+			// After saving the claim, return the claimId in the response
 			return Json(new
 			{
 				success = true,
-				message = "Claim submitted successfully."
+				message = "Claim submitted successfully.",
+				claimId = claim.ClaimId // Return the ClaimId for use in file upload
 			});
 		}
-
 
 
 
@@ -278,7 +264,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 			return Json(claims);
 		}
 
-		// Retrieves detailed information about a specific claim, including lecturer and user data.
 		[HttpGet]
 		[Route("Claims/GetClaimDetails/{claimId}")]
 		public IActionResult GetClaimDetails(int claimId)
@@ -300,7 +285,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 				// Lecturer and User details
 				LecturerId = claim.Lecturer.LecturerID,
 				FullName = $"{claim.Lecturer.User.FirstName} {claim.Lecturer.User.LastName}",
-				HourlyRate = claim.Lecturer.HourlyRate,
+				HourlyRate = claim.HourlyRate, // Use the hourly rate from the claim
 				Department = claim.Lecturer.Department,
 				Campus = claim.Lecturer.Campus,
 
@@ -308,9 +293,9 @@ namespace ST10257863_PROG6212_POE.Controllers
 				RegularHours = claim.HoursWorked,
 				OvertimeHours = claim.OvertimeHoursWorked,
 				TotalHours = claim.HoursWorked + claim.OvertimeHoursWorked,
-				RegularPay = claim.HoursWorked * claim.Lecturer.HourlyRate,
-				OvertimePay = claim.OvertimeHoursWorked * (claim.Lecturer.HourlyRate * 1.5M),
-				TotalPay = (claim.HoursWorked + claim.OvertimeHoursWorked) * claim.Lecturer.HourlyRate,
+				RegularPay = claim.HoursWorked * claim.HourlyRate, // Use the hourly rate from the claim
+				OvertimePay = claim.OvertimeHoursWorked * (claim.HourlyRate * 1.5M), // Use the hourly rate from the claim
+				TotalPay = (claim.HoursWorked + claim.OvertimeHoursWorked) * claim.HourlyRate, // Use the hourly rate from the claim
 
 				// Lecturer Notes (added here)
 				LecturerNotes = claim.LecturerNotes,
@@ -339,5 +324,132 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 			return Json(claimDetails);
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> UploadFilesToClaim(int claimId, IList<IFormFile> documents)
+		{
+			var claim = await _context.Claims.FirstOrDefaultAsync(c => c.ClaimId == claimId);
+
+			if (claim == null)
+			{
+				return Json(new
+				{
+					success = false,
+					message = "Claim not found."
+				});
+			}
+
+			if (documents == null || documents.Count == 0)
+			{
+				throw new ArgumentException("No files were uploaded.");
+			}
+
+			try
+			{
+				foreach (var document in documents)
+				{
+					var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "claims", document.FileName);
+
+					var directoryPath = Path.GetDirectoryName(filePath);
+					if (!Directory.Exists(directoryPath))
+					{
+						Directory.CreateDirectory(directoryPath);
+					}
+
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						await document.CopyToAsync(stream);  // Save file to disk
+					}
+
+					// Read the file's binary data into a byte array
+					byte[] fileData;
+					using (var memoryStream = new MemoryStream())
+					{
+						await document.CopyToAsync(memoryStream);
+						fileData = memoryStream.ToArray();  // Load file data into byte array
+					}
+
+					// Save file metadata and binary data in the database
+					var claimFile = new ClaimFile
+					{
+						ClaimId = claimId,
+						FilePath = filePath,
+						FileName = document.FileName,
+						FileType = document.ContentType,
+						UploadDate = DateTime.UtcNow,
+					};
+
+					_context.ClaimFiles.Add(claimFile);
+				}
+
+				await _context.SaveChangesAsync();  // Ensure changes are persisted to the database
+			}
+			catch (Exception ex)
+			{
+				return Json(new
+				{
+					success = false,
+					message = ex.Message
+				});
+			}
+
+			return Json(new
+			{
+				success = true,
+				message = "Files uploaded successfully."
+			});
+		}
+
+		private async Task<byte[]> GetFileBytes(string filePath)
+		{
+			return await System.IO.File.ReadAllBytesAsync(filePath);
+		}
+
+
+		[HttpGet]
+		public IActionResult GetFilesForClaim(int claimId)
+		{
+			var files = _context.ClaimFiles
+				.Where(f => f.ClaimId == claimId)
+				.Select(f => new
+				{
+					f.ClaimFileId,
+					f.FileName,
+					f.FileType,
+					f.UploadDate
+				})
+				.ToList();
+
+			if (!files.Any())
+			{
+				return NotFound("No files found for this claim.");
+			}
+
+			return Json(files);
+		}
+
+
+		[HttpGet]
+		public async Task<IActionResult> DownloadFile(int fileId)
+		{
+			var file = await _context.ClaimFiles.FindAsync(fileId);
+
+			if (file == null)
+			{
+				return NotFound("File not found.");
+			}
+
+			var filePath = file.FilePath;  // FilePath points to the actual file location on disk
+
+			if (!System.IO.File.Exists(filePath))
+			{
+				return NotFound("File does not exist on server.");
+			}
+
+			var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath); // Read file content
+
+			return File(fileBytes, file.FileType, file.FileName); // Return file as a download
+		}
+
 	}
 }

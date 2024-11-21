@@ -15,7 +15,6 @@
 
 <div class="background center-content gap-32">
 	<!-- Form Section -->
-
 	<div class="flex-column center-content gap-32">
 		<!-- Input Fields Frame -->
 		<div class="flex-column gap-32 center-content">
@@ -38,10 +37,11 @@
 				<input type="text" id="hourlyRateInput" name="hourlyRateInput" class="input-box" placeholder="Enter Hourly Rate" aria-label="Hourly Rate" />
 			</div>
 
+
 			<!-- Document Upload -->
 			<div class="input-field">
 				<label for="document" class="text-bold">Upload Document</label>
-				<input type="file" id="document" name="document" class="input-box" aria-label="Upload Document" />
+				<input type="file" id="document" name="document" class="input-box" aria-label="Upload Document" accept=".pdf,.doc,.docx,.xlsx" onchange="validateFile()" />
 			</div>
 		</div>
 
@@ -70,11 +70,8 @@
 
 	<!-- Lecturer Details Frame -->
 	<div class="center-content-start gap-32">
-		<!--Centre Column-->
 		<div class="flex-column flex-grow-1">
-			<!--Top Row-->
 			<div class="flex-row center-content-start">
-				<!-- Labels -->
 				<div class="flex-column gap-32">
 					<label for="lectureId" class="text-bold">Lecture ID:</label>
 					<label for="userName" class="text-bold">User Name:</label>
@@ -84,7 +81,6 @@
 					<label for="campus" class="text-bold">Campus:</label>
 				</div>
 
-				<!-- Content -->
 				<div class="flex-column gap-32">
 					<div id="lectureId" class="text-regular">N/A</div>
 					<div id="userName" class="text-regular">N/A</div>
@@ -94,7 +90,6 @@
 					<div id="campus" class="text-regular">N/A</div>
 				</div>
 			</div>
-			<!--Bottom Row-->
 			<div class="flex-column center-content-start gap-16 height-100">
 				<label for="additionalNotes" class="text-bold">Additional Notes</label>
 				<div class="input-box-textarea">
@@ -124,15 +119,11 @@
 	</div>
 </div>
 
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function () {
-		// Fetch User ID from session and load lecturer details
-		fetchLecturerDetails();
-
-		// Populate the claims table on page load
-		populateClaimsTable();
+		fetchLecturerDetails(); // Fetch Lecturer Details
+		populateClaimsTable(); // Populate the claims table on page load
 	});
 
 	// Function to submit the claim via AJAX
@@ -140,37 +131,51 @@
 		const hoursWorked = parseFloat($('#hoursWorked').val());
 		const overtimeWorked = parseFloat($('#overtimeWorked').val());
 		let lecturerNotes = $('#additionalNotes').val();
+		let hourlyRate = parseFloat($('#hourlyRateInput').val()); // Correctly get the hourly rate input
 
-		// If no notes are provided, set the default note
 		if (!lecturerNotes) {
 			lecturerNotes = "No note given";
 		}
 
-		const formData = new FormData();
-
-		// Get the files from the file input
-		const documents = $('#document')[0].files;
-		for (let i = 0; i < documents.length; i++) {
-			formData.append('documents', documents[i]);
+		if (!overtimeWorked) {
+			overtimeWorked = 0;
 		}
 
-		// Append the other form data
+		if (hourlyRate <= 0) {
+			hourlyRate = -1;
+		}
+
+		const formData = new FormData();
+
+		// Get all documents selected by the user
+		const documents = $('#document')[0].files;
+		for (let i = 0; i < documents.length; i++) {
+			formData.append('documents', documents[i]); // Append each document to formData
+		}
+
+		// Append other form fields
 		formData.append('hoursWorked', hoursWorked);
 		formData.append('overtimeWorked', overtimeWorked);
 		formData.append('lecturerNotes', lecturerNotes);
+		formData.append('hourlyRate', hourlyRate); // Append the hourly rate to the form data
 
-		// AJAX request to submit the claim
 		$.ajax({
 			url: '/Claims/SubmitClaim',
 			method: 'POST',
 			data: formData,
-			processData: false,
-			contentType: false,
+			processData: false, // Prevent jQuery from processing data
+			contentType: false, // Prevent jQuery from setting content type
 			success: function (response) {
 				if (response.success) {
 					alert(response.message);
-					// Optionally, refresh or update parts of the page
-					populateClaimsTable(); // For example, refresh the claims table
+
+					// After claim submission, trigger file upload if documents were submitted
+					if (documents.length > 0) {
+						const claimId = response.claimId; // Get the claimId from the response
+						uploadFilesToClaim(claimId, documents); // Pass claimId to the upload function
+					}
+
+					populateClaimsTable(); // Refresh the claims table after submission
 				} else {
 					alert(response.message);
 				}
@@ -182,13 +187,65 @@
 		});
 	}
 
+	// Function to upload files after claim submission
+	function uploadFilesToClaim(claimId, documents) {
+		const formData = new FormData();
 
-	// Function to fetch lecturer details
+		// Append documents to formData with the claim ID
+		for (let i = 0; i < documents.length; i++) {
+			formData.append('documents', documents[i]);
+		}
+		formData.append('claimId', claimId); // Append the claim ID to associate files with the claim
+
+		$.ajax({
+			url: '/Claims/UploadFilesToClaim', // Your URL to handle file upload
+			method: 'POST',
+			data: formData,
+			processData: false, // Prevent jQuery from processing data
+			contentType: false, // Prevent jQuery from setting content type
+			success: function (response) {
+				if (response.success) {
+					alert('Files uploaded successfully.');
+				} else {
+					alert('Failed to upload files: ' + response.message);
+				}
+			},
+			error: function (err) {
+				console.error('Error uploading files:', err);
+				alert('An error occurred while uploading files.');
+			}
+		});
+	}
+
+	function validateFile() {
+		const fileInput = document.getElementById('document');
+		const file = fileInput.files[0];
+
+		if (file) {
+			// Check file size (2MB = 2 * 1024 * 1024 bytes)
+			const maxSize = 2 * 1024 * 1024;
+			if (file.size > maxSize) {
+				alert('File size exceeds the 2MB limit.');
+				fileInput.value = '';  // Clear the input
+				return false;
+			}
+
+			// Check file type
+			const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+			if (!validTypes.includes(file.type)) {
+				alert('Invalid file type. Only PDF, DOC, DOCX, and XLSX are allowed.');
+				fileInput.value = '';  // Clear the input
+				return false;
+			}
+		}
+		return true;
+	}
+
 	function fetchLecturerDetails() {
 		$.ajax({
 			url: '/Claims/GetLecturerDetails',
 			method: 'GET',
-			cache: false, // Prevent caching
+			cache: false,
 			success: function (data) {
 				if (data) {
 					loadLecturerDetails(data);
@@ -202,7 +259,6 @@
 		});
 	}
 
-	// Function to load lecturer details into the DOM
 	function loadLecturerDetails(data) {
 		$('#lectureId').text(data.lecturerId || 'N/A');
 		$('#userName').text(data.userName || 'N/A');
@@ -214,12 +270,11 @@
 		$('#campus').text(data.campus || 'N/A');
 	}
 
-	// Function to populate the claims table
 	function populateClaimsTable() {
 		$.ajax({
 			url: '/Claims/LoadLecturerClaims',
 			method: 'GET',
-			cache: false, // Prevent caching
+			cache: false,
 			success: function (data) {
 				if (data && Array.isArray(data) && data.length > 0) {
 					renderClaimsTable(data);
@@ -233,7 +288,6 @@
 		});
 	}
 
-	// Function to render claims table
 	function renderClaimsTable(claims) {
 		claims.sort((a, b) => a.claimId - b.claimId);
 
@@ -250,43 +304,34 @@
 		});
 	}
 
-	// Function to calculate pay
 	function calculatePay() {
 		const hoursWorked = parseFloat($('#hoursWorked').val());
-		let overtimeWorked = $('#overtimeWorked').val();
+		const overtimeWorked = parseFloat($('#overtimeWorked').val());
+		let hourlyRateInput = parseFloat($('#hourlyRateInput').val());
 
-		// Validate hours worked
-		if (isNaN(hoursWorked)) {
-			alert('Please enter a valid number for hours worked.');
+		if (isNaN(hoursWorked) || hoursWorked < 0) {
+			alert('Please enter a valid number of hours worked.');
 			return;
 		}
 
-		// Handle empty or invalid overtime input
-		overtimeWorked = overtimeWorked ? parseFloat(overtimeWorked) : 0;
-		if (isNaN(overtimeWorked)) {
-			alert('Please enter a valid number for overtime worked.');
+		if (isNaN(overtimeWorked) || overtimeWorked < 0) {
+			alert('Please enter a valid number of overtime hours worked.');
 			return;
 		}
 
-		// AJAX request to calculate pay
-		$.ajax({
-			url: `/Claims/CalculatePay/${hoursWorked}/${overtimeWorked}`,
-			method: 'POST',
-			success: function (data) {
-				if (data.error) {
-					alert('Error calculating pay: ' + data.error);
-					return;
-				}
+		let hourlyRate = hourlyRateInput || parseFloat($('#hourlyRate').text().replace('R', '').replace('/hr', ''));
 
-				// Display calculated pay
-				$('#regularPay').text('R' + data.regularPay.toFixed(2));
-				$('#overtimePay').text('R' + data.overtimePay.toFixed(2));
-				$('#totalPay').text('R' + data.totalPay.toFixed(2));
-			},
-			error: function (err) {
-				console.error('Error calculating pay:', err);
-				alert('An error occurred while calculating pay.');
-			}
-		});
+		if (isNaN(hourlyRate) || hourlyRate <= 0) {
+			alert('Please enter a valid hourly rate.');
+			return;
+		}
+
+		const regularPay = hoursWorked * hourlyRate;
+		const overtimePay = overtimeWorked * hourlyRate * 1.5;
+		const totalPay = regularPay + overtimePay;
+
+		$('#regularPay').text('R' + regularPay.toFixed(2));
+		$('#overtimePay').text('R' + overtimePay.toFixed(2));
+		$('#totalPay').text('R' + totalPay.toFixed(2));
 	}
 </script>

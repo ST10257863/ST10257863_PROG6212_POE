@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ST10257863_PROG6212_POE.Data;
 
@@ -11,9 +12,11 @@ using ST10257863_PROG6212_POE.Data;
 namespace ST10257863_PROG6212_POE.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241121194947_AddingFileStorageCapabilities2")]
+    partial class AddingFileStorageCapabilities2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,39 +135,6 @@ namespace ST10257863_PROG6212_POE.Migrations
                     b.HasIndex("ManagerId");
 
                     b.ToTable("Claims");
-                });
-
-            modelBuilder.Entity("ClaimFile", b =>
-                {
-                    b.Property<int>("ClaimFileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClaimFileId"));
-
-                    b.Property<int>("ClaimId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UploadDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ClaimFileId");
-
-                    b.HasIndex("ClaimId");
-
-                    b.ToTable("ClaimFiles");
                 });
 
             modelBuilder.Entity("Lecturer", b =>
@@ -360,15 +330,6 @@ namespace ST10257863_PROG6212_POE.Migrations
                     b.Navigation("Manager");
                 });
 
-            modelBuilder.Entity("ClaimFile", b =>
-                {
-                    b.HasOne("Claim", null)
-                        .WithMany("ClaimFiles")
-                        .HasForeignKey("ClaimId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Lecturer", b =>
                 {
                     b.HasOne("ST10257863_PROG6212_POE.Models.Tables.User", "User")
@@ -389,11 +350,6 @@ namespace ST10257863_PROG6212_POE.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Claim", b =>
-                {
-                    b.Navigation("ClaimFiles");
                 });
 #pragma warning restore 612, 618
         }
