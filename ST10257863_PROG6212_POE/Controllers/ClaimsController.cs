@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ST10257863_PROG6212_POE.Data;
-using ST10257863_PROG6212_POE.Models.Tables;
-using System.IO;
-using System.Reflection.Metadata;
-using static System.Net.WebRequestMethods;
 
 namespace ST10257863_PROG6212_POE.Controllers
 {
@@ -23,7 +19,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> SubmitClaim(decimal hoursWorked, decimal overtimeWorked, string lecturerNotes, decimal hourlyRate)
+		public async Task<IActionResult> SubmitClaim(decimal hoursWorked, decimal overtimeWorked, string lecturerNotes, decimal hourlyRate, IList<IFormFile> documents) // Accepts a list of uploaded files
 		{
 			var lecturerId = HttpContext.Session.GetInt32("LecturerID");
 
@@ -105,6 +101,46 @@ namespace ST10257863_PROG6212_POE.Controllers
 				claim.LecturerNotes = lecturerNotes;
 			}
 
+			// Validate and process uploaded documents
+			if (documents != null && documents.Count > 0)
+			{
+				foreach (var document in documents)
+				{
+					// Check file size (max 2MB)
+					if (document.Length > 2 * 1024 * 1024) // 2MB
+					{
+						return Json(new
+						{
+							success = false,
+							message = "File size must be less than 2MB."
+						});
+					}
+
+					// Check file type (PDF, DOC, XLSX)
+					var allowedExtensions = new[] { ".pdf", ".doc", ".docx", ".xlsx" };
+					var fileExtension = Path.GetExtension(document.FileName).ToLower();
+					if (!allowedExtensions.Contains(fileExtension))
+					{
+						return Json(new
+						{
+							success = false,
+							message = "Only PDF, DOC, and XLSX files are allowed."
+						});
+					}
+
+					// Process and save the document (you can store it or process as needed)
+					// For example, saving the file to the server or a cloud storage service.
+					var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", document.FileName);
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						await document.CopyToAsync(stream);
+					}
+
+					// Add document name to claim for reference
+					claim.SupportingDocuments.Add(document.FileName);
+				}
+			}
+
 			// Save the claim to the database
 			_context.Claims.Add(claim);
 			await _context.SaveChangesAsync();
@@ -117,8 +153,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 				claimId = claim.ClaimId // Return the ClaimId for use in file upload
 			});
 		}
-
-
 
 		// Fetches lecturer details based on session data.
 		[HttpGet]
@@ -405,7 +439,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 			return await System.IO.File.ReadAllBytesAsync(filePath);
 		}
 
-
 		[HttpGet]
 		public IActionResult GetFilesForClaim(int claimId)
 		{
@@ -428,7 +461,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 			return Json(files);
 		}
 
-
 		[HttpGet]
 		public async Task<IActionResult> DownloadFile(int fileId)
 		{
@@ -450,6 +482,5 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 			return File(fileBytes, file.FileType, file.FileName); // Return file as a download
 		}
-
 	}
 }
