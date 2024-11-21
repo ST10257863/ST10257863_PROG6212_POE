@@ -74,6 +74,12 @@ namespace ST10257863_PROG6212_POE.Controllers
 			{
 				HttpContext.Session.SetInt32("CoordinatorID", coordinator.CoordinatorID);
 			}
+
+			var humanResources = await _context.HumanResources.FirstOrDefaultAsync(hr => hr.UserID == userId);
+			if (humanResources != null)
+			{
+				HttpContext.Session.SetInt32("HumanResourcesID", humanResources.HumanResourcesID);
+			}
 		}
 	}
 }

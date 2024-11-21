@@ -34,6 +34,11 @@ namespace ST10257863_PROG6212_POE.Data
 			get; set;
 		}
 
+		public DbSet<HumanResources> HumanResources
+		{
+			get; set;
+		}
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			// User entity
