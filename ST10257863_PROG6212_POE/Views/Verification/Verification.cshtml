@@ -59,7 +59,7 @@
 				</div>
 				<!--Text Box Area-->
 				<div class="flex-column center-content-start gap-16 height-Auto">
-					<label for="additionalNotes" class="text-bold">Additional Notes</label>
+					<label for="lecturerNotes" class="text-bold">Lecturer Notes</label>
 					<div class="input-box-textarea">
 						<textarea id="lecturerNotes" name="lecturerNotes" class="input-box" placeholder="Lecturer Notes" aria-label="Lecturer Notes" readonly></textarea>
 					</div>
@@ -107,14 +107,15 @@
 					</div>
 
 					<div class="flex-column center-content-start gap-16 height-Auto">
-						<label for="additionalNotes" class="text-bold">Additional Notes</label>
+						<label for="verificationNotes" class="text-bold">Verification Notes</label>
 						<div class="input-box-textarea">
-							<textarea for="additionalNotes" name="additionalNotes" class="input-box" placeholder="Additional Notes" aria-label="Additional Notes" /></textarea>
+							<textarea id="verificationNotes" name="verificationNotes" class="input-box" placeholder="Verification Notes" aria-label="Verification Notes"></textarea>
 						</div>
 					</div>
 				</div>
 
 				<!-- Action Buttons -->
+
 				<div class="flex-row gap-32 center-content">
 					<button onclick="verifyClaim()" class="submit-button accept-button">VERIFY</button>
 					<button onclick="rejectClaim()" class="submit-button reject-button">REJECT</button>
@@ -187,50 +188,78 @@
 
 	function verifyClaim() {
 		const claimId = document.getElementById('hiddenClaimId').value;
+		const verificationNotes = document.getElementById('verificationNotes').value;
 
+		// Check if a claim has been selected
 		if (!claimId) {
 			alert('Please select a claim first.');
 			return;
 		}
 
-		// Make the AJAX POST request to accept the claim
+		// Check if the verification notes are provided and within the 500 character limit
+		if (!verificationNotes.trim()) {
+			alert('Please enter verification notes.');
+			return;
+		}
+
+		if (verificationNotes.length > 500) {
+			alert('Verification notes cannot exceed 500 characters.');
+			return;
+		}
+
+		// Make the AJAX POST request
 		$.ajax({
 			url: '/Verification/VerifyClaim',
 			type: 'POST',
-			data: { claimId: claimId },  // Send the claimId in the request body
-			success: function (response) {
-				// Handle success (e.g., refresh the table or show a message)
-				alert('Claim Verified successfully!');
-				populateTable();  // Refresh the table
+			data: {
+				claimId: claimId,
+				verificationComment: verificationNotes // Correctly send notes
 			},
-			error: function (xhr, status, error) {
-				// Handle error response
-				alert(`Error rejecting claim: ${xhr.responseText}`);
+			success: function () {
+				alert('Claim Verified successfully!');
+				populateTable(); // Refresh the table
+			},
+			error: function (xhr) {
+				alert(`Error verifying claim: ${xhr.responseText}`);
 			}
 		});
 	}
 
 	function rejectClaim() {
 		const claimId = document.getElementById('hiddenClaimId').value;
+		const verificationNotes = document.getElementById('verificationNotes').value;
 
+		// Check if a claim has been selected
 		if (!claimId) {
 			alert('Please select a claim first.');
 			return;
 		}
 
-		// Make the AJAX POST request to reject the claim
+		// Check if the verification notes are provided and within the 500 character limit
+		if (!verificationNotes.trim()) {
+			alert('Please enter verification notes.');
+			return;
+		}
+
+		if (verificationNotes.length > 500) {
+			alert('Verification notes cannot exceed 500 characters.');
+			return;
+		}
+
+		// Make the AJAX POST request
 		$.ajax({
 			url: '/Verification/RejectClaim',
 			type: 'POST',
-			data: { claimId: claimId },  // Send the claimId in the request body
-			success: function (response) {
-				// Handle success (e.g., refresh the table or show a message)
-				alert('Claim rejected successfully!');
-				populateTable();  // Refresh the table
+			data: {
+				claimId: claimId,
+				verificationComment: verificationNotes // Correctly send notes
 			},
-			error: function (xhr, status, error) {
-				// Handle error response
-				alert(`Error rejecting claim: ${xhr.responseText}`);
+			success: function () {
+				alert('Claim Rejected');
+				populateTable(); // Refresh the table
+			},
+			error: function (xhr) {
+				alert(`Error Rejecting claim: ${xhr.responseText}`);
 			}
 		});
 	}

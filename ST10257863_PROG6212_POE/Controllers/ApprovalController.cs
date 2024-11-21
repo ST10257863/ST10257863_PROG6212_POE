@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ST10257863_PROG6212_POE.Data;
-using ST10257863_PROG6212_POE.Models.Tables;
-using System.Security.Claims;
 
 namespace ST10257863_PROG6212_POE.Controllers
 {
@@ -22,10 +19,9 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 		//Approves a verified claim, updates the claim status, and creates an entry in the ClaimApproval table
 		[HttpPost]
-		public IActionResult ApproveClaim(int claimId)
+		public IActionResult ApproveClaim(int claimId, string approvalComment)
 		{
-			var claim = _context.Claims
-				.FirstOrDefault(c => c.ClaimId == claimId);
+			var claim = _context.Claims.FirstOrDefault(c => c.ClaimId == claimId);
 
 			if (claim == null)
 			{
@@ -42,7 +38,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 			claim.ManagerId = academicManagerID;
 			claim.ApprovalDate = DateTime.UtcNow;
 			claim.IsApproved = true;
-			claim.ApprovalComments = "";
+			claim.ApprovalComments = approvalComment;
 			claim.Status = "Approved";
 
 			_context.SaveChanges();
@@ -51,11 +47,10 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 		//Rejects a verified claim, updates the claim status, and creates an entry in the ClaimApproval table for the rejection.
 		[HttpPost]
-		public IActionResult RejectClaim(int claimId)
+		public IActionResult RejectClaim(int claimId, string approvalComment)
 		{
 
-			var claim = _context.Claims
-				.FirstOrDefault(c => c.ClaimId == claimId);
+			var claim = _context.Claims.FirstOrDefault(c => c.ClaimId == claimId);
 
 			if (claim == null)
 			{
@@ -68,10 +63,10 @@ namespace ST10257863_PROG6212_POE.Controllers
 				return RedirectToAction("Approval");
 			}
 
-			claim.ManagerId = (int)academicManagerID;
+			claim.ManagerId = academicManagerID;
 			claim.ApprovalDate = DateTime.UtcNow;
 			claim.IsApproved = true;
-			claim.ApprovalComments = "";
+			claim.ApprovalComments = approvalComment;
 			claim.Status = "Rejected";
 
 			_context.SaveChanges();
