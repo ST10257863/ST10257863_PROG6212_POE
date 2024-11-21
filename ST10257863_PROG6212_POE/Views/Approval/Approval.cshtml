@@ -206,8 +206,9 @@
 				document.getElementById('coordinatorDepartment').innerText = data.coordinatorDepartment;
 				document.getElementById('coordinatorCampus').innerText = data.coordinatorCampus;
 
+
 				// Populate manager notes in the managerNotes textarea
-				document.getElementById('managerNotes').value = data.managerNotes; // Update managerNotes textarea
+				document.getElementById('managerNotes').value = data.verificationComments; // Update managerNotes textarea
 
 				// Store approvalId in hidden input field
 				document.getElementById('hiddenClaimId').value = claimId;
