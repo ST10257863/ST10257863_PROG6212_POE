@@ -63,7 +63,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 				LecturerId = lecturerId.Value,
 				SubmissionDate = DateTime.Now,
 				Status = "Pending",
-				SupportingDocuments = new List<string>(), // We'll manage documents separately now
 				HourlyRate = hourlyRate // Store the hourly rate
 			};
 
@@ -135,9 +134,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 					{
 						await document.CopyToAsync(stream);
 					}
-
-					// Add document name to claim for reference
-					claim.SupportingDocuments.Add(document.FileName);
 				}
 			}
 
@@ -350,10 +346,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 				CoordinatorCampus = claim.Coordinator?.Campus,
 				VerificationDate = claim.VerificationDate,
 				IsVerified = claim.IsVerified,
-				VerificationComments = claim.VerificationComments,
-
-				// Claim supporting documents
-				SupportingDocuments = claim.SupportingDocuments
+				VerificationComments = claim.VerificationComments
 			};
 
 			return Json(claimDetails);

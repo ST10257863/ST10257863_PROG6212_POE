@@ -45,8 +45,6 @@ public class Claim
 		get; set;
 	}
 
-	public List<string> SupportingDocuments { get; set; } = new List<string>();
-
 	//----------------------------------------Approval----------------------------------------
 	[ForeignKey("AcademicManager")]
 	public int? ManagerId
