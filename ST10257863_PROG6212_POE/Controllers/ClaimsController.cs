@@ -20,7 +20,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 			return View();
 		}
 
-		// Allows lecturers to submit their claims by checking session information, validating input, and saving it to the database.
 		[HttpPost]
 		public async Task<IActionResult> SubmitClaim(List<IFormFile> documents) // Accept multiple files
 		{
@@ -40,6 +39,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 				SupportingDocuments = new List<string>() // Initialize the list for supporting documents
 			};
 
+			// Retrieve and validate Hours Worked
 			if (decimal.TryParse(Request.Form["HoursWorked"], out var hoursWorked) && hoursWorked > 0)
 			{
 				claim.HoursWorked = hoursWorked;
@@ -49,6 +49,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 				ModelState.AddModelError("HoursWorked", "Hours worked must be greater than zero.");
 			}
 
+			// Retrieve and validate Overtime Hours Worked
 			if (decimal.TryParse(Request.Form["OvertimeWorked"], out var overtimeHoursWorked) && overtimeHoursWorked >= 0)
 			{
 				claim.OvertimeHoursWorked = overtimeHoursWorked;
@@ -56,6 +57,22 @@ namespace ST10257863_PROG6212_POE.Controllers
 			else
 			{
 				ModelState.AddModelError("OvertimeHoursWorked", "Overtime hours must be zero or greater.");
+			}
+
+			// Retrieve and validate Lecturer Notes
+			var lecturerNotes = Request.Form["additionalNotes"]; // Capture the correct field name
+			if (!string.IsNullOrEmpty(lecturerNotes))
+			{
+				//if (lecturerNotes.Length > 500)
+				//{
+				//	ModelState.AddModelError("LecturerNotes", "Lecturer notes cannot exceed 500 characters.");
+				//}
+				//else
+				//{
+				//	claim.LecturerNotes = lecturerNotes; // Assign to the Claim object
+				//}
+				claim.LecturerNotes = lecturerNotes; // Assign to the Claim object
+
 			}
 
 			if (ModelState.IsValid)
@@ -105,6 +122,8 @@ namespace ST10257863_PROG6212_POE.Controllers
 
 			return View("Claims");
 		}
+
+
 
 		// Fetches lecturer details based on session data.
 		[HttpGet]
@@ -284,6 +303,9 @@ namespace ST10257863_PROG6212_POE.Controllers
 				OvertimePay = claim.OvertimeHoursWorked * (claim.Lecturer.HourlyRate * 1.5M),
 				TotalPay = (claim.HoursWorked + claim.OvertimeHoursWorked) * claim.Lecturer.HourlyRate,
 
+				// Lecturer Notes (added here)
+				LecturerNotes = claim.LecturerNotes,
+
 				// Approval details
 				ManagerId = claim.Manager?.ManagerID,
 				ManagerFullName = $"{claim.Manager?.User.FirstName} {claim.Manager?.User.LastName}",
@@ -293,7 +315,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 				IsApproved = claim.IsApproved,
 				ApprovalComments = claim.ApprovalComments,
 
-
 				// Verification details
 				CoordinatorId = claim.Coordinator?.CoordinatorID,
 				CoordinatorFullName = $"{claim.Coordinator?.User.FirstName} {claim.Coordinator?.User.LastName}",
@@ -302,7 +323,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 				VerificationDate = claim.VerificationDate,
 				IsVerified = claim.IsVerified,
 				VerificationComments = claim.VerificationComments,
-
 
 				// Claim supporting documents
 				SupportingDocuments = claim.SupportingDocuments

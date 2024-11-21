@@ -67,7 +67,7 @@ body {
 .flex-row {
     display: flex;
     flex-direction: row;
-    justify-content: space-between; /* Pushes children to opposite ends */
+    justify-content: space-around; /* Pushes children to opposite ends */
     white-space: nowrap;
     gap: 32px;
 }
@@ -75,7 +75,6 @@ body {
 /* Center Content Helper Class */
 .center-content {
     display: flex;
-    align-items: center;
     justify-content: space-between; /* Pushes children to opposite ends */
     width: 100%;
     height: 100%;
@@ -86,11 +85,19 @@ body {
     justify-content: flex-start; /* Aligns content to the left */
     width: 100%;
     height: 100%;
-    align-items: stretch; /* Ensure it takes up the available space */
+    /*align-items: stretch;*/ /* Ensure it takes up the available space */
+}
+
+.align-content {
+    align-content: flex-start
 }
 
 .space-between {
     justify-content: space-between; /* Pushes elements to opposite ends */
+}
+
+.space-around {
+    justify-content: space-around;
 }
 
 .width-100 {
@@ -101,21 +108,25 @@ body {
     width: 80%;
 }
 
+.height-Auto {
+    height: auto;
+}
+
 /* Background: Consistent height and width across all pages */
 .background {
     background: #D9D9D9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80vw; /* Consistent width */
-    max-width: 1200px; /* Ensure it doesn't grow too large */
-    min-width: 600px; /* Prevent it from getting too small */
-    height: auto; /* Allows it to expand based on content */
-    max-height: 90vh; /* Limits height to viewport height */
-    padding: 20px;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    /*width: auto;
+    height: auto;
+    max-width: 1200px;
+    min-width: 600px;
+    max-height: 90vh;*/
     box-sizing: border-box;
     border-radius: 12px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Consistent box shadow */
+    padding: 32px;
 }
 
 /* Fields Container */
@@ -143,17 +154,17 @@ body {
 }
 /* Style for text area */
 .input-box-textarea {
+    flex-grow: 1;
     width: 100%;
     height: 100%;
     font-size: 16px;
     line-height: 24px;
-    resize: none;
-    overflow: auto; /* Ensures content doesn't overflow outside */
 }
 
 textarea {
     width: 100%;
     height: 95%;
+    min-width: 200px;
     padding: 0;
     margin: 0; /* Optional: removes any margin */
 }
@@ -161,10 +172,11 @@ textarea {
 /* Universal Container */
 .container {
     display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    gap: 32px;
-    width: 100%;
+    flex-grow: 1;
+    /*justify-content: space-between;*/
+    /*padding: 20px;*/
+    /*gap: 32px;*/
+    width: auto;
 }
 
 /* Submit Button */
@@ -195,9 +207,9 @@ textarea {
 }
 
 .content-container {
-    display: flex;
+    display: inline-block;
     flex-direction: column;
-    max-height: 650px; /* or any height you need */
+    height: 100%;
     width: 100%;
     box-sizing: border-box;
 }
@@ -205,45 +217,56 @@ textarea {
 
 .section-container {
     flex: 1;
-    margin: 10px;
     min-width: 250px;
     padding: 20px;
 }
 
 /* Table Container */
 .table-container {
-    flex: 1; /* Takes up remaining space */
-    overflow-y: auto; /* Enable vertical scrolling */
-    border: 2px solid #787878; /* Optional border for the container */
-    background-color: #FFFFFF; /* Optional background color for the container */
+    display: flex;
+    /*flex-grow: 1;*/
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    margin: 0 auto; /* Center the container */
+    overflow: auto; /* Allow scrolling if content exceeds dimensions */
+    border: 2px solid #787878; /* Optional border for visual distinction */
+    background-color: #FFFFFF; /* Background color */
+    display: inline-block; /* Ensure proper block layout */
 }
 
 /* Table */
 .table {
-    width: 100%;
-    border-collapse: collapse;
+    flex-grow: 1;
+    height: 40px;
+    width: 100%; /* Make table fill the container's width */
+    border-collapse: collapse; /* Remove space between borders */
 }
 
 /* Table Header */
 .thead-light {
-    background-color: #f8f9fa;
+    background-color: #f8f9fa; /* Light background for headers */
 }
 
 .table th, .table td {
-    padding: 8px;
-    border: 1px solid #dee2e6;
-    text-align: left;
+    padding: 8px; /* Adjust cell padding */
+    border: 1px solid #dee2e6; /* Standard table borders */
+    text-align: left; /* Align text to the left */
 }
 
-/* Table Header Specific */
+/* Sticky Table Header */
 .table th {
-    position: sticky;
-    font-weight: bold;
+    position: sticky; /* Make headers sticky */
+    top: 0; /* Keep headers fixed at the top of the container */
+    background-color: #f8f9fa; /* Match the header's background */
+    font-weight: bold; /* Bold header text */
+    z-index: 2; /* Ensure headers remain above table rows */
 }
 
-/* Table Rows Hover Effect */
+/* Table Row Hover Effect */
 .table-hover tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: #f1f1f1; /* Highlight rows on hover */
 }
 
 

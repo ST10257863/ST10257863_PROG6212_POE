@@ -15,9 +15,9 @@
 
 <div class="container">
 	<div class="background center-content gap-32">
-		<!-- Pending Section -->
-		<div class="content-container center-content-start">
-			<p class="text-bold">Pending</p>
+		<!-- Pending Table Section -->
+		<div class="content-container center-content-start gap-16">
+			<p class="text-bold">Previous Claims</p>
 			<div class="table-container">
 				<table class="table table-bordered table-hover">
 					<thead class="thead-light">
@@ -28,77 +28,103 @@
 						</tr>
 					</thead>
 					<tbody id="table-body">
-						<!-- Rows will be inserted here by JavaScript -->
+						<!-- Rows will be dynamically inserted by JavaScript -->
 					</tbody>
 				</table>
 			</div>
 		</div>
 
-		<!-- Details Section -->
-		<div class="flex-column center-content-start gap-16 padding-top-16">
-			<div class="flex-row center-content-start gap-32">
-				<!-- Labels -->
-				<div class="flex-column gap-16">
-					<label for="lectureId" class="text-bold">Lecture ID:</label>
-					<label for="fullName" class="text-bold">Full Name:</label>
-					<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
-					<label for="department" class="text-bold">Department:</label>
-					<label for="campus" class="text-bold">Campus:</label>
-				</div>
+		<div class="flex-column center-content gap-16">
 
-				<!-- Content -->
-				<div class="flex-column gap-16">
-					<div id="lectureId" class="text-regular">TEXT</div>
-					<div id="fullName" class="text-regular">TEXT</div>
-					<div id="hourlyRate" class="text-regular">TEXT</div>
-					<div id="department" class="text-regular">TEXT</div>
-					<div id="campus" class="text-regular">TEXT</div>
-				</div>
-			</div>
+			<!-- Lecturer Details Section -->
+			<div class="flex-row center-content-start gap-16 padding-top-16">
+				<div class="flex-row center-content-start gap-32">
+					<!-- Labels -->
+					<div class="flex-column gap-16">
+						<label for="lectureId" class="text-bold">Lecture ID:</label>
+						<label for="fullName" class="text-bold">Full Name:</label>
+						<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
+						<label for="department" class="text-bold">Department:</label>
+						<label for="campus" class="text-bold">Campus:</label>
+					</div>
 
-			<!-- Separator Line -->
-			<div class="separator-line"></div>
-
-			<!-- Hours Worked -->
-			<div class="flex-row center-content-start gap-32">
-				<div class="flex-column gap-16">
-					<label for="regularHours" class="text-bold">Regular Hours:</label>
-					<label for="overtimeHours" class="text-bold">Overtime Hours:</label>
-					<label for="totalHours" class="text-bold">Total Hours:</label>
+					<!-- Content -->
+					<div class="flex-column gap-16">
+						<div id="lectureId" class="text-regular">TEXT</div>
+						<div id="fullName" class="text-regular">TEXT</div>
+						<div id="hourlyRate" class="text-regular">TEXT</div>
+						<div id="department" class="text-regular">TEXT</div>
+						<div id="campus" class="text-regular">TEXT</div>
+					</div>
 				</div>
-				<div class="flex-column gap-16">
-					<div id="regularHours" class="text-regular regular-hours-number">NUMBER</div>
-					<div id="overtimeHours" class="text-regular overtime-hours-number">NUMBER</div>
-					<div id="totalHours" class="text-regular total-hours-number">NUMBER</div>
+				<!--Text Box Area-->
+				<div class="flex-column center-content-start gap-16 height-Auto">
+					<label for="additionalNotes" class="text-bold">Additional Notes</label>
+					<div class="input-box-textarea">
+						<textarea id="lecturerNotes" name="lecturerNotes" class="input-box" placeholder="Lecturer Notes" aria-label="Lecturer Notes" readonly></textarea>
+					</div>
 				</div>
 			</div>
 
-			<!-- Separator Line -->
-			<div class="separator-line"></div>
+			<div class="flex-column center-content-start gap-16 padding-top-16">
 
-			<!-- Pay Details -->
-			<div class="flex-row center-content-start gap-32">
-				<div class="flex-column gap-16">
-					<label for="regularPay" class="text-bold">Regular Pay:</label>
-					<label for="overtimePay" class="text-bold">Overtime Pay:</label>
-					<label for="totalPay" class="text-bold">Total Pay:</label>
+				<!-- Separator Line -->
+				<div class="separator-line"></div>
+
+				<div class="flex-row center-content gap-16">
+
+					<div class="flex-column center-content gap-16">
+						<!-- Hours Worked -->
+						<div class="flex-row center-content-start gap-32">
+							<div class="flex-column gap-16">
+								<label for="regularHours" class="text-bold">Regular Hours:</label>
+								<label for="overtimeHours" class="text-bold">Overtime Hours:</label>
+								<label for="totalHours" class="text-bold">Total Hours:</label>
+							</div>
+							<div class="flex-column gap-16">
+								<div id="regularHours" class="text-regular regular-hours-number">NUMBER</div>
+								<div id="overtimeHours" class="text-regular overtime-hours-number">NUMBER</div>
+								<div id="totalHours" class="text-regular total-hours-number">NUMBER</div>
+							</div>
+						</div>
+
+						<!-- Separator Line -->
+						<div class="separator-line"></div>
+
+						<!-- Pay Details -->
+						<div class="flex-row center-content-start gap-32">
+							<div class="flex-column gap-16">
+								<label for="regularPay" class="text-bold">Regular Pay:</label>
+								<label for="overtimePay" class="text-bold">Overtime Pay:</label>
+								<label for="totalPay" class="text-bold">Total Pay:</label>
+							</div>
+							<div class="flex-column gap-16">
+								<div id="regularPay" class="text-regular regular-pay-number">NUMBER</div>
+								<div id="overtimePay" class="text-regular overtime-pay-number">NUMBER</div>
+								<div id="totalPay" class="text-regular total-pay-number">NUMBER</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="flex-column center-content-start gap-16 height-Auto">
+						<label for="additionalNotes" class="text-bold">Additional Notes</label>
+						<div class="input-box-textarea">
+							<textarea for="additionalNotes" name="additionalNotes" class="input-box" placeholder="Additional Notes" aria-label="Additional Notes" /></textarea>
+						</div>
+					</div>
 				</div>
-				<div class="flex-column gap-16">
-					<div id="regularPay" class="text-regular regular-pay-number">NUMBER</div>
-					<div id="overtimePay" class="text-regular overtime-pay-number">NUMBER</div>
-					<div id="totalPay" class="text-regular total-pay-number">NUMBER</div>
+
+				<!-- Action Buttons -->
+				<div class="flex-row gap-32 center-content">
+					<button onclick="verifyClaim()" class="submit-button accept-button">VERIFY</button>
+					<button onclick="rejectClaim()" class="submit-button reject-button">REJECT</button>
 				</div>
+
+				<input type="hidden" id="hiddenClaimId" value="" />
+
 			</div>
-
-			<!-- Action Buttons -->
-			<div class="flex-row gap-32 center-content">
-				<button onclick="verifyClaim()" class="submit-button accept-button">VERIFY</button>
-				<button onclick="rejectClaim()" class="submit-button reject-button">REJECT</button>
-			</div>
-
-			<input type="hidden" id="hiddenClaimId" value="" />
-
 		</div>
+
 	</div>
 </div>
 
@@ -150,6 +176,7 @@
 				document.getElementById('regularPay').innerText = data.regularPay;// Update to camelCase
 				document.getElementById('overtimePay').innerText = data.overtimePay;// Update to camelCase
 				document.getElementById('totalPay').innerText = data.totalPay;    // Update to camelCase
+				document.getElementById('lecturerNotes').value = data.lecturerNotes; // Update textarea
 
 				// Store claimId in a hidden input field
 				document.getElementById('hiddenClaimId').value = claimId;

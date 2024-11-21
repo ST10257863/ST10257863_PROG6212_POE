@@ -41,6 +41,11 @@ namespace ST10257863_PROG6212_POE.Models.Tables
 			get; set;
 		} = "Pending"; // Default: Pending		Verified, Approved, Rejected
 
+		public string? LecturerNotes
+		{
+			get; set;
+		}
+
 		public List<string> SupportingDocuments { get; set; } = new List<string>();
 
 
