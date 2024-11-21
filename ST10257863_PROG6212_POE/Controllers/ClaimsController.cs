@@ -21,14 +21,23 @@ namespace ST10257863_PROG6212_POE.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> SubmitClaim(List<IFormFile> documents) // Accept multiple files
+		public async Task<IActionResult> SubmitClaim(
+						decimal hoursWorked,
+						decimal overtimeWorked,
+						string lecturerNotes,
+						List<IFormFile> documents
+					) // Accept multiple files
 		{
 			var lecturerId = HttpContext.Session.GetInt32("LecturerID");
 
 			if (!lecturerId.HasValue)
 			{
 				ModelState.AddModelError("", "Lecturer ID is missing from the session.");
-				return View("Claims"); // Render the same view with error message
+				return Json(new
+				{
+					success = false,
+					message = "Lecturer ID is missing from the session."
+				});
 			}
 
 			var claim = new Claim
@@ -39,89 +48,89 @@ namespace ST10257863_PROG6212_POE.Controllers
 				SupportingDocuments = new List<string>() // Initialize the list for supporting documents
 			};
 
-			// Retrieve and validate Hours Worked
-			if (decimal.TryParse(Request.Form["HoursWorked"], out var hoursWorked) && hoursWorked > 0)
+			// Validate Hours Worked
+			if (hoursWorked > 0)
 			{
 				claim.HoursWorked = hoursWorked;
 			}
 			else
 			{
-				ModelState.AddModelError("HoursWorked", "Hours worked must be greater than zero.");
+				return Json(new
+				{
+					success = false,
+					message = "Hours worked must be greater than zero."
+				});
 			}
 
-			// Retrieve and validate Overtime Hours Worked
-			if (decimal.TryParse(Request.Form["OvertimeWorked"], out var overtimeHoursWorked) && overtimeHoursWorked >= 0)
+			// Validate Overtime Worked
+			if (overtimeWorked >= 0)
 			{
-				claim.OvertimeHoursWorked = overtimeHoursWorked;
+				claim.OvertimeHoursWorked = overtimeWorked;
 			}
 			else
 			{
-				ModelState.AddModelError("OvertimeHoursWorked", "Overtime hours must be zero or greater.");
+				return Json(new
+				{
+					success = false,
+					message = "Overtime worked must be zero or greater."
+				});
 			}
 
-			// Retrieve and validate Lecturer Notes
-			var lecturerNotes = Request.Form["additionalNotes"]; // Capture the correct field name
+			// Validate Lecturer Notes
 			if (!string.IsNullOrEmpty(lecturerNotes))
 			{
-				//if (lecturerNotes.Length > 500)
-				//{
-				//	ModelState.AddModelError("LecturerNotes", "Lecturer notes cannot exceed 500 characters.");
-				//}
-				//else
-				//{
-				//	claim.LecturerNotes = lecturerNotes; // Assign to the Claim object
-				//}
-				claim.LecturerNotes = lecturerNotes; // Assign to the Claim object
-
+				claim.LecturerNotes = lecturerNotes;
 			}
 
-			if (ModelState.IsValid)
+			// Process Documents
+			if (documents != null && documents.Count > 0)
 			{
-				// Save uploaded documents if any
-				if (documents != null && documents.Count > 0)
+				var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+
+				if (!Directory.Exists(uploadPath))
 				{
-					var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+					Directory.CreateDirectory(uploadPath);
+				}
 
-					// Ensure the directory exists
-					if (!Directory.Exists(uploadPath))
+				foreach (var document in documents)
+				{
+					if (document.Length > 0)
 					{
-						Directory.CreateDirectory(uploadPath);
-					}
+						var fileName = Path.GetFileName(document.FileName);
+						var filePath = Path.Combine(uploadPath, fileName);
 
-					foreach (var document in documents)
-					{
-						if (document.Length > 0)
+						try
 						{
-							var fileName = Path.GetFileName(document.FileName);
-							var filePath = Path.Combine(uploadPath, fileName);
-
-							try
+							using (var stream = new FileStream(filePath, FileMode.Create))
 							{
-								using (var stream = new FileStream(filePath, FileMode.Create))
-								{
-									await document.CopyToAsync(stream);
-								}
+								await document.CopyToAsync(stream);
+							}
 
-								claim.SupportingDocuments.Add(filePath); // Store file path in the database
-							}
-							catch (Exception ex)
+							claim.SupportingDocuments.Add(filePath); // Store file path in the database
+						}
+						catch (Exception ex)
+						{
+							return Json(new
 							{
-								ModelState.AddModelError("", $"Error uploading file: {ex.Message}");
-								return View("Claims");
-							}
+								success = false,
+								message = $"Error uploading file: {ex.Message}"
+							});
 						}
 					}
 				}
-
-				// Save the claim to the database
-				_context.Claims.Add(claim);
-				await _context.SaveChangesAsync();
-
-				return RedirectToAction("Claims");
 			}
 
-			return View("Claims");
+			// Save the claim to the database
+			_context.Claims.Add(claim);
+			await _context.SaveChangesAsync();
+
+			return Json(new
+			{
+				success = true,
+				message = "Claim submitted successfully."
+			});
 		}
+
 
 
 

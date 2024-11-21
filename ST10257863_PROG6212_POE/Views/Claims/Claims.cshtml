@@ -13,121 +13,116 @@
 }
 <link rel="stylesheet" href="~/css/styles.css" />
 
-@* <div class="container"> *@
-<form id="claims-form" method="post" action="/Claims/SubmitClaim" enctype="multipart/form-data" class="center-content gap-32">
+<div class="background center-content gap-32">
+	<!-- Form Section -->
 
-	<div class="background center-content gap-32">
-		<!-- Form Section -->
+	<div class="flex-column center-content gap-32">
+		<!-- Input Fields Frame -->
+		<div class="flex-column gap-32 center-content">
 
-		<div class="flex-column center-content gap-32">
-			<!-- Input Fields Frame -->
-			<div class="flex-column gap-32 center-content">
-
-				<!-- Hours Worked Input -->
-				<div class="input-field">
-					<label for="hoursWorked" class="text-bold">Hours Worked</label>
-					<input type="text" id="hoursWorked" name="hoursWorked" class="input-box" placeholder="Enter hours worked" aria-label="Hours Worked" />
-				</div>
-
-				<!-- Overtime Worked Input -->
-				<div class="input-field">
-					<label for="overtimeWorked" class="text-bold">Overtime Worked</label>
-					<input type="text" id="overtimeWorked" name="overtimeWorked" class="input-box" placeholder="Enter overtime worked" aria-label="Overtime Worked" />
-				</div>
-
-				<!-- Hourly Rate Input -->
-				<div class="input-field">
-					<label for="hourlyRateInput" class="text-bold">Hourly Rate (R)</label>
-					<input type="text" id="hourlyRateInput" name="hourlyRateInput" class="input-box" placeholder="Enter Hourly Rate" aria-label="Hourly Rate" />
-				</div>
-
-				<!-- Document Upload -->
-				<div class="input-field">
-					<label for="document" class="text-bold">Upload Document</label>
-					<input type="file" id="document" name="document" class="input-box" aria-label="Upload Document" />
-				</div>
+			<!-- Hours Worked Input -->
+			<div class="input-field">
+				<label for="hoursWorked" class="text-bold">Hours Worked</label>
+				<input type="text" id="hoursWorked" name="hoursWorked" class="input-box" placeholder="Enter hours worked" aria-label="Hours Worked" />
 			</div>
 
-			<!-- Calculation Results -->
-			<div class="center-content-start">
-				<div class="flex-row center-content-start">
-					<div class="flex-column gap-32">
-						<label for="regularPay" class="text-bold">Regular Pay:</label>
-						<label for="overtimePay" class="text-bold">Overtime Pay:</label>
-						<label for="totalPay" class="text-bold">Total Pay:</label>
-					</div>
-					<div class="flex-column gap-32">
-						<div id="regularPay" class="text-regular regular-pay-number"> </div>
-						<div id="overtimePay" class="text-regular regular-pay-number"> </div>
-						<div id="totalPay" class="text-regular regular-pay-number"> </div>
-					</div>
-				</div>
+			<!-- Overtime Worked Input -->
+			<div class="input-field">
+				<label for="overtimeWorked" class="text-bold">Overtime Worked</label>
+				<input type="text" id="overtimeWorked" name="overtimeWorked" class="input-box" placeholder="Enter overtime worked" aria-label="Overtime Worked" />
 			</div>
 
-			<!-- Action Buttons -->
-			<div class="flex-row gap-32 center-content">
-				<button type="button" id="calculate-btn" class="submit-button text-bold">Calculate Pay</button>
-				<button type="submit" id="submit-btn" class="submit-button text-bold">Submit Claim</button>
+			<!-- Hourly Rate Input -->
+			<div class="input-field">
+				<label for="hourlyRateInput" class="text-bold">Hourly Rate (R)</label>
+				<input type="text" id="hourlyRateInput" name="hourlyRateInput" class="input-box" placeholder="Enter Hourly Rate" aria-label="Hourly Rate" />
+			</div>
+
+			<!-- Document Upload -->
+			<div class="input-field">
+				<label for="document" class="text-bold">Upload Document</label>
+				<input type="file" id="document" name="document" class="input-box" aria-label="Upload Document" />
 			</div>
 		</div>
 
-		<!-- Lecturer Details Frame -->
-		<div class="center-content-start gap-32">
-			<!--Centre Column-->
-			<div class="flex-column flex-grow-1">
-				<!--Top Row-->
-				<div class="flex-row center-content-start">
-					<!-- Labels -->
-					<div class="flex-column gap-32">
-						<label for="lectureId" class="text-bold">Lecture ID:</label>
-						<label for="userName" class="text-bold">User Name:</label>
-						<label for="fullName" class="text-bold">Full Name:</label>
-						<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
-						<label for="department" class="text-bold">Department:</label>
-						<label for="campus" class="text-bold">Campus:</label>
-					</div>
-
-					<!-- Content -->
-					<div class="flex-column gap-32">
-						<div id="lectureId" class="text-regular">N/A</div>
-						<div id="userName" class="text-regular">N/A</div>
-						<div id="fullName" class="text-regular">N/A</div>
-						<div id="hourlyRate" class="text-regular">N/A</div>
-						<div id="department" class="text-regular">N/A</div>
-						<div id="campus" class="text-regular">N/A</div>
-					</div>
+		<!-- Calculation Results -->
+		<div class="center-content-start">
+			<div class="flex-row center-content-start">
+				<div class="flex-column gap-32">
+					<label for="regularPay" class="text-bold">Regular Pay:</label>
+					<label for="overtimePay" class="text-bold">Overtime Pay:</label>
+					<label for="totalPay" class="text-bold">Total Pay:</label>
 				</div>
-				<!--Bottom Row-->
-				<div class="flex-column center-content-start gap-16 height-100">
-					<label for="additionalNotes" class="text-bold">Additional Notes</label>
-					<div class="input-box-textarea">
-						<textarea id="additionalNotes" name="additionalNotes" class="input-box" placeholder="Enter any additional notes." aria-label="Additional Notes"></textarea>
-					</div>
+				<div class="flex-column gap-32">
+					<div id="regularPay" class="text-regular regular-pay-number"> </div>
+					<div id="overtimePay" class="text-regular regular-pay-number"> </div>
+					<div id="totalPay" class="text-regular regular-pay-number"> </div>
 				</div>
 			</div>
 		</div>
 
-		<!-- Claim History -->
-		<div class="content-container center-content-start gap-16">
-			<p class="text-bold">Previous Claims</p>
-			<div class="table-container">
-				<table class="table table-bordered table-hover">
-					<thead class="thead-light">
-						<tr>
-							<th>ID</th>
-							<th>Date & Time</th>
-							<th>Status</th>
-						</tr>
-					</thead>
-					<tbody id="table-body">
-						<!-- Rows will be dynamically inserted by JavaScript -->
-					</tbody>
-				</table>
+		<!-- Action Buttons -->
+		<div class="flex-row gap-32 center-content">
+			<button onclick="calculatePay()" class="submit-button accept-button">Calculate Pay</button>
+			<button onclick="submitClaim()" class="submit-button reject-button">Submit Claim</button>
+		</div>
+	</div>
+
+	<!-- Lecturer Details Frame -->
+	<div class="center-content-start gap-32">
+		<!--Centre Column-->
+		<div class="flex-column flex-grow-1">
+			<!--Top Row-->
+			<div class="flex-row center-content-start">
+				<!-- Labels -->
+				<div class="flex-column gap-32">
+					<label for="lectureId" class="text-bold">Lecture ID:</label>
+					<label for="userName" class="text-bold">User Name:</label>
+					<label for="fullName" class="text-bold">Full Name:</label>
+					<label for="hourlyRate" class="text-bold">Hourly Rate:</label>
+					<label for="department" class="text-bold">Department:</label>
+					<label for="campus" class="text-bold">Campus:</label>
+				</div>
+
+				<!-- Content -->
+				<div class="flex-column gap-32">
+					<div id="lectureId" class="text-regular">N/A</div>
+					<div id="userName" class="text-regular">N/A</div>
+					<div id="fullName" class="text-regular">N/A</div>
+					<div id="hourlyRate" class="text-regular">N/A</div>
+					<div id="department" class="text-regular">N/A</div>
+					<div id="campus" class="text-regular">N/A</div>
+				</div>
+			</div>
+			<!--Bottom Row-->
+			<div class="flex-column center-content-start gap-16 height-100">
+				<label for="additionalNotes" class="text-bold">Additional Notes</label>
+				<div class="input-box-textarea">
+					<textarea id="additionalNotes" name="additionalNotes" class="input-box" placeholder="Enter any additional notes." aria-label="Additional Notes"></textarea>
+				</div>
 			</div>
 		</div>
 	</div>
-</form>
 
+	<!-- Claim History -->
+	<div class="content-container center-content-start gap-16">
+		<p class="text-bold">Previous Claims</p>
+		<div class="table-container">
+			<table class="table table-bordered table-hover">
+				<thead class="thead-light">
+					<tr>
+						<th>ID</th>
+						<th>Date & Time</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody id="table-body">
+					<!-- Rows will be dynamically inserted by JavaScript -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -138,117 +133,160 @@
 
 		// Populate the claims table on page load
 		populateClaimsTable();
-
-		// Bind the calculate button to the pay calculation function
-		$('#calculate-btn').on('click', function () {
-			calculatePay();
-		});
-
-		// Function to fetch lecturer details
-		function fetchLecturerDetails() {
-			$.ajax({
-				url: '/Claims/GetLecturerDetails',
-				method: 'GET',
-				cache: false, // Prevent caching
-				success: function (data) {
-					if (data) {
-						loadLecturerDetails(data);
-					} else {
-						console.error('Lecturer details not found.');
-					}
-				},
-				error: function (err) {
-					console.error('Error fetching lecturer details:', err);
-				}
-			});
-		}
-
-		// Function to load lecturer details into the DOM
-		function loadLecturerDetails(data) {
-			$('#lectureId').text(data.lecturerId || 'N/A');
-			$('#userName').text(data.userName || 'N/A');
-			$('#fullName').text(
-				(data.firstName || 'N/A') + ' ' + (data.lastName || 'N/A')
-			);
-			$('#hourlyRate').text('R' + (data.hourlyRate || 0) + '/hr');
-			$('#department').text(data.department || 'N/A');
-			$('#campus').text(data.campus || 'N/A');
-		}
-
-		// Function to populate the claims table
-		function populateClaimsTable() {
-			$.ajax({
-				url: '/Claims/LoadLecturerClaims',
-				method: 'GET',
-				cache: false, // Prevent caching
-				success: function (data) {
-					if (data && Array.isArray(data) && data.length > 0) {
-						renderClaimsTable(data);
-					} else {
-						console.warn('No claims data found.');
-					}
-				},
-				error: function (err) {
-					console.error('Error fetching claims data:', err);
-				}
-			});
-		}
-
-		// Function to render claims table
-		function renderClaimsTable(claims) {
-			claims.sort((a, b) => a.claimId - b.claimId);
-
-			const tableBody = $('#table-body');
-			tableBody.empty();
-
-			claims.forEach(claim => {
-				const row = document.createElement('tr');
-				row.setAttribute('data-id', claim.claimId);
-
-				row.innerHTML = `<td>${claim.claimId}</td><td>${new Date(claim.submissionDate).toLocaleString()}</td><td>${claim.status}</td>`;
-
-				tableBody.append(row);
-			});
-		}
-
-		// Function to calculate pay
-		function calculatePay() {
-			const hoursWorked = parseFloat($('#hoursWorked').val());
-			let overtimeWorked = $('#overtimeWorked').val();
-
-			// Validate hours worked
-			if (isNaN(hoursWorked)) {
-				alert('Please enter a valid number for hours worked.');
-				return;
-			}
-
-			// Handle empty or invalid overtime input
-			overtimeWorked = overtimeWorked ? parseFloat(overtimeWorked) : 0;
-			if (isNaN(overtimeWorked)) {
-				alert('Please enter a valid number for overtime worked.');
-				return;
-			}
-
-			// AJAX request to calculate pay
-			$.ajax({
-				url: `/Claims/CalculatePay/${hoursWorked}/${overtimeWorked}`,
-				method: 'POST',
-				success: function (data) {
-					if (data.error) {
-						alert('Error calculating pay: ' + data.error);
-						return;
-					}
-
-					// Display calculated pay
-					$('#regularPay').text('R' + data.regularPay.toFixed(2));
-					$('#overtimePay').text('R' + data.overtimePay.toFixed(2));
-					$('#totalPay').text('R' + data.totalPay.toFixed(2));
-				},
-				error: function (err) {
-					console.error('Error calculating pay:', err);
-					alert('An error occurred while calculating pay.');
-				}
-			});
-		}
 	});
+
+	// Function to submit the claim via AJAX
+	function submitClaim() {
+		const hoursWorked = parseFloat($('#hoursWorked').val());
+		const overtimeWorked = parseFloat($('#overtimeWorked').val());
+		let lecturerNotes = $('#additionalNotes').val();
+
+		// If no notes are provided, set the default note
+		if (!lecturerNotes) {
+			lecturerNotes = "No note given";
+		}
+
+		const formData = new FormData();
+
+		// Get the files from the file input
+		const documents = $('#document')[0].files;
+		for (let i = 0; i < documents.length; i++) {
+			formData.append('documents', documents[i]);
+		}
+
+		// Append the other form data
+		formData.append('hoursWorked', hoursWorked);
+		formData.append('overtimeWorked', overtimeWorked);
+		formData.append('lecturerNotes', lecturerNotes);
+
+		// AJAX request to submit the claim
+		$.ajax({
+			url: '/Claims/SubmitClaim',
+			method: 'POST',
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function (response) {
+				if (response.success) {
+					alert(response.message);
+					// Optionally, refresh or update parts of the page
+					populateClaimsTable(); // For example, refresh the claims table
+				} else {
+					alert(response.message);
+				}
+			},
+			error: function (err) {
+				console.error('Error submitting claim:', err);
+				alert('An error occurred while submitting the claim.');
+			}
+		});
+	}
+
+
+	// Function to fetch lecturer details
+	function fetchLecturerDetails() {
+		$.ajax({
+			url: '/Claims/GetLecturerDetails',
+			method: 'GET',
+			cache: false, // Prevent caching
+			success: function (data) {
+				if (data) {
+					loadLecturerDetails(data);
+				} else {
+					console.error('Lecturer details not found.');
+				}
+			},
+			error: function (err) {
+				console.error('Error fetching lecturer details:', err);
+			}
+		});
+	}
+
+	// Function to load lecturer details into the DOM
+	function loadLecturerDetails(data) {
+		$('#lectureId').text(data.lecturerId || 'N/A');
+		$('#userName').text(data.userName || 'N/A');
+		$('#fullName').text(
+			(data.firstName || 'N/A') + ' ' + (data.lastName || 'N/A')
+		);
+		$('#hourlyRate').text('R' + (data.hourlyRate || 0) + '/hr');
+		$('#department').text(data.department || 'N/A');
+		$('#campus').text(data.campus || 'N/A');
+	}
+
+	// Function to populate the claims table
+	function populateClaimsTable() {
+		$.ajax({
+			url: '/Claims/LoadLecturerClaims',
+			method: 'GET',
+			cache: false, // Prevent caching
+			success: function (data) {
+				if (data && Array.isArray(data) && data.length > 0) {
+					renderClaimsTable(data);
+				} else {
+					console.warn('No claims data found.');
+				}
+			},
+			error: function (err) {
+				console.error('Error fetching claims data:', err);
+			}
+		});
+	}
+
+	// Function to render claims table
+	function renderClaimsTable(claims) {
+		claims.sort((a, b) => a.claimId - b.claimId);
+
+		const tableBody = $('#table-body');
+		tableBody.empty();
+
+		claims.forEach(claim => {
+			const row = document.createElement('tr');
+			row.setAttribute('data-id', claim.claimId);
+
+			row.innerHTML = `<td>${claim.claimId}</td><td>${new Date(claim.submissionDate).toLocaleString()}</td><td>${claim.status}</td>`;
+
+			tableBody.append(row);
+		});
+	}
+
+	// Function to calculate pay
+	function calculatePay() {
+		const hoursWorked = parseFloat($('#hoursWorked').val());
+		let overtimeWorked = $('#overtimeWorked').val();
+
+		// Validate hours worked
+		if (isNaN(hoursWorked)) {
+			alert('Please enter a valid number for hours worked.');
+			return;
+		}
+
+		// Handle empty or invalid overtime input
+		overtimeWorked = overtimeWorked ? parseFloat(overtimeWorked) : 0;
+		if (isNaN(overtimeWorked)) {
+			alert('Please enter a valid number for overtime worked.');
+			return;
+		}
+
+		// AJAX request to calculate pay
+		$.ajax({
+			url: `/Claims/CalculatePay/${hoursWorked}/${overtimeWorked}`,
+			method: 'POST',
+			success: function (data) {
+				if (data.error) {
+					alert('Error calculating pay: ' + data.error);
+					return;
+				}
+
+				// Display calculated pay
+				$('#regularPay').text('R' + data.regularPay.toFixed(2));
+				$('#overtimePay').text('R' + data.overtimePay.toFixed(2));
+				$('#totalPay').text('R' + data.totalPay.toFixed(2));
+			},
+			error: function (err) {
+				console.error('Error calculating pay:', err);
+				alert('An error occurred while calculating pay.');
+			}
+		});
+	}
 </script>
