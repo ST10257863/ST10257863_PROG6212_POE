@@ -1,5 +1,131 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<div class="background center-content gap-32">
+	<div class="flex-column center-content gap-32">
+
+		<!-- Filter Options -->
+		<div class="filter-container center-content-start gap-16">
+			@* <label for="userIdFilter">Select User ID:</label>
+			<select id="userIdFilter" class="form-control">
+			<option value="">All Users</option>
+			<!-- User IDs will be dynamically populated -->
+			</select> *@
+			<div class="flex-column center-content gap-16">
+				<label for="statusFilter">Select Status:</label>
+				<select id="statusFilter" class="form-control">
+					<option value="">All Statuses</option>
+					<option value="Pending">Pending</option>
+					<option value="Approved">Approved</option>
+					<option value="Rejected">Rejected</option>
+				</select>
+			</div>
+			<div class="flex-column center-content gap-16">
+				<label for="searchInput">Search:</label>
+				<input type="text" id="searchInput" class="form-control" placeholder="Search by Claim ID or Status" />
+			</div>
+		</div>
+
+		<!-- Claim History -->
+		<div class="content-container center-content-start gap-16">
+			<p class="text-bold">Previous Claims</p>
+			<div class="table-container">
+				<table class="table table-bordered table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th>Claim ID</th>
+							<th>Date & Time</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody id="table-body">
+						<!-- Rows will be dynamically inserted by JavaScript -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	let claimsData = []; // Store claims data here
+
+	$(document).ready(function () {
+		populateClaimsTable(); // Populate the claims table on page load
+		populateUserIds(); // Populate the User ID dropdown
+	});
+
+	// Function to fetch claims data and populate the table
+	function populateClaimsTable() {
+		$.ajax({
+			url: '/Claims/GetAlllaims',
+			method: 'GET',
+			cache: false,
+			success: function (data) {
+				if (data && Array.isArray(data) && data.length > 0) {
+					claimsData = data; // Store claims data in the global variable
+					renderClaimsTable(claimsData); // Render the table with full data
+				} else {
+					console.warn('No claims data found.');
+				}
+			},
+			error: function (err) {
+				console.error('Error fetching claims data:', err);
+			}
+		});
+	}
+
+	// Function to render claims data in the table
+	function renderClaimsTable(claims) {
+		claims.sort((a, b) => a.claimId - b.claimId);
+
+		const tableBody = $('#table-body');
+		tableBody.empty();
+
+		claims.forEach(claim => {
+			const row = document.createElement('tr');
+			row.setAttribute('data-id', claim.claimId);
+			// Check if Lecturer exists before accessing properties
+			// const lecturerId = claim.Lecturer ? claim.Lecturer.LecturerID : 'N/A';  // If Lecturer is null, show 'N/A'
+			const submissionDate = new Date(claim.submissionDate).toLocaleString();
+			const status = claim.status;
+
+			// Render the table row with proper values
+			row.innerHTML = `<td>${claim.claimId}</td><td>${submissionDate}</td><td>${status}</td>`;
+
+			tableBody.append(row);
+		});
+	}
+
+	// Function to filter claims data based on user inputs
+	function filterClaims() {
+		let filteredClaims = claimsData;
+
+		const userId = $('#userIdFilter').val();
+		const status = $('#statusFilter').val();
+		const searchQuery = $('#searchInput').val().toLowerCase();
+
+		// Filter by User ID
+		if (userId) {
+			filteredClaims = filteredClaims.filter(claim => claim.userId === userId);
+		}
+
+		// Filter by Status
+		if (status) {
+			filteredClaims = filteredClaims.filter(claim => claim.status === status);
+		}
+
+		// Filter by Search Query (Claim ID or Status)
+		if (searchQuery) {
+			filteredClaims = filteredClaims.filter(claim =>
+				claim.claimId.toString().includes(searchQuery) ||
+				claim.status.toLowerCase().includes(searchQuery)
+			);
+		}
+
+		renderClaimsTable(filteredClaims);
+	}
+
+	// Event listeners for dropdown changes and search input
+	$('#userIdFilter, #statusFilter, #searchInput').on('change keyup', function () {
+		filterClaims(); // Apply filters when inputs change
+	});
+</script>

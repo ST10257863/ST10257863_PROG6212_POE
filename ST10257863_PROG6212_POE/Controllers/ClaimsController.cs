@@ -237,6 +237,22 @@ namespace ST10257863_PROG6212_POE.Controllers
 			});
 		}
 
+		[HttpGet]
+		public IActionResult GetAlllaims()
+		{
+			var claims = _context.Claims
+				.Include(c => c.Lecturer)
+				.ThenInclude(l => l.User)
+				.Select(c => new
+				{
+					c.ClaimId,
+					c.SubmissionDate,
+					c.Status
+				})
+				.ToList();
+
+			return Json(claims);
+		}
 		// Retrieves all claims with a "Pending" status and associated lecturer information.
 		[HttpGet]
 		public IActionResult GetAllPendingClaims()
