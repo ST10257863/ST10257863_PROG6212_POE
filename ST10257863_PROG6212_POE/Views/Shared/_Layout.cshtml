@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -19,21 +21,36 @@
 				</button>
 				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 					<ul class="navbar-nav flex-grow-1">
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Claims" asp-action="Claims">Claims</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Verification" asp-action="Verification">Verifications</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Approval" asp-action="Approval">Approvals</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="HumanResources" asp-action="HumanResources">Human Resources</a>
-						</li>
+						@if (!HttpContextAccessor.HttpContext.Session.GetInt32("UserID").HasValue)
+						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
+							</li>
+						}
+						@if (HttpContextAccessor.HttpContext.Session.GetInt32("LecturerID").HasValue)
+						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Claims" asp-action="Claims">Claims</a>
+							</li>
+						}
+						@if (HttpContextAccessor.HttpContext.Session.GetInt32("CoordinatorID").HasValue)
+						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Verification" asp-action="Verification">Verifications</a>
+							</li>
+						}
+						@if (HttpContextAccessor.HttpContext.Session.GetInt32("AcademicManagerID").HasValue || HttpContextAccessor.HttpContext.Session.GetInt32("CoordinatorID").HasValue)
+						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Approval" asp-action="Approval">Approvals</a>
+							</li>
+						}
+						@if (HttpContextAccessor.HttpContext.Session.GetInt32("HumanResourcesID").HasValue)
+						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="HumanResources" asp-action="HumanResources">Human Resources</a>
+							</li>
+						}
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 						</li>

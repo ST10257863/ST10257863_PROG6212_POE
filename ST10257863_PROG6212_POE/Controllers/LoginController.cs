@@ -48,6 +48,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 			HttpContext.Session.Remove("LecturerID");
 			HttpContext.Session.Remove("AcademicManagerID");
 			HttpContext.Session.Remove("CoordinatorID");
+			HttpContext.Session.Remove("HumanResourcesID");
 			return RedirectToAction("Login", "Login");
 		}
 
