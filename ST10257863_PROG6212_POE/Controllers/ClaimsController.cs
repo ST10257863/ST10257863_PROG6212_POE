@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ST10257863_PROG6212_POE.Data;
+using System.Text;
 
 namespace ST10257863_PROG6212_POE.Controllers
 {
@@ -238,7 +239,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult GetAlllaims()
+		public IActionResult GetAllClaims()
 		{
 			var claims = _context.Claims
 				.Include(c => c.Lecturer)
@@ -247,7 +248,8 @@ namespace ST10257863_PROG6212_POE.Controllers
 				{
 					c.ClaimId,
 					c.SubmissionDate,
-					c.Status
+					c.Status,
+					UserId = c.Lecturer.User.UserID // Assuming UserId is in the User model
 				})
 				.ToList();
 
@@ -490,6 +492,40 @@ namespace ST10257863_PROG6212_POE.Controllers
 			var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath); // Read file content
 
 			return File(fileBytes, file.FileType, file.FileName); // Return file as a download
+		}
+
+		[HttpPost]
+		public IActionResult GenerateTextReport([FromBody] List<Claim> claims)
+		{
+			if (claims == null || claims.Count == 0)
+			{
+				return BadRequest("No claims data provided.");
+			}
+
+			// Generate the report content
+			var reportContent = new StringBuilder();
+			reportContent.AppendLine("Claim Report");
+			reportContent.AppendLine("Generated on: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+			reportContent.AppendLine(new string('-', 50));
+			reportContent.AppendLine($"{"Claim ID",-10}{"Date & Time",-25}{"Status",-15}");
+			reportContent.AppendLine(new string('-', 50));
+
+			foreach (var claim in claims)
+			{
+				// Ensure safe access to properties
+				string claimId = claim.ClaimId.ToString();
+				string submissionDate = claim.SubmissionDate.ToString("yyyy-MM-dd HH:mm:ss");
+				string status = claim.Status ?? "Unknown";
+
+				reportContent.AppendLine($"{claimId,-10}{submissionDate,-25}{status,-15}");
+			}
+
+			// Prepare the file
+			var fileName = $"ClaimReport_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+			var fileBytes = Encoding.UTF8.GetBytes(reportContent.ToString());
+
+			// Return the file with a proper Content-Disposition header
+			return File(fileBytes, "text/plain", fileName);
 		}
 	}
 }
