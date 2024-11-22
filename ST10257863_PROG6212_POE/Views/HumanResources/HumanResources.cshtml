@@ -1,59 +1,95 @@
-﻿<div class="background center-content gap-32">
-	<div class="flex-column center-content gap-32">
-		<!-- Filter Options -->
-		<div class="filter-container center-content-start gap-16">
-			@* <label for="userIdFilter">Select User ID:</label>
-			<select id="userIdFilter" class="form-control">
-			<option value="">All Users</option>
-			<!-- User IDs will be dynamically populated -->
-			</select> *@
-			<div class="flex-column center-content gap-16">
-				<label for="statusFilter">Select Status:</label>
-				<select id="statusFilter" class="form-control">
-					<option value="">All Statuses</option>
-					<option value="Pending">Pending</option>
-					<option value="Approved">Approved</option>
-					<option value="Verified">Verified</option>
-					<option value="Rejected">Rejected</option>
-				</select>
+﻿<div class="flex-row center-content-start gap-32">
+	<div class="background flex-column gap-32">
+		<div class="flex-column center-content-start gap-32">
+			<!-- Filter Options Section -->
+			<div class="filter-container center-content-start gap-16">
+				<div class="filter-group">
+					<label for="statusFilter">Select Status:</label>
+					<select id="statusFilter" class="form-control">
+						<option value="">All Statuses</option>
+						<option value="Pending">Pending</option>
+						<option value="Approved">Approved</option>
+						<option value="Verified">Verified</option>
+						<option value="Rejected">Rejected</option>
+					</select>
+				</div>
+
+				<div class="filter-group">
+					<label for="userIdFilter">Select User ID:</label>
+					<select id="userIdFilter" class="form-control">
+						<option value="">All Users</option>
+						<!-- Dynamic User IDs will be inserted here -->
+					</select>
+				</div>
+
+				<div class="filter-group">
+					<label for="searchInput">Search:</label>
+					<input type="text" id="searchInput" class="form-control" placeholder="Search by Claim ID or Status" />
+				</div>
 			</div>
-			<div class="flex-column center-content gap-16">
-				<label for="userIdFilter">Select User ID:</label>
-				<select id="userIdFilter" class="form-control">
-					<option value="">All Users</option>
-					<!-- User IDs will be dynamically populated -->
-				</select>
+
+			<!-- Claim History Section -->
+			<div class="content-container center-content-start gap-16">
+				<p class="text-bold">Previous Claims</p>
+				<div class="table-container">
+					<table class="table table-bordered table-hover">
+						<thead class="thead-light">
+							<tr>
+								<th>Claim ID</th>
+								<th>User ID</th>
+								<th>Date & Time</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody id="table-body">
+							<!-- Rows will be dynamically inserted by JavaScript -->
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<div class="flex-column center-content gap-16">
-				<label for="searchInput">Search:</label>
-				<input type="text" id="searchInput" class="form-control" placeholder="Search by Claim ID or Status" />
+
+			<div class="center-content">
+				<button onclick="generateReport()" class="submit-button accept-button">Generate Report</button>
 			</div>
 		</div>
+	</div>
 
-		<!-- Claim History -->
-		<div class="content-container center-content-start gap-16">
-			<p class="text-bold">Previous Claims</p>
+	<!-- New Background Block for Lecturers -->
+	<div class="background center-content gap-32">
+		<div class="flex-column center-content-start gap-32">
+			<p class="text-bold">Lecturers List</p>
 			<div class="table-container">
 				<table class="table table-bordered table-hover">
 					<thead class="thead-light">
-					<thead class="thead-light">
 						<tr>
-							<th>Claim ID</th>
-							<th>User ID</th> <!-- New column for User ID -->
-							<th>Date & Time</th>
-							<th>Status</th>
+							<th>Lecturer ID</th>
+							<th>Name</th>
+							<th>Department</th>
+							<th>Campus</th>
+							<th>Hourly Rate</th>
+							<th>Action</th> <!-- Add Action column for Edit button -->
 						</tr>
 					</thead>
-					</thead>
-					<tbody id="table-body">
-						<!-- Rows will be dynamically inserted by JavaScript -->
+					<tbody id="lecturers-table-body">
+						<!-- Lecturer rows will be dynamically inserted by JavaScript -->
 					</tbody>
 				</table>
 			</div>
-		</div>
+			<div class="flex-column center-content-start gap-32">
+				<!-- Form to edit lecturer details -->
+				<div class="flex-column center-content-start">
+					<p class="text-bold">Edit Lecturer Details</p>
+					<input type="text" id="editLecturerID" placeholder="Lecturer ID" disabled />
 
-		<div class="center-content">
-			<button onclick="generateReport()" class="submit-button accept-button">Generate Report</button>
+					<!-- Split Full Name into First and Last Name -->
+					<input type="text" id="editFirstName" placeholder="First Name" />
+					<input type="text" id="editLastName" placeholder="Last Name" />
+					<input type="text" id="editDepartment" placeholder="Department" />
+					<input type="text" id="editCampus" placeholder="Campus" />
+					<input type="number" id="editHourlyRate" placeholder="Hourly Rate" />
+					<button onclick="saveLecturerChanges()" class="submit-button accept-button">Save Changes</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -62,10 +98,12 @@
 <script>
 	let claimsData = []; // Store all claims data here
 	let filteredClaims = []; // Store the currently filtered claims here
+	let lecturersData = []; // Store all lecturers data here
 
 	$(document).ready(function () {
 		populateClaimsTable(); // Populate the claims table on page load
 		populateUserIds(); // Populate the User ID dropdown
+		populateLecturersTable(); // Populate the lecturers table on page load
 	});
 
 	// Function to fetch claims data and populate the table
@@ -118,8 +156,6 @@
 		const status = $('#statusFilter').val();
 		const searchQuery = $('#searchInput').val().toLowerCase();
 
-		console.log('Filtering claims with UserId:', userId, 'Status:', status, 'Search Query:', searchQuery);
-
 		// Filter by User ID
 		if (userId) {
 			filteredClaims = filteredClaims.filter(claim => claim.userId.toString() === userId);
@@ -138,7 +174,6 @@
 			);
 		}
 
-		console.log('Filtered Claims:', filteredClaims);
 		renderClaimsTable(filteredClaims); // Update the table with filtered data
 	}
 
@@ -176,6 +211,7 @@
 		});
 	}
 
+	// Function to populate User IDs in the filter dropdown
 	function populateUserIds() {
 		const userIdFilter = $('#userIdFilter');
 
@@ -186,17 +222,131 @@
 		userIdFilter.empty();
 		userIdFilter.append('<option value="">All Users</option>');
 
-		// Add each unique UserId to the dropdown
+		// Add each unique UserId as a new option
 		uniqueUserIds.forEach(userId => {
 			userIdFilter.append(`<option value="${userId}">${userId}</option>`);
 		});
-
-		console.log('User IDs available:', uniqueUserIds); // Debug log for available user IDs
 	}
 
-	// Event listeners for dropdown changes and search input
-	$('#userIdFilter, #statusFilter, #searchInput').on('change keyup', function () {
-		filterClaims(); // Apply filters when inputs change
-	});
+	// Function to populate the Lecturers Table
+	function populateLecturersTable() {
+		$.ajax({
+			url: '/Lecturer/GetAllLecturers',
+			method: 'GET',
+			cache: false,
+			success: function (data) {
+				// Log the data to check if it is returned correctly
+				console.log('Lecturer Data:', data);
 
+				// Check if data is an array and not empty
+				if (Array.isArray(data) && data.length > 0) {
+					lecturersData = data;
+					renderLecturersTable(lecturersData); // Render the lecturers table
+				} else {
+					console.warn('No lecturer data found or empty response');
+				}
+			},
+			error: function (err) {
+				console.error('Error fetching lecturers data:', err);
+			}
+		});
+	}
+
+	// Function to render lecturers data in the table
+	function renderLecturersTable(lecturers) {
+		const tableBody = $('#lecturers-table-body');
+		tableBody.empty();
+
+		lecturers.forEach(lecturer => {
+			const row = document.createElement('tr');
+			row.setAttribute('data-id', lecturer.lecturerID);
+
+			// Render each column of the lecturer's details
+			row.innerHTML = `
+							<td>${lecturer.lecturerID}</td>
+							<td>${lecturer.firstName} ${lecturer.lastName}</td>
+							<td>${lecturer.department}</td>
+							<td>${lecturer.campus}</td> <!-- Ensure the 'campus' property exists -->
+							<td>${lecturer.hourlyRate}</td>
+							<td><button onclick="editLecturer(${lecturer.lecturerID})">Edit</button></td>
+						`;
+
+			tableBody.append(row);
+		});
+	}
+
+	// Function to handle editing a lecturer's details
+	function editLecturer(lecturerID) {
+		const lecturer = lecturersData.find(l => l.lecturerID === lecturerID);
+
+		// Log the lecturer data to check if it's being fetched correctly
+		console.log('Editing Lecturer:', lecturer);
+
+		// Populate the edit form with the lecturer's current details
+		$('#editLecturerID').val(lecturer.lecturerID);
+		$('#editFirstName').val(lecturer.firstName);
+		$('#editLastName').val(lecturer.lastName);
+		$('#editDepartment').val(lecturer.department);
+		$('#editCampus').val(lecturer.campus); // Make sure campus is populated here
+		$('#editHourlyRate').val(lecturer.hourlyRate);
+	}
+
+	// Function to save edited lecturer details and send them to the server
+	function saveLecturerChanges() {
+		const lecturerId = $('#editLecturerID').val();
+		const firstName = $('#editFirstName').val();
+		const lastName = $('#editLastName').val();
+		const department = $('#editDepartment').val();
+		const campus = $('#editCampus').val();
+		const hourlyRate = $('#editHourlyRate').val();
+
+		// Validate input fields
+		if (!firstName || !lastName || !department || !campus || !hourlyRate) {
+			alert('All fields are required.');
+			return;
+		}
+
+		// Create the lecturer object to send in the request
+		const updatedLecturer = {
+			LecturerID: lecturerId,
+			Department: department,
+			Campus: campus,
+			HourlyRate: hourlyRate,
+			User: {
+				FirstName: firstName,
+				LastName: lastName
+			}
+		};
+
+		// Send the updated lecturer data to the server using Ajax
+		$.ajax({
+			url: '/Lecturer/UpdateLecturer',  // Make sure this matches your route
+			method: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(updatedLecturer), // Send the lecturer data as JSON
+			success: function (response) {
+				if (response && response.LecturerID) {
+					// Lecturer updated successfully, show a success message
+					alert('Lecturer details updated successfully!');
+
+					// Re-render the lecturers table to reflect the updated details
+					renderLecturersTable(lecturersData);
+
+					// Clear the form fields
+					$('#editFirstName').val('');
+					$('#editLastName').val('');
+					$('#editDepartment').val('');
+					$('#editCampus').val('');
+					$('#editHourlyRate').val('');
+				} else {
+					// Handle any issues with the response
+					alert('Error updating lecturer details. Please try again.');
+				}
+			},
+			error: function (err) {
+				console.error('Error saving lecturer changes:', err);
+				alert('Error updating lecturer details. Please try again.');
+			}
+		});
+	}
 </script>
