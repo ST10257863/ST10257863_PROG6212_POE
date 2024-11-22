@@ -506,9 +506,9 @@ namespace ST10257863_PROG6212_POE.Controllers
 			var reportContent = new StringBuilder();
 			reportContent.AppendLine("Claim Report");
 			reportContent.AppendLine("Generated on: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-			reportContent.AppendLine(new string('-', 50));
+			reportContent.AppendLine(new string('-', 70));
 			reportContent.AppendLine($"{"Claim ID",-10}{"Date & Time",-25}{"Status",-15}");
-			reportContent.AppendLine(new string('-', 50));
+			reportContent.AppendLine(new string('-', 70));
 
 			foreach (var claim in claims)
 			{
@@ -517,6 +517,7 @@ namespace ST10257863_PROG6212_POE.Controllers
 				string submissionDate = claim.SubmissionDate.ToString("yyyy-MM-dd HH:mm:ss");
 				string status = claim.Status ?? "Unknown";
 
+				// Append claim data including User ID to the report
 				reportContent.AppendLine($"{claimId,-10}{submissionDate,-25}{status,-15}");
 			}
 
@@ -527,5 +528,6 @@ namespace ST10257863_PROG6212_POE.Controllers
 			// Return the file with a proper Content-Disposition header
 			return File(fileBytes, "text/plain", fileName);
 		}
+
 	}
 }

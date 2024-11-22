@@ -36,19 +36,21 @@ namespace ST10257863_PROG6212_POE.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateLecturer([FromBody] Lecturer updatedLecturer)
 		{
+			// Retrieve the existing lecturer, including related User data
 			var existingLecturer = await _context.Lecturers
-				.Include(l => l.User)  // Ensure we include the related User data
+				.Include(l => l.User)
 				.FirstOrDefaultAsync(l => l.LecturerID == updatedLecturer.LecturerID);
 
 			if (existingLecturer == null)
 			{
+				// Lecturer not found, return failure status
 				return NotFound(new
 				{
 					Message = "Lecturer not found"
 				});
 			}
 
-			// Update properties
+			// Update lecturer properties
 			existingLecturer.Department = updatedLecturer.Department;
 			existingLecturer.Campus = updatedLecturer.Campus;
 			existingLecturer.HourlyRate = updatedLecturer.HourlyRate;
@@ -60,7 +62,11 @@ namespace ST10257863_PROG6212_POE.Controllers
 			// Save changes to the database
 			await _context.SaveChangesAsync();
 
-			return Ok(existingLecturer);  // Return updated lecturer
+			// Return success status
+			return Ok(new
+			{
+				Message = "Lecturer details updated successfully"
+			});
 		}
 	}
 }

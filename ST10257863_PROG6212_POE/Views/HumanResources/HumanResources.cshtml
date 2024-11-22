@@ -87,7 +87,9 @@
 					<input type="text" id="editDepartment" placeholder="Department" />
 					<input type="text" id="editCampus" placeholder="Campus" />
 					<input type="number" id="editHourlyRate" placeholder="Hourly Rate" />
-					<button onclick="saveLecturerChanges()" class="submit-button accept-button">Save Changes</button>
+					<div class="center-content">
+						<button onclick="saveLecturerChanges()" class="submit-button accept-button">Save Changes</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -263,13 +265,13 @@
 
 			// Render each column of the lecturer's details
 			row.innerHTML = `
-							<td>${lecturer.lecturerID}</td>
-							<td>${lecturer.firstName} ${lecturer.lastName}</td>
-							<td>${lecturer.department}</td>
-							<td>${lecturer.campus}</td> <!-- Ensure the 'campus' property exists -->
-							<td>${lecturer.hourlyRate}</td>
-							<td><button onclick="editLecturer(${lecturer.lecturerID})">Edit</button></td>
-						`;
+																				<td>${lecturer.lecturerID}</td>
+																				<td>${lecturer.firstName} ${lecturer.lastName}</td>
+																				<td>${lecturer.department}</td>
+																				<td>${lecturer.campus}</td> <!-- Ensure the 'campus' property exists -->
+																				<td>${lecturer.hourlyRate}</td>
+																				<td><button onclick="editLecturer(${lecturer.lecturerID})">Edit</button></td>
+																			`;
 
 			tableBody.append(row);
 		});
@@ -318,29 +320,36 @@
 			}
 		};
 
-		// Send the updated lecturer data to the server using Ajax
 		$.ajax({
-			url: '/Lecturer/UpdateLecturer',  // Make sure this matches your route
+			url: '/Lecturer/UpdateLecturer',  // Ensure this matches your route
 			method: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(updatedLecturer), // Send the lecturer data as JSON
 			success: function (response) {
-				if (response && response.LecturerID) {
+				console.log("Response from server:", response); // Log response to check its structure
+
+				// Check if response contains the expected success message or success indicator
+				if (response && response.Message === "Lecturer details updated successfully") {
 					// Lecturer updated successfully, show a success message
 					alert('Lecturer details updated successfully!');
 
 					// Re-render the lecturers table to reflect the updated details
-					renderLecturersTable(lecturersData);
+					populateLecturersTable();  // Populate table with the updated data
 
-					// Clear the form fields
+					// Optional: render lecturers table based on updated data
+					renderLecturersTable(); // Make sure you pass the updated data if required
+
+					// Clear the form fields after successful update
 					$('#editFirstName').val('');
 					$('#editLastName').val('');
 					$('#editDepartment').val('');
 					$('#editCampus').val('');
 					$('#editHourlyRate').val('');
 				} else {
-					// Handle any issues with the response
-					alert('Error updating lecturer details. Please try again.');
+					// Handle failure if no success message was returned
+					populateLecturersTable();  // Populate table with the updated data
+					renderLecturersTable(); // Make sure you pass the updated data if required
+					alert('Error updating lecturer details: ' + (response.Message || 'Please try again.'));
 				}
 			},
 			error: function (err) {
@@ -349,4 +358,8 @@
 			}
 		});
 	}
+
+	$('#statusFilter, #userIdFilter, #searchInput').on('change keyup', function () {
+		filterClaims(); // Call filterClaims whenever any of the filter inputs change
+	});
 </script>
